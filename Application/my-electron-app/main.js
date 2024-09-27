@@ -3,12 +3,15 @@ const path = require('path');
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1280,
+        height: 720,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
-        }
+            contextIsolation: false,
+
+        },
+        autoHideMenuBar: true // Hide the menu bar
     });
 
     win.loadFile('index.html');
