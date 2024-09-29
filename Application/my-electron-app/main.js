@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const axios = require('axios');
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -26,6 +27,18 @@ app.whenReady().then(() => {
         }
     });
 });
+
+// Handle profile creation via IPC
+ipcMain.handle('create-profile', async (event, profile) => {
+    try {
+        const response = await axios.post('http://localhost:8000/create_profile/', profile);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating profile:", error);
+        return { message: "Error creating profile." };
+    }
+});
+
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

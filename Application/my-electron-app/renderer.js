@@ -1,3 +1,32 @@
+const { ipcRenderer } = require('electron');
+
+// Listen for the 'createUserButton' click
+document.getElementById('createUserButton').addEventListener('click', () => {
+    const username = document.getElementById('username').value;
+    const pokemonType = document.getElementById('pokemonType').value;
+    const bio = document.getElementById('bio').value;
+
+    if (username && pokemonType && bio) {
+        sendProfile({ pokemon: username, type: pokemonType, bio });  // Pass all profile values
+    } else {
+        console.error("All fields must be filled");
+    }
+});
+
+// Function to send profile data
+async function sendProfile(profile) {
+    try {
+        const response = await ipcRenderer.invoke('create-profile', {
+            pokemon: profile.pokemon, 
+            type: profile.type,       
+            bio: profile.bio
+        });
+        console.log(response.message);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
 document.getElementById('fetch-pokemon').addEventListener('click', fetchPokemon);
 
 async function fetchPokemon() {

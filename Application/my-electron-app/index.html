@@ -5,19 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokèMatch</title>
-<style>
-    .center-text{
-        text-align: center;
-    }
+    <style>
+        .center-text {
+            text-align: center;
+        }
 
-    
-</style>    
+        
+    </style>    
 </head>
 <body>
     <h1 class = "center-text">PokèMatch</h1>
     <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full//132.png" alt="A beautiful ditto" width="475" height="475">
-    <button>Dislike</button>
-    <button>Like</button>
+
+    <!-- Buttons for Like/Dislike -->
+    <div class="center-text">
+        <button id="dislikeButton">Dislike</button>
+        <button id="likeButton">Like</button>
+    </div>
+
+    <!-- Input field to create a profile -->
+    <div class="center-text">
+        <input type="text" id="username" placeholder="Enter your name" />
+        <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
+        <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
+        <button id="createUserButton">Create User</button>
+    </div>
     
+    <script src="renderer.js"></script>
 </body>
 </html>
