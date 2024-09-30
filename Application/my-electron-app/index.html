@@ -97,6 +97,11 @@
         button:hover img {
             filter: brightness(0.9);
         }   
+
+        #inputForm {
+            display: none;
+            margin-top: 20px;
+        }
     </style>    
 </head>
 <body>
@@ -104,9 +109,9 @@
     <div class="main-layout">
         <!-- Header -->
         <div class="header-container">
-            <button><img src = "images/settings.png" alt="Settings" width="50" height="50"></button>
+            <button id="settingsButton"><img src = "images/settings.png" alt="Settings" width="50" height="50"></button>
             <div class = "center-header"><img src="images/pokematch_logo.png" alt="Logo" width="225" height="45"></div>
-            <button><img src="images/messages.png" alt="Like Button" width="50" height="50"></button>
+            <button id="messagesButton"><img src="images/messages.png" alt="Like Button" width="50" height="50"></button>
         </div>
 
         <!-- Pokemon Information -->
@@ -118,14 +123,14 @@
                 <div class="pokemon-ability">Ability: Transform</div>
             </div>
             <div>
-                <button><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
-                <button><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
+                <button id = "dislikeButton"><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
+                <button id = "likeButton"><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
             </div>
         </div>
     </div>
     
     <!-- Input field to create a profile -->
-    <div class="center-text">
+    <div id="inputForm" class="center-text">
         <input type="text" id="username" placeholder="Enter your name" />
         <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
         <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
@@ -133,5 +138,17 @@
     </div>
         
     <script src="renderer.js"></script>
+    <script>
+        const settingsButton = document.getElementById("settingsButton");
+        const inputForm = document.getElementById("inputForm");
+
+        settingsButton.addEventListener("click", () => {
+            if (inputForm.style.display === "none" || inputForm.style.display === "") {
+                inputForm.style.display = "block";
+            } else {
+                inputForm.style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>
