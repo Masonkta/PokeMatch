@@ -19,6 +19,10 @@
             height: 100vh;
         }
 
+        .main-container{
+            position:relative;
+        }
+
         .main-layout{
             max-width: 400px;
             margin: 0 auto;
@@ -99,32 +103,51 @@
         }   
 
         #inputForm {
+            position: absolute;
+            left: 5px;
+            width: 430px;
+            height: 584px;
+            text-align: left;
+            background-color: white;
+            padding:5px;
+            border: 1px solid #ddd;
+            border-radius:10px;
             display: none;
-            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        #inputForm input, #inputForm textarea {
+            width: 96%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>    
 </head>
 <body>
     <!-- Main Layout-->
-    <div class="main-layout">
-        <!-- Header -->
-        <div class="header-container">
-            <button id="settingsButton"><img src = "images/settings.png" alt="Settings" width="50" height="50"></button>
-            <div class = "center-header"><img src="images/pokematch_logo.png" alt="Logo" width="225" height="45"></div>
-            <button id="messagesButton"><img src="images/messages.png" alt="Like Button" width="50" height="50"></button>
-        </div>
-
-        <!-- Pokemon Information -->
-        <div class="pokemon-container">
-            <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" alt="A beautiful ditto" width="350" height="350">
-            <div class="pokemon-info">
-                <div class="pokemon-name">Ditto</div>
-                <div class="pokemon-type">Type: Normal</div>
-                <div class="pokemon-ability">Ability: Transform</div>
+    <div class ="main-container"> 
+        <div class="main-layout">
+            <!-- Header -->
+            <div class="header-container">
+                <button id="settingsButton"><img src = "images/settings.png" alt="Settings" width="50" height="50"></button>
+                <div class = "center-header"><img src="images/pokematch_logo.png" alt="Logo" width="225" height="45"></div>
+                <button id="messagesButton"><img src="images/messages.png" alt="Like Button" width="50" height="50"></button>
             </div>
-            <div>
-                <button id = "dislikeButton"><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
-                <button id = "likeButton"><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
+
+            <!-- Pokemon Information -->
+            <div class="pokemon-container">
+                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" alt="A beautiful ditto" width="350" height="350">
+                <div class="pokemon-info">
+                    <div class="pokemon-name">Ditto</div>
+                    <div class="pokemon-type">Type: Normal</div>
+                    <div class="pokemon-ability">Ability: Transform</div>
+                </div>
+                <div>
+                    <button id = "dislikeButton"><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
+                    <button id = "likeButton"><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
+                </div>
             </div>
         </div>
     </div>
@@ -134,7 +157,7 @@
         <input type="text" id="username" placeholder="Enter your name" />
         <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
         <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
-        <button id="createUserButton">Create User</button>
+        <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
     </div>
         
     <script src="renderer.js"></script>
