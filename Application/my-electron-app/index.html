@@ -8,21 +8,122 @@
     <style>
         .center-text {
             text-align: center;
+        }   
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        
+        .main-layout{
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .header-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0;
+            padding: 10px;
+            max-width: 100%;
+        }
+
+        .header-container i{
+            font-size:24px;
+            cursor: pointer;
+        }
+
+        .logo img{
+            width:100px;
+            height:auto;
+        }
+
+        .pokemon-container{
+            text-align: center;
+            margin-top: 10px;
+        }
+        .pokemon-container img{
+            width: 100%;
+            border-radius: 2px;
+        }
+        .pokemon-name{
+            font-weight: bold;
+            font-size: 20px;
+            color:black;
+        }
+
+        .pokemon-type{
+            font-size: 16px;
+            color:rgb(77, 77, 77);
+        }
+
+        .pokemon-info{
+            font-size: 14px;
+            color: #888;
+            text-align:left;
+            margin-bottom: 10px;
+            padding:0 10px;
+        }
+    
+        button img {
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        button {
+            border: none;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.1, opacity 0.1;
+            margin: 0 5px;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        button:hover img {
+            filter: brightness(0.9);
+        }   
     </style>    
 </head>
 <body>
-    <h1 class = "center-text">PokèMatch</h1>
-    <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full//132.png" alt="A beautiful ditto" width="475" height="475">
+    <!-- Main Layout-->
+    <div class="main-layout">
+        <!-- Header -->
+        <div class="header-container">
+            <button><img src = "images/settings.png" alt="Settings" width="50" height="50"></button>
+            <div class = "center-header"><img src="images/pokematch_logo.png" alt="Logo" width="225" height="45"></div>
+            <button><img src="images/messages.png" alt="Like Button" width="50" height="50"></button>
+        </div>
 
-    <!-- Buttons for Like/Dislike -->
-    <div class="center-text">
-        <button id="dislikeButton">Dislike</button>
-        <button id="likeButton">Like</button>
+        <!-- Pokemon Information -->
+        <div class="pokemon-container">
+            <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png" alt="A beautiful ditto" width="350" height="350">
+            <div class="pokemon-info">
+                <div class="pokemon-name">Ditto</div>
+                <div class="pokemon-type">Type: Normal</div>
+                <div class="pokemon-ability">Ability: Transform</div>
+            </div>
+            <div>
+                <button><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
+                <button><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
+            </div>
+        </div>
     </div>
-
+    
     <!-- Input field to create a profile -->
     <div class="center-text">
         <input type="text" id="username" placeholder="Enter your name" />
@@ -30,7 +131,7 @@
         <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
         <button id="createUserButton">Create User</button>
     </div>
-    
+        
     <script src="renderer.js"></script>
 </body>
 </html>
