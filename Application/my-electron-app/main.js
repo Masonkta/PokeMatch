@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const axios = require('axios');
 
+let isDataPreloaded = false; // Flag to track if data has been preloaded
+
 function createWindow() {
     const win = new BrowserWindow({
         width: 1280,
@@ -20,13 +22,31 @@ function createWindow() {
 
 app.whenReady().then(() => {
     createWindow();
-
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow();
-        }
-    });
+    startup()
 });
+
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});
+
+// Function to call the FastAPI startup endpoint
+async function startup() {
+    if (isDataPreloaded) return; // If data is already preloaded, exit early
+
+    try {
+        const response = await axios.get('http://localhost:8000/startup/');
+        if (response.status === 200) {
+            console.log('Pokémon data preloaded:', response.data.message);
+            isDataPreloaded = true; // Set the flag to true after successful preloading
+        } else {
+            console.error('Failed to preload Pokémon data');
+        }
+    } catch (error) {
+        console.error('Error calling FastAPI startup:', error.message);
+    }
+}
 
 // Handle profile creation via IPC
 ipcMain.handle('create-profile', async (event, profile) => {
@@ -47,7 +67,7 @@ ipcMain.handle('fetch-profile', async (event, profile) => {
         console.error("Error has occured fetching data", error);
         return { message: "Error fetching data."};
     }
-    });
+});
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
