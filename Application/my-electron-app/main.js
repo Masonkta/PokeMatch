@@ -39,6 +39,15 @@ ipcMain.handle('create-profile', async (event, profile) => {
     }
 });
 
+ipcMain.handle('fetch-profile', async (event, profile) => {
+    try {
+        const response = await axios.post('http://localhost:8000/fetch-profile/', profile);
+        return response.data;
+    } catch (error) {
+        console.error("Error has occured fetching data", error);
+        return { message: "Error fetching data."};
+    }
+    });
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

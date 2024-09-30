@@ -27,20 +27,26 @@ async function sendProfile(profile) {
     }
 }
 
-document.getElementById('fetch-pokemon').addEventListener('click', fetchPokemon);
+document.getElementById('likeButton').addEventListener('click', fetchPokemon);
+document.getElementById('dislikeButton').addEventListener('click', fetchPokemon);
 
-async function fetchPokemon() {
+async function fetchPokemon(currentPokemonId) {
     try {
-        const response = await fetch('http://127.0.0.1:8000/pokemon');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+        const newId = generateRandomId(1, 2, currentPokemonId); 
+        const response = await ipcRenderer.invoke('fetch-profile', { id: newId });
+        
+        if (response.pokemon && response.pokemon.length > 0) {
+            displayPokemon(response.pokemon);
+            currentPokemonId = newId; // Update the current ID
+        } else {
+            console.error("No Pokémon data received");
         }
-        const pokemonData = await response.json();
-        displayPokemon(pokemonData);
     } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
+        console.error("Error fetching Pokémon:", error);
     }
 }
+
+
 
 function displayPokemon(pokemonData) {
     const pokemonList = document.getElementById('pokemon-list');
