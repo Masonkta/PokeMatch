@@ -59,9 +59,14 @@ ipcMain.handle('create-profile', async (event, profile) => {
     }
 });
 
-ipcMain.handle('fetch-profile', async (event, profile) => {
+ipcMain.handle('fetch-profile', async (event, profile, id) => {
     try {
-        const response = await axios.post('http://localhost:8000/fetch-profile/', profile);
+        const response = await axios.post('http://localhost:8000/fetch_profile/', {
+            params: {
+                profile: profile,
+                id, id
+            }
+        });
         return response.data;
     } catch (error) {
         console.error("Error has occured fetching data", error);

@@ -7,7 +7,7 @@ document.getElementById('createUserButton').addEventListener('click', () => {
     const bio = document.getElementById('bio').value;
 
     if (username && pokemonType && bio) {
-        sendProfile({ pokemon: username, type: pokemonType, bio });  // Pass all profile values
+        sendProfile({ pokemon: username, type: pokemonType, bio: bio });  // Pass all profile values
     } else {
         console.error("All fields must be filled");
     }
@@ -33,10 +33,10 @@ document.getElementById('dislikeButton').addEventListener('click', fetchPokemon)
 async function fetchPokemon(currentPokemonId) {
     try {
         const newId = generateRandomId(1, 2, currentPokemonId); 
-        const response = await ipcRenderer.invoke('fetch-profile', { id: newId });
+        const response = await ipcRenderer.invoke('fetch-profile', profile, newId);
         
-        if (response.pokemon && response.pokemon.length > 0) {
-            displayPokemon(response.pokemon);
+        if (response.profile && response.profile.length > 0) {
+            displayPokemon(response.profile);
             currentPokemonId = newId; // Update the current ID
         } else {
             console.error("No Pokémon data received");
