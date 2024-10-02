@@ -27,12 +27,14 @@ async function sendProfile(profile) {
     }
 }
 
-document.getElementById('likeButton').addEventListener('click', fetchPokemon);
-document.getElementById('dislikeButton').addEventListener('click', fetchPokemon);
-
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('likeButton').addEventListener('click', fetchPokemon);
+    document.getElementById('dislikeButton').addEventListener('click', fetchPokemon);
+  });
 async function fetchPokemon(currentPokemonId) {
     try {
-        const newId = generateRandomId(1, 2, currentPokemonId); 
+        console.log('Button clicked');
+        const newId = generateRandomId(1, 3, currentPokemonId); 
         const response = await ipcRenderer.invoke('fetch-profile', profile, newId);
         
         if (response.profile && response.profile.length > 0) {
@@ -46,15 +48,9 @@ async function fetchPokemon(currentPokemonId) {
     }
 }
 
-
-
-function displayPokemon(pokemonData) {
-    const pokemonList = document.getElementById('pokemon-list');
-    pokemonList.innerHTML = ''; // Clear previous entries
-
-    pokemonData.forEach(pokemon => {
-        const pokemonItem = document.createElement('div');
-        pokemonItem.textContent = `${pokemon.name} - Type: ${pokemon.type}`;
-        pokemonList.appendChild(pokemonItem);
-    });
+function displayPokemon(profile) {
+    document.querySelector('.pokemon-name').textContent = profile.pokemon;
+    document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
+    document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
 }
+
