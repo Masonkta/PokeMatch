@@ -23,6 +23,7 @@ services:
       - docker-net
     environment:
       - NEO4J_URI=bolt://neo4j:7687
+    restart: always
       
 networks:
   docker-net:
