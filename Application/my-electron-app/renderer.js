@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 
+/*
 // Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
     const username = document.getElementById('username').value;
@@ -26,6 +27,7 @@ async function sendProfile(profile) {
         console.error("Error:", error);
     }
 }
+*/
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', fetchPokemon);
@@ -50,7 +52,7 @@ async function fetchPokemon(currentPokemonId) {
 
 function displayPokemon(profile) {
     document.querySelector('.pokemon-name').textContent = profile.pokemon;
+    document.querySelector('.pokemon-container img').textContent = profile.image;
     document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
     document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
 }
-

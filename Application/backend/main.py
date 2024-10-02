@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from py2neo import Graph
 from pydantic import BaseModel
 import os
-from pokemon_data import data
+import pokemon_data 
 
 app = FastAPI()
 
@@ -13,6 +13,7 @@ graph = Graph(neo4j_uri, auth=("neo4j", "password"))  # Adjust based on your aut
 # Define the PokemonProfile model
 class Pokemon(BaseModel):
     pokemon: str
+    image: str
     type: str
     bio: str
 
@@ -38,12 +39,12 @@ async def create_profile(profile: Pokemon):
 
 # Function to preload data into Neo4j
 def preload_pokemon_data():
-    for pokemon in data:
+    for pokemon in pokemon_data.data:
         query = """
-        MERGE (p:Pokemon {name: $pokemon, type: $type, bio: $bio}) 
+        MERGE (p:Pokemon {name: $pokemon, image: $image, type: $type, bio: $bio}) 
         RETURN p
         """
-        graph.run(query, pokemon=pokemon["pokemon"], type=pokemon["type"], bio=pokemon["bio"])
+        graph.run(query, pokemon=pokemon["pokemon"], image=pokemon["image"], type=pokemon["type"], bio=pokemon["bio"])
 
 # Hook into FastAPI startup event
 @app.get("/startup/") 
@@ -67,6 +68,7 @@ async def fetch_profile(profile: Pokemon, id: int):
     # If found, fill the profile data
     node_data = result[0]['p']
     profile.pokemon = node_data['name']
+    profile.image = node_data['image']
     profile.type = node_data['type']
     profile.bio = node_data['bio']
 
