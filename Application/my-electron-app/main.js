@@ -1,3 +1,5 @@
+
+
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const axios = require('axios');
@@ -22,7 +24,8 @@ function createWindow() {
 
 app.whenReady().then(() => {
     createWindow();
-    startup()
+    startup();
+    let random = randomId()
 });
 
 app.on('activate', () => {
@@ -61,9 +64,12 @@ ipcMain.handle('create-profile', async (event, profile) => {
 });
 */
 
-ipcMain.handle('fetch-profile', async (event, profile, id) => {
+ipcMain.handle('fetch-profile', async (event, id) => {
     try {
-        const response = await axios.get(`http://localhost:8000/fetch_profile/?id=${id}`); // Use 'id' passed from the event
+        // Send the ID as a query parameter
+        const response = await axios.get('http://localhost:8000/fetch_profile/', {
+            params: { id }  // Pass the ID here
+        });
         return response.data; // Return the fetched data
     } catch (error) {
         console.error("Error has occurred fetching data", error);
@@ -72,6 +78,11 @@ ipcMain.handle('fetch-profile', async (event, profile, id) => {
 });
 
 
+
+function RandomId(min, max) {
+    let randomId = Math.floor(Math.random() * (max - min + 1)) + min;
+    return randomId;
+}
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

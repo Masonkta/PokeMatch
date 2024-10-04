@@ -36,8 +36,8 @@ function generateRandomId(min, max, exclude) {
     return randomId;
 }
 
+
 let currentPokemonId = 0;
-let newId =  currentPokemonId + 1;
 
 let profile = {
     pokemon: "",
@@ -46,18 +46,19 @@ let profile = {
     bio: ""
 };
 
+
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
     document.getElementById('dislikeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
 });
 
-async function fetchPokemon(currentPokemonId) {
+export async function fetchPokemon(currentPokemonId) {
     try {
         console.log('Button clicked');
-        const newId = generateRandomId(1, 3, currentPokemonId); 
-        const response = await ipcRenderer.invoke('fetch-profile', profile, newId);
+        const newId = generateRandomId(0, 12, currentPokemonId); 
+        const response = await ipcRenderer.invoke('fetch-profile', newId);
         
-        if (response.profile && response.profile.length > 0) {
+        if (response.profile) {
             displayPokemon(response.profile);
             currentPokemonId = newId; // Update the current ID
         } else {

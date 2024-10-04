@@ -56,19 +56,20 @@ async def startup_event():
 
 
 @app.get("/fetch_profile/")
-async def fetch_profile(id: int = None, name: str = None):
+async def fetch_profile(id: int):
     if id is not None:
         query = "MATCH (p:Pokemon) WHERE ID(p) = $id RETURN p"
         result = graph.run(query, id=id).data()
-    elif name is not None:
-        query = "MATCH (p:Pokemon {name: $name}) RETURN p"
-        result = graph.run(query, name=name).data()
     else:
-        raise HTTPException(status_code=400, detail="Either 'id' or 'name' must be provided")
+        raise HTTPException(status_code=400, detail="id must be provided")
 
     if not result:
         raise HTTPException(status_code=404, detail="Profile not found")
 
     node_data = result[0]['p']
     profile = Pokemon(pokemon=node_data['name'], image=node_data['image'], type=node_data['type'], bio=node_data['bio'])
-    return {"profile": profile.dict(), "message": "Profile fetched successfully!"}
+    
+    if profile:
+        return {"profile": profile.model_dump(), "message": "Profile fetched successfully!"}
+    else:
+        raise HTTPException(status_code=423, detail="profile not fetched correctly.")
