@@ -11,7 +11,7 @@ data = [
     {"pokemon": "Bulbasaur", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//001.png","type": "Grass/Poison", "bio": "A real green thumb who cherishes their garden."},
     {"pokemon": "Squirtle", "image":"https://miro.medium.com/v2/resize:fit:750/1*W_ITBT0_dDNGyy_yPRQO3g.jpeg","type": "Water", "bio": "Introvert looking to break out of their shell."},
     {"pokemon": "Eevee", "image":"https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/133.png","type": "Normal", "bio": "Can jump from cuddly to vicious in a moment's time. They'd give a cat a run for their money."},
-    {"pokemon": "Frosslass", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//478.png","type": "Ice/Ghost", "bio": "Cold and ruthless, they are the reason paranormal occurences are chilling."}
+    {"pokemon": "Frosslass", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//478.png","type": "Ice/Ghost", "bio": "Cold and ruthless, they are the reason paranormal occurences are chilling."},
     {"pokemon": "Mewtwo", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//150.png","type": "Psychic", "bio": "Looking for a trainer who is psychically resistant or dimwitted."},
     {"pokemon": "Lucario", "image":"https://img.pokemondb.net/artwork/large/lucario.jpg", "type": "Fighting/Steel", "bio": "Always looking for a brawl. Prone to picking fights, especially when intoxicated."},
     {"pokemon": "Snorlax", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//143.png","type": "Normal", "bio": "Narcoleptic who wishes they weren't so tired, but too sleepy to try and fix it."},
