@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from py2neo import Graph
 from pydantic import BaseModel
+from typing import List, Optional  # Import Optional here
 import os
 import pokemon_data 
 
@@ -13,7 +14,7 @@ graph = Graph(neo4j_uri, auth=("neo4j", "password"))  # Adjust based on your aut
 # Define the PokemonProfile model
 class Pokemon(BaseModel):
     pokemon: str
-    image: str
+    image: Optional[str]
     type: str
     bio: str
 
@@ -55,21 +56,19 @@ async def startup_event():
 
 
 @app.get("/fetch_profile/")
-async def fetch_profile(profile: Pokemon, id: int):
-    # Query to find the Pokémon by ID
-    query = """
-    MATCH (p:Pokemon) WHERE ID(p) = $id RETURN p
-    """
-    result = graph.run(query, id=id).data()
+async def fetch_profile(id: int = None, name: str = None):
+    if id is not None:
+        query = "MATCH (p:Pokemon) WHERE ID(p) = $id RETURN p"
+        result = graph.run(query, id=id).data()
+    elif name is not None:
+        query = "MATCH (p:Pokemon {name: $name}) RETURN p"
+        result = graph.run(query, name=name).data()
+    else:
+        raise HTTPException(status_code=400, detail="Either 'id' or 'name' must be provided")
 
     if not result:
         raise HTTPException(status_code=404, detail="Profile not found")
 
-    # If found, fill the profile data
     node_data = result[0]['p']
-    profile.pokemon = node_data['name']
-    profile.image = node_data['image']
-    profile.type = node_data['type']
-    profile.bio = node_data['bio']
-
-    return {"profile": profile.model_dump(), "message": "Profile fetched successfully!"}
+    profile = Pokemon(pokemon=node_data['name'], image=node_data['image'], type=node_data['type'], bio=node_data['bio'])
+    return {"profile": profile.dict(), "message": "Profile fetched successfully!"}

@@ -28,11 +28,29 @@ async function sendProfile(profile) {
     }
 }
 */
+function generateRandomId(min, max, exclude) {
+    let randomId;
+    do {
+        randomId = Math.floor(Math.random() * (max - min + 1)) + min;
+    } while (randomId === exclude); // Ensures it's not the same as the current ID
+    return randomId;
+}
+
+let currentPokemonId = 0;
+let newId =  currentPokemonId + 1;
+
+let profile = {
+    pokemon: "",
+    image: "",
+    type: "",
+    bio: ""
+};
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('likeButton').addEventListener('click', fetchPokemon);
-    document.getElementById('dislikeButton').addEventListener('click', fetchPokemon);
-  });
+    document.getElementById('likeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
+    document.getElementById('dislikeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
+});
+
 async function fetchPokemon(currentPokemonId) {
     try {
         console.log('Button clicked');

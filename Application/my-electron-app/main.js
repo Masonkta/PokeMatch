@@ -63,18 +63,15 @@ ipcMain.handle('create-profile', async (event, profile) => {
 
 ipcMain.handle('fetch-profile', async (event, profile, id) => {
     try {
-        const response = await axios.post('http://localhost:8000/fetch_profile/', {
-            params: {
-                profile: profile,
-                id, id
-            }
-        });
-        return response.data;
+        const response = await axios.get(`http://localhost:8000/fetch_profile/?id=${id}`); // Use 'id' passed from the event
+        return response.data; // Return the fetched data
     } catch (error) {
-        console.error("Error has occured fetching data", error);
-        return { message: "Error fetching data."};
+        console.error("Error has occurred fetching data", error);
+        return { message: "Error fetching data." }; // Return an error message
     }
 });
+
+
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
