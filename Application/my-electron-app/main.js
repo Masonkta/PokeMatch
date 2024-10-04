@@ -1,5 +1,3 @@
-
-
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const axios = require('axios');
@@ -20,12 +18,15 @@ function createWindow() {
     });
 
     win.loadFile('index.html');
+
+    // Listen for when the renderer is ready
+    win.webContents.once('did-finish-load', () => {
+        startup(win); // Pass the window instance to startup
+    });
 }
 
 app.whenReady().then(() => {
     createWindow();
-    startup();
-    let random = randomId()
 });
 
 app.on('activate', () => {
@@ -35,7 +36,7 @@ app.on('activate', () => {
 });
 
 // Function to call the FastAPI startup endpoint
-async function startup() {
+async function startup(win) {
     if (isDataPreloaded) return; // If data is already preloaded, exit early
 
     try {
@@ -46,6 +47,11 @@ async function startup() {
         } else {
             console.error('Failed to preload Pokémon data');
         }
+
+        let random = RandomId(0, 30)
+
+        // Send the random ID to the renderer to call fetchPokemon
+        win.webContents.send('fetch-pokemon', random);
     } catch (error) {
         console.error('Error calling FastAPI startup:', error.message);
     }

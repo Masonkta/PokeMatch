@@ -39,20 +39,12 @@ function generateRandomId(min, max, exclude) {
 
 let currentPokemonId = 0;
 
-let profile = {
-    pokemon: "",
-    image: "",
-    type: "",
-    bio: ""
-};
-
-
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
     document.getElementById('dislikeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
 });
 
-export async function fetchPokemon(currentPokemonId) {
+async function fetchPokemon(currentPokemonId) {
     try {
         console.log('Button clicked');
         const newId = generateRandomId(0, 12, currentPokemonId); 
@@ -71,7 +63,12 @@ export async function fetchPokemon(currentPokemonId) {
 
 function displayPokemon(profile) {
     document.querySelector('.pokemon-name').textContent = profile.pokemon;
-    document.querySelector('.pokemon-container img').textContent = profile.image;
+    document.querySelector('.pokemon-container img').src = profile.image;
     document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
     document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
 }
+
+// Listen for the 'fetch-pokemon' message from the main process
+ipcRenderer.on('fetch-pokemon', (event, randomId) => {
+    fetchPokemon(randomId);
+});
