@@ -115,14 +115,7 @@
             display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
-        #inputForm input, #inputForm textarea {
-            width: 96%;
-            margin-bottom: 10px;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
+
         #profileForm {
             position: absolute;
             left: 5px;
@@ -137,12 +130,27 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        #profileForm input, #profileForm textarea {
+        #inputForm input, #inputForm textarea, #profileForm input, #profileForm textarea {
             width: 96%;
             margin-bottom: 10px;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 5px;
+        }
+
+        .profile-image{
+            display: block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }
+
+        #imageUpload {
+            display: none;
         }
     </style>    
 </head>
@@ -165,6 +173,7 @@
                     <div class="pokemon-type">Type: Normal</div>
                     <div class="pokemon-ability">Ability: Transform</div>
                 </div>
+                <!-- Dislike/Like Buttons -->
                 <div>
                     <button id = "dislikeButton"><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
                     <button id = "likeButton"><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
@@ -182,8 +191,21 @@
     </div>
 
     <!-- Profile Layout -->
-    <div id="profileForm" class="center-text">
+    <!-- Input Fields for Profile -->
+    <div id="inputForm" class="center-text">
+        <input type="text" id="username" placeholder="Enter your name" />
+        <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
+        <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
         <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
+    </div>
+
+    <!-- Profile Image Upload -->
+    <div id="profileForm" class="center-text">
+        <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
+        <input type="file" id="imageUpload" accept="image/*">
+        <input type="text" id="name" placeholder="Enter your name" />
+        <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
+        <button id="saveProfileButton">Save Profile</button>
     </div>
         
     <script src="renderer.js"></script>
@@ -192,6 +214,8 @@
         const inputForm = document.getElementById("inputForm");
         const messagesButton = document.getElementById("messagesButton");
         const profileForm = document.getElementById("profileForm");
+        const imageUpload = document.getElementById('imageUpload');
+        const profileImage = document.getElementById('profileImage');
 
         settingsButton.addEventListener("click", () => {
             if (profileForm.style.display === "none" || profileForm.style.display === "") {
@@ -206,6 +230,20 @@
                 inputForm.style.display = "block";
             } else {
                 inputForm.style.display = "none";
+            }
+        });
+        profileImage.addEventListener("click", () => {
+            imageUpload.click();  // Trigger the hidden file input when the image is clicked
+        });
+
+        imageUpload.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImage.src = e.target.result;  // Set the image preview
+                };
+                reader.readAsDataURL(file);
             }
         });
     </script>
