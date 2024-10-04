@@ -40,6 +40,13 @@ async def create_profile(profile: Pokemon):
 
 # Function to preload data into Neo4j
 def preload_pokemon_data():
+    # Clear all nodes and relationships in Neo4j
+    delete_query = """
+    MATCH (p)
+    DETACH DELETE p
+    """
+    graph.run(delete_query)
+        
     for pokemon in pokemon_data.data:
         query = """
         MERGE (p:Pokemon {name: $pokemon, image: $image, type: $type, bio: $bio}) 
