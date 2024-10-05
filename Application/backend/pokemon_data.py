@@ -28,6 +28,25 @@ data = [
     {"pokemon": "Alakazam", "image":"https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/065.png","type": "Psychic", "bio": "Has immense pyschic power, but still cannot figure out how to pull a rabbit from a hat."},
     {"pokemon": "Tyranitar", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//248.png","type": "Rock/Dark", "bio": "Once mistaken for Godzilla. King Kong was busy, so the government brought in Grookey."},
     {"pokemon": "Garchomp", "image":"https://img.pokemondb.net/artwork/large/garchomp.jpg","type": "Dragon/Ground", "bio": "Loves to knit, but has trouble gripping their sewing needles. "}
-
+    {"pokemon":"Metagross", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//376.png","type":"Steel/Psychic","bio":"Has the ability to fold its legs, allowing its disc shaped head to be thrown like a frisbee."},
+    {"pokemon":"Scizor", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//212.png","type":"Bug/Steel","bio":"Quick and nimble, with claws like steel, there's no wonder no one wants to play tickle fight with them."},
+    {"pokemon":"Infernape", "image":"https://img.pokemondb.net/artwork/large/infernape.jpg","type":"Fire/Fighting","bio":"Has a black belt in Karate and loves to ride motorcycles. Allergic to bananas."},
+    {"pokemon":"Blaziken", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//257.png","type":"Fire/Fighting","bio":"Often joins rides in the sidecar one Infernape's motorcycle."},
+    {"pokemon":"Greninja", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//658.png","type":"Water/Dark","bio":"Ex-blackops agent from the Cold War. Infiltrated REDACTED in REDACTED, but don't ask them about it."},
+    {"pokemon":"Zoroark", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//571.png","type":"Dark","bio":"Often uses hair like a paintbrush, creating paintings much brighter than their moody attitude would imply."},
+    {"pokemon":"Charmeleon", "image":"https://img.pokemondb.net/artwork/large/charmeleon.jpg","type":"Fire","bio":"Likes bouncy castles, but has trouble keeping the fire in when having too much fun."},
+    {"pokemon":"Ivysaur", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//002.png","type":"Grass/Poison","bio":"Doesn't like to garden, but enjoys immersing themself in soil. Says they now know what a potato feels like."},
+    {"pokemon":"Wartortle", "image":"https://img.pokemondb.net/artwork/large/wartortle.jpg","type":"Water","bio":"A lot of fight in a little package. Doesn't like for anyone to touch their shell."},
+    {"pokemon":"Zapdos", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//145.png","type":"Electric/Flying","bio":"Dread follows in their wake. When one sees them roosting on the powerlines, the power grid is soon to fall."},
+    {"pokemon":"Articuno", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//144.png","type":"Ice/Flying","bio":"Likes to fly through obstacle courses and holds five records in the National PokeSoar tournaments."},
+    {"pokemon":"Moltres", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//146.png","type":"Fire/Flying","bio":"Flies through freezing tundras and through ice water, claiming it makes them stronger. Local PokeDoctors claim no evidence supports these claims."},
+    {"pokemon":"Raichu", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//026.png","type":"Electric","bio":"Master of the flute and plays at the local tavern. Wants to learn the triangle."},
+    {"pokemon":"Jolteon", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//135.png","type":"Electric","bio":"The first to be called on to fix what Zapdos breaks."},
+    {"pokemon":"Vaporeon", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//134.png","type":"Water","bio":"Takes weekly swims with a family of seals. Helps cats learn to swim."},
+    {"pokemon":"Flareon", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//136.png","type":"Fire","bio":"Takes pride in lighting stoves and fireplaces for families who can't find their lighters."},
+    {"pokemon":"Lapras", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//131.png","type":"Water/Ice","bio":"Often mistaken for the Loch Ness Monster. Makes sure to give cryptid hunters the run-around."},
+    {"pokemon":"Onix", "image":"https://static.wikia.nocookie.net/pokemongo/images/b/b2/Onix.png/revision/latest/scale-to-width/360?cb=20240212221426","type":"Rock/Ground","bio":"Amateur novelist and lover of water painting."},
+    {"pokemon":"Nidoqueen", "image":"https://img.pokemondb.net/artwork/large/nidoqueen.jpg","type":"Poison/Ground","bio":"Claims to be the Queen of a lost kingdom. Likely the sovereign ruler of some pocket lint and three thumbtacks."},
+    {"pokemon":"Clefairy", "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRayN5kCcBgk3a6KvwvqbnRe3AHfgAQu8C_qA&s","type":"Fairy","bio":"Arrested for poaching but plans to not get caught this time."}
 ]
 
