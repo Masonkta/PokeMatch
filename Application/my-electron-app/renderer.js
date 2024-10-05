@@ -29,13 +29,13 @@ async function sendProfile(profile) {
 }
 */
 function generateRandomId(min, max, exclude) {
+    console.log('Min:',min,"max:",max,"exclude:",exclude)
     let randomId;
     do {
         randomId = Math.floor(Math.random() * (max - min + 1)) + min;
     } while (randomId === exclude); // Ensures it's not the same as the current ID
     return randomId;
 }
-
 
 let currentPokemonId = 0;
 
@@ -44,15 +44,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dislikeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
 });
 
-async function fetchPokemon(currentPokemonId) {
+async function fetchPokemon(current) {
     try {
         console.log('Button clicked');
-        const newId = generateRandomId(0, 12, currentPokemonId); 
+        currentPokemonId = current;
+        console.log(currentPokemonId);
+        console.log(current);
+        const newId = generateRandomId(0, 30, currentPokemonId); 
         const response = await ipcRenderer.invoke('fetch-profile', newId);
         
         if (response.profile) {
             displayPokemon(response.profile);
             currentPokemonId = newId; // Update the current ID
+            console.log(currentPokemonId, newId);
         } else {
             console.error("No Pokémon data received");
         }

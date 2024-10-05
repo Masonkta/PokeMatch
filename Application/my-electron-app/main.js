@@ -1,13 +1,17 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
 const axios = require('axios');
 
 let isDataPreloaded = false; // Flag to track if data has been preloaded
 
 function createWindow() {
+
+    const {width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+    
     const win = new BrowserWindow({
-        width: 1280,
-        height: 720,
+        width: width,
+        height: height,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
@@ -82,6 +86,7 @@ ipcMain.handle('fetch-profile', async (event, id) => {
         return { message: "Error fetching data." }; // Return an error message
     }
 });
+
 
 
 
