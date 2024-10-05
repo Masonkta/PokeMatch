@@ -1,5 +1,3 @@
-import random
-
 # Define the Pokemon data to preload
 data = [
     {"pokemon": "Ditto", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//132.png","type": "Normal", "bio": "I am a pink blob"},
