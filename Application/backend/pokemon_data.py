@@ -19,7 +19,7 @@ data = [
     {"pokemon": "Dragonite", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//149.png","type": "Dragon/Flying", "bio": "Interested in learning about everything. Also a rival jokester to Gengar."},
     {"pokemon": "Blastoise", "image":"https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/009.png","type": "Water", "bio": "A walking fortress and sharpshooting champ."},
     {"pokemon": "Venusaur", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//003.png","type": "Grass/Poison", "bio": "They've mastered the hobbyist's garden, growing board with simple flora. Now cultivates potent poisons and concoctions."},
-    {"pokemon": "Lugia", "image":"https://img.pokemondb.net/artwork/large/lugia.jpg","type": "Psychic", "bio": "Is definitely not an alien. No way, no how."},
+    {"pokemon": "Lugia", "image":"https://img.pokemondb.net/artwork/large/lugia.jpg","type": "Psychic/Flying", "bio": "Their large hands give them an upperhand in slap boxing."},
     {"pokemon": "Ho-Oh", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//250.png","type": "Psychic/Flying", "bio": "Wanted in 9 provinces for flying in restricted airspaces."},
     {"pokemon": "Umbreon", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//197.png","type": "Fire/Flying", "bio": "Always trying out the new hottest foods on the maret and makes sure you know about it."},
     {"pokemon": "Espeon", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//196.png","type": "Psychic", "bio": "Uses telepathy beg for food or tell the worst puns imaginable."},
@@ -47,6 +47,7 @@ data = [
     {"pokemon":"Lapras", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//131.png","type":"Water/Ice","bio":"Often mistaken for the Loch Ness Monster. Makes sure to give cryptid hunters the run-around."},
     {"pokemon":"Onix", "image":"https://static.wikia.nocookie.net/pokemongo/images/b/b2/Onix.png/revision/latest/scale-to-width/360?cb=20240212221426","type":"Rock/Ground","bio":"Amateur novelist and lover of water painting."},
     {"pokemon":"Nidoqueen", "image":"https://img.pokemondb.net/artwork/large/nidoqueen.jpg","type":"Poison/Ground","bio":"Claims to be the Queen of a lost kingdom. Likely the sovereign ruler of some pocket lint and three thumbtacks."},
-    {"pokemon":"Clefairy", "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRayN5kCcBgk3a6KvwvqbnRe3AHfgAQu8C_qA&s","type":"Fairy","bio":"Arrested for poaching but plans to not get caught this time."}
+    {"pokemon":"Clefairy", "image":"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRayN5kCcBgk3a6KvwvqbnRe3AHfgAQu8C_qA&s","type":"Fairy","bio":"Arrested for poaching but plans to not get caught this time."},
+    {"pokemon":"Mew", "image":"https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png","type":"Psychic","bio":"Is definitely not an alien. No way, no how."}
 ]
 
