@@ -87,9 +87,6 @@ ipcMain.handle('fetch-profile', async (event, id) => {
     }
 });
 
-
-
-
 function RandomId(min, max) {
     let randomId = Math.floor(Math.random() * (max - min + 1)) + min;
     return randomId;
