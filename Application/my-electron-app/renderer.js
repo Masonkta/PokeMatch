@@ -1,6 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 let poke_count = 0;
+const emptyState = document.querySelector('.empty-state');
 /*
 // Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
@@ -67,10 +68,15 @@ async function fetchPokemon(current) {
 }
 
 function displayPokemon(profile) {
-    document.querySelector('.pokemon-name').textContent = profile.pokemon;
-    document.querySelector('.pokemon-container img').src = profile.image;
-    document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
-    document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
+    if (profile) {
+        document.querySelector('.pokemon-name').textContent = profile.pokemon;
+        document.querySelector('.pokemon-container img').src = profile.image;
+        document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
+        document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
+        emptyState.style.display = 'none';
+    } else {
+        emptyState.style.display = 'block';
+    }
 }
 
 // Listen for the 'fetch-pokemon' message from the main process
