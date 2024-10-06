@@ -1,5 +1,6 @@
 const { ipcRenderer } = require('electron');
 
+let poke_count = 0;
 /*
 // Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
@@ -50,7 +51,7 @@ async function fetchPokemon(current) {
         currentPokemonId = current;
         console.log(currentPokemonId);
         console.log(current);
-        const newId = generateRandomId(0, 30, currentPokemonId); 
+        const newId = generateRandomId(0, poke_count, currentPokemonId); 
         const response = await ipcRenderer.invoke('fetch-profile', newId);
         
         if (response.profile) {
@@ -75,4 +76,9 @@ function displayPokemon(profile) {
 // Listen for the 'fetch-pokemon' message from the main process
 ipcRenderer.on('fetch-pokemon', (event, randomId) => {
     fetchPokemon(randomId);
+});
+
+// Listen for the 'pokemon-count' message from the main process to get poke_count
+ipcRenderer.on('pokemon-count', (event, count) => {
+    poke_count = count; // Update poke_count with the value from the main process
 });

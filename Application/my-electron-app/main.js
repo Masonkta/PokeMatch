@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
 const axios = require('axios');
 
+let count_num = 0;
+
 let isDataPreloaded = false; // Flag to track if data has been preloaded
 
 function createWindow() {
@@ -52,8 +54,19 @@ async function startup(win) {
             console.error('Failed to preload Pokémon data');
         }
 
-        let random = RandomId(0, 30)
+        const count = await axios.get('http://localhost:8000/count_pokemon/')
+        if (count.status === 200)  {
+            console.log('Got Pokémon count:', count.data.pokemon_count);
+            count_num = count.data.pokemon_count;
 
+            // Send count_num to the renderer process
+            win.webContents.send('pokemon-count', count_num);
+        } else {
+            console.error('Failed to get Pokémon count');
+        }
+
+        let random = RandomId(0, count_num);
+        
         // Send the random ID to the renderer to call fetchPokemon
         win.webContents.send('fetch-pokemon', random);
     } catch (error) {
