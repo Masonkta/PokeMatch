@@ -19,6 +19,11 @@ class Pokemon(BaseModel):
     bio: str
     pokeID: int
 
+class User(BaseModel):
+    username: str
+    password: str
+    bio: str
+
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to the PokéMatch!"}
@@ -33,12 +38,20 @@ async def get_pokemon():
 @app.post("/create_profile/")
 async def create_profile(profile: Pokemon):
     query = """
-    CREATE (p:Pokemon {name: $pokemon, type: $type, bio: $bio}) 
+    CREATE (u:User {name: $user_name, password: $password, bio: $bio}) 
     RETURN p
     """
     graph.run(query, pokemon=profile.pokemon, type=profile.type, bio=profile.bio)
     return {"message": f"Profile created for {profile.pokemon}!"}
 
+@app.get("/retrieve_profile/")
+async def retrieve_profile(user: User):
+    query = """
+    MATCH (u:User {name: $user_name, password: $password})
+    RETURN u
+    """
+    graph.run(query, username=user.username, password=user.password, bio=user.bio)
+    return {"message": f"Found Profile for {user.username}!"}
 # Function to preload data into Neo4j
 def preload_pokemon_data():
     # Clear all nodes and relationships in Neo4j

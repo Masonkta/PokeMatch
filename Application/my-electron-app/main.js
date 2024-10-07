@@ -65,7 +65,7 @@ async function startup(win) {
             console.error('Failed to get Pokémon count');
         }
 
-        let random = RandomId(0, count_num);
+        let random = RandomId(0, count_num - 1);
         
         // Send the random ID to the renderer to call fetchPokemon
         win.webContents.send('fetch-pokemon', random);

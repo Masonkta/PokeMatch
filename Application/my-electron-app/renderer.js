@@ -52,7 +52,7 @@ async function fetchPokemon(current) {
         currentPokemonId = current;
         console.log(currentPokemonId);
         console.log(current);
-        const newId = generateRandomId(0, poke_count, currentPokemonId); 
+        const newId = generateRandomId(0, poke_count - 1, currentPokemonId); 
         const response = await ipcRenderer.invoke('fetch-profile', newId);
         
         if (response.profile) {
@@ -61,6 +61,7 @@ async function fetchPokemon(current) {
             console.log(currentPokemonId, newId);
         } else {
             console.error("No Pokémon data received");
+            console.log(newId)
         }
     } catch (error) {
         console.error("Error fetching Pokémon:", error);
