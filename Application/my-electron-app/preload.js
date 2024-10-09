@@ -1,4 +1,5 @@
 // preload.js
+// To prevent errors in the data obtianed from the database.
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
         const element = document.getElementById(selector);

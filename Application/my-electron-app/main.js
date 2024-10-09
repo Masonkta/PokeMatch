@@ -41,7 +41,7 @@ app.on('activate', () => {
     }
 });
 
-// Function to call the FastAPI startup endpoint
+// To make the application fully functional as soon as it starts
 async function startup(win) {
     if (isDataPreloaded) return; // If data is already preloaded, exit early
 
@@ -75,7 +75,7 @@ async function startup(win) {
 }
 
 
-// Handle profile creation via IPC
+// Guarantees the Fastapi will be handling the creation of a new node in the database for this registered profile
 ipcMain.handle('create-profile', async (event, profile) => {
     try {
         const response = await axios.post('http://localhost:8000/create_profile/', profile);
@@ -86,7 +86,7 @@ ipcMain.handle('create-profile', async (event, profile) => {
     }
 });
 
-
+// Ensures Fastapi will search for the requested pokemon id and return the nessary information
 ipcMain.handle('fetch-profile', async (event, id) => {
     try {
         // Send the ID as a query parameter
@@ -100,6 +100,7 @@ ipcMain.handle('fetch-profile', async (event, id) => {
     }
 });
 
+// Allows the first displayed pokemon on startup to be a randomly selected one from the database
 function RandomId(min, max) {
     let randomId = Math.floor(Math.random() * (max - min + 1)) + min;
     return randomId;

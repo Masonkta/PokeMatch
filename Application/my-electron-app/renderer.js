@@ -16,7 +16,7 @@ document.getElementById('registerUserButton').addEventListener('click', () => {
     }
 });
 
-// Function to send profile data
+// Ensures the information is provided when it is needed later on to send the request to the FastAPI for registering the new user.
 async function sendProfile(profile) {
     try {
         const response = await ipcRenderer.invoke('create-profile', {
@@ -30,22 +30,25 @@ async function sendProfile(profile) {
     }
 }
 
+// To ensure the next displayed pokemon is randomly selected and not the same as the previously shown one. 
 function generateRandomId(min, max, exclude) {
     console.log('Min:',min,"max:",max,"exclude:",exclude)
     let randomId;
     do {
         randomId = Math.floor(Math.random() * (max - min + 1)) + min;
-    } while (randomId === exclude); // Ensures it's not the same as the current ID
+    } while (randomId === exclude); 
     return randomId;
 }
 
 let currentPokemonId = 0;
 
+// Button Interactiblity Scripts
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
     document.getElementById('dislikeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
 });
 
+// The inital sequence of request that lead to the datbaase in order to properly display a new pokemon to the user.
 async function fetchPokemon(current) {
     try {
         console.log('Button clicked');
@@ -67,7 +70,7 @@ async function fetchPokemon(current) {
         console.error("Error fetching Pokémon:", error);
     }
 }
-
+// Ensures the user is being provided with visual information of the current pokemon.
 function displayPokemon(profile) {
     if (profile) {
         document.querySelector('.pokemon-name').textContent = profile.pokemon;
