@@ -74,7 +74,7 @@ async function startup(win) {
     }
 }
 
-/*
+
 // Handle profile creation via IPC
 ipcMain.handle('create-profile', async (event, profile) => {
     try {
@@ -85,7 +85,7 @@ ipcMain.handle('create-profile', async (event, profile) => {
         return { message: "Error creating profile." };
     }
 });
-*/
+
 
 ipcMain.handle('fetch-profile', async (event, id) => {
     try {

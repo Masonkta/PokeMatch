@@ -36,22 +36,22 @@ async def get_pokemon():
     ]
 
 @app.post("/create_profile/")
-async def create_profile(profile: Pokemon):
+async def create_profile(profile: User):
     query = """
-    CREATE (u:User {name: $user_name, password: $password, bio: $bio}) 
-    RETURN p
-    """
-    graph.run(query, pokemon=profile.pokemon, type=profile.type, bio=profile.bio)
-    return {"message": f"Profile created for {profile.pokemon}!"}
-
-@app.get("/retrieve_profile/")
-async def retrieve_profile(user: User):
-    query = """
-    MATCH (u:User {name: $user_name, password: $password})
+    CREATE (u:User {name: $username, password: $password, bio: $bio}) 
     RETURN u
     """
-    graph.run(query, username=user.username, password=user.password, bio=user.bio)
-    return {"message": f"Found Profile for {user.username}!"}
+    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio)
+    return {"message": f"Profile created for {profile.username}!"}
+
+@app.get("/retrieve_profile/")
+async def retrieve_profile(profile: User):
+    query = """
+    MATCH (u:User {name: $username, password: $password})
+    RETURN u
+    """
+    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio)
+    return {"message": f"Found Profile for {profile.username}!"}
 # Function to preload data into Neo4j
 def preload_pokemon_data():
     # Clear all nodes and relationships in Neo4j

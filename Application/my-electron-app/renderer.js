@@ -2,7 +2,7 @@ const { ipcRenderer } = require('electron');
 
 let poke_count = 0;
 const emptyState = document.querySelector('.empty-state');
-/*
+
 // Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
     const username = document.getElementById('username').value;
@@ -20,8 +20,8 @@ document.getElementById('createUserButton').addEventListener('click', () => {
 async function sendProfile(profile) {
     try {
         const response = await ipcRenderer.invoke('create-profile', {
-            pokemon: profile.pokemon, 
-            type: profile.type,       
+            username: profile.username, 
+            password: profile.password,       
             bio: profile.bio
         });
         console.log(response.message);
@@ -29,7 +29,7 @@ async function sendProfile(profile) {
         console.error("Error:", error);
     }
 }
-*/
+
 function generateRandomId(min, max, exclude) {
     console.log('Min:',min,"max:",max,"exclude:",exclude)
     let randomId;
