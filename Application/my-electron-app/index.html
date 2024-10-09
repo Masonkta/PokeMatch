@@ -125,6 +125,19 @@
             display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+        #profileInputForm {
+            position: absolute;
+            right: 0.75vw;
+            width: 32vw;
+            height: 94.5vh;
+            text-align: left;
+            background-color: white;
+            padding:5px;
+            border: 1px solid #ddd;
+            border-radius:10px;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
 
         #profileForm {
             position: absolute;
@@ -146,6 +159,18 @@
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 5px;
+        }
+
+        #loginForm{
+            align-items: center;
+        }
+
+        #createUserForm{
+            display: none;
+        }
+        
+        #passwordInputForm{
+            display: none;
         }
 
         .profile-image{
@@ -198,25 +223,37 @@
         <input type="text" id="username" placeholder="Enter your name" />
         <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
         <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
-        <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
+        <button id="registerUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
     </div>
 
     <!-- Profile Layout -->
-    <!-- Input Fields for Profile -->
-    <div id="inputForm" class="center-text">
-        <input type="text" id="username" placeholder="Enter your name" />
-        <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
-        <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
-        <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
-    </div>
-
-    <!-- Profile Image Upload -->
     <div id="profileForm" class="center-text">
-        <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
-        <input type="file" id="imageUpload" accept="image/*">
-        <input type="text" id="name" placeholder="Enter your name" />
-        <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
-        <button id="saveProfileButton"><img src = "images/save_profile.png" alt="Create User" width="75" height="26.25"></button>
+    <!--Profile Setup/Login-->
+        <div id="loginForm" class="center-text">
+            <button id="createUserButton"><img src = "images/create_user.png" alt="Register" width="75" height="26.25"></button>
+            <button id="loginButton"><img src = "images/login.png" alt="Login" width="75" height="26.25"></button>
+        </div>
+        <!-- Input Fields for Profile -->
+        <div id="profileInputForm" class="center-text">
+            <input type="text" id="username" placeholder="Enter your name" />
+            <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
+            <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
+            <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
+            </div>
+        <!-- Profile Image Upload -->
+        <div id="createUserForm">
+            <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
+            <input type="file" id="imageUpload" accept="image/*">
+            <input type="text" id="name" placeholder="Enter your name" />
+            <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
+            <button id="saveProfileButton"><img src = "images/save_profile.png" alt="Create User" width="75" height="26.25"></button>
+        </div>
+        <!-- Input Fields for Profile -->
+        <div id="passwordInputForm" class="center-text">
+            <input type="text" id="username" placeholder="Enter your username" />
+            <input type="text" id="password" placeholder="Enter your password" />
+            <button id="passwordLoginButton"><img src = "images/login.png" alt="Create User" width="75" height="26.25"></button>
+        </div>
     </div>
         
     <script src="renderer.js"></script>
@@ -227,6 +264,10 @@
         const profileForm = document.getElementById("profileForm");
         const imageUpload = document.getElementById('imageUpload');
         const profileImage = document.getElementById('profileImage');
+        const createUserButton = document.getElementById('createUserButton');
+        const loginButton = document.getElementById('loginButton');
+        const createUserForm = document.getElementById('createUserForm');
+        const passwordInputForm = document.getElementById('passwordInputForm');
 
         settingsButton.addEventListener("click", () => {
             if (profileForm.style.display === "none" || profileForm.style.display === "") {
@@ -244,7 +285,7 @@
             }
         });
         profileImage.addEventListener("click", () => {
-            imageUpload.click();  // Trigger the hidden file input when the image is clicked
+            imageUpload.click();  
         });
 
         imageUpload.addEventListener("change", (event) => {
@@ -252,10 +293,22 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    profileImage.src = e.target.result;  // Set the image preview
+                    profileImage.src = e.target.result;  
                 };
                 reader.readAsDataURL(file);
             }
+        });
+        
+        createUserButton.addEventListener("click", () => {
+            createUserButton.style.display = "none";
+            loginButton.style.display = "none";
+            createUserForm.style.display = "block";
+        });
+
+        loginButton.addEventListener("click", () => {
+            createUserButton.style.display = "none";
+            loginButton.style.display = "none";
+            passwordInputForm.style.display = "block";
         });
     </script>
 </body>
