@@ -24,8 +24,7 @@
         }
 
         .main-layout{
-            width: 400px;
-
+            width: 100%;
             margin: 0 auto;
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -53,12 +52,20 @@
         }
 
         .pokemon-container{
-            text-align: center;
+            display:flex;
+            flex-direction:column;
+            align-items: center;
+            justify-content: center;
             margin-top: 10px;
-            height: 528px;
+            height: 83vh;
+            width: 33vw;
+            max-width: 400px;
         }
         .pokemon-container img{
+            display:block;
             width: 100%;
+            max-width: 45vh;
+            max-height: 33vw;
             border-radius: 2px;
         }
         .pokemon-name{
@@ -76,10 +83,11 @@
             font-size: 14px;
             color: #888;
             text-align:left;
+            width: 95%;
             margin-bottom: 10px;
             padding:0 10px;
         }
-    
+
         button img {
             border: none;
             background: none;
@@ -106,9 +114,9 @@
 
         #inputForm {
             position: absolute;
-            right: 5px;
-            width: 405px;
-            height: 600px;
+            right: 0.75vw;
+            width: 32vw;
+            height: 94.5vh;
             text-align: left;
             background-color: white;
             padding:5px;
@@ -120,9 +128,9 @@
 
         #profileForm {
             position: absolute;
-            left: 5px;
-            width: 405px;
-            height: 600px;
+            left: 0.95vw;
+            width: 32vw;
+            height: 94.5vh;
             text-align: left;
             background-color: white;
             padding:5px;
@@ -208,7 +216,7 @@
         <input type="file" id="imageUpload" accept="image/*">
         <input type="text" id="name" placeholder="Enter your name" />
         <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
-        <button id="saveProfileButton">Save Profile</button>
+        <button id="saveProfileButton"><img src = "images/save_profile.png" alt="Create User" width="75" height="26.25"></button>
     </div>
         
     <script src="renderer.js"></script>
