@@ -238,7 +238,7 @@
             <input type="text" id="name" placeholder="Enter your name" />
             <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
             <button id="saveProfileButton"><img src = "images/save_profile.png" alt="Create User" width="75" height="26.25"></button>
-            <button id="backButton"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
+            <button id="backButtonCreateUser"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
         <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
@@ -262,7 +262,7 @@
         const createUserForm = document.getElementById('createUserForm');
         const passwordInputForm = document.getElementById('passwordInputForm');
         const backButtonPassword = document.getElementById('backButtonPassword');
-        const backButton = document.getElementById('backButton');
+        const backButtonCreateUser = document.getElementById('backButtonCreateUser');
         const loginForm = document.getElementById('loginForm');
 
         // Settings Button setup
@@ -319,10 +319,20 @@
             loginButton.style.display = "none";
             passwordInputForm.style.display = "block";
         });
-        // Back Button Setup
+        // Back Button Password Setup
         backButtonPassword.addEventListener("click", () => {
             passwordInputForm.style.display = "none";
             loginForm.style.display = "block";
+            loginButton.style.display = "block";
+            createUserButton.style.display = "block";
+        });
+
+        // Back Button Create User Setup
+        backButtonCreateUser.addEventListener("click", () => {
+            createUserForm.style.display = "none";
+            loginForm.style.display = "block";
+            loginButton.style.display = "block";
+            createUserButton.style.display = "block";
         });
     </script>
 </body>
