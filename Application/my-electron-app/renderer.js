@@ -3,14 +3,14 @@ const { ipcRenderer } = require('electron');
 let poke_count = 0;
 const emptyState = document.querySelector('.empty-state');
 
-// Listen for the 'createUserButton' click
-document.getElementById('createUserButton').addEventListener('click', () => {
+// Listen for the 'registerUserButton click
+document.getElementById('registerUserButton').addEventListener('click', () => {
     const username = document.getElementById('username').value;
-    const pokemonType = document.getElementById('pokemonType').value;
+    const password = document.getElementById('password').value;
     const bio = document.getElementById('bio').value;
 
-    if (username && pokemonType && bio) {
-        sendProfile({ pokemon: username, type: pokemonType, bio: bio });  // Pass all profile values
+    if (username && password && bio) {
+        sendProfile({ username: username, password: password, bio: bio });  // Pass all profile values
     } else {
         console.error("All fields must be filled");
     }
