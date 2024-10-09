@@ -53,7 +53,7 @@
             align-items: center;
             justify-content: center;
             margin-top: 10px;
-            height: 83vh;
+            height: 83.5vh;
             width: 33vw;
         }
         .pokemon-container img{
@@ -199,7 +199,7 @@
             <!-- Pokemon Information -->
             <div class="pokemon-container">
                 <div class="empty-state">Loading Pokémon data...</div>
-                <img id="pokemonImage" src="" alt="Pokémon Image" width="350" height="350">
+                    <img id="pokemonImage" src="" alt="Pokémon Image" width="350" height="350">
                 <div class="pokemon-info">
                     <div id="pokemonName" class="pokemon-name"></div>
                     <div id="pokemonType" class="pokemon-type"></div>
@@ -216,10 +216,7 @@
     
     <!-- Test Input Field -->
     <div id="inputForm" class="center-text">
-        <input type="text" id="username" placeholder="Create username" />
-        <input type="text" id="password" placeholder="Create password" />
-        <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
-        <button id="registerUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
+        <input type="text" id="username" placeholder="This will eventually have messages" />
     </div>
 
     <!-- Profile Layout -->
@@ -227,7 +224,7 @@
     
         <!--Profile Setup/Login-->
         <div id="loginForm" class="center-text">
-            <button id="createUserButton"><img src = "images/create_user.png" alt="Register" width="75" height="26.25"></button>
+            <button id="createUserButton"><img src = "images/register_button.png" alt="Register" width="75" height="26.25"></button>
             <button id="loginButton"><img src = "images/login.png" alt="Login" width="75" height="26.25"></button>
         </div>
 
@@ -236,8 +233,9 @@
             <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
             <input type="file" id="imageUpload" accept="image/*">
             <input type="text" id="name" placeholder="Enter your name" />
+            <input type="text" id="password" placeholder="Enter your password" />
             <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
-            <button id="saveProfileButton"><img src = "images/save_profile.png" alt="Create User" width="75" height="26.25"></button>
+            <button id="saveProfileButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
             <button id="backButtonCreateUser"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
         <!-- Input Fields for Login -->
@@ -308,7 +306,7 @@
             // Then display the create user form in the profile container
             createUserButton.style.display = "none";
             loginButton.style.display = "none";
-            createUserForm.style.display = "block";
+            createUserForm.style.display = "inline-block";
         });
 
         // Login Button Setup
@@ -323,16 +321,16 @@
         backButtonPassword.addEventListener("click", () => {
             passwordInputForm.style.display = "none";
             loginForm.style.display = "block";
-            loginButton.style.display = "block";
-            createUserButton.style.display = "block";
+            loginButton.style.display = "inline";
+            createUserButton.style.display = "inline";
         });
 
         // Back Button Create User Setup
         backButtonCreateUser.addEventListener("click", () => {
             createUserForm.style.display = "none";
             loginForm.style.display = "block";
-            loginButton.style.display = "block";
-            createUserButton.style.display = "block";
+            loginButton.style.display = "inline";
+            createUserButton.style.display = "inline";
         });
     </script>
 </body>
