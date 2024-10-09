@@ -9,7 +9,7 @@
         .center-text {
             text-align: center;
         } 
-        
+    
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -19,6 +19,30 @@
             align-items: center;
             height: 100vh;
         }
+        
+        button img {
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        button {
+            border: none;
+            background: none;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.1, opacity 0.1;
+            margin: 0 5px;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        button:hover img {
+            filter: brightness(0.9);
+        }  
         
         .main-container{
             position:relative;
@@ -83,31 +107,34 @@
             padding:0 10px;
         }
         
-        button img {
-            border: none;
-            background: none;
-            padding: 0;
-        }
-
-        button {
-            border: none;
-            background: none;
-            padding: 0;
+        .profile-image{
+            display: block;
+            width: 7.5vw;
+            height: 15vh;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 10px;
+            border: 2px solid #ddd;
             cursor: pointer;
-            transition: transform 0.1, opacity 0.1;
-            margin: 0 5px;
         }
 
-        button:active {
-            transform: scale(0.95);
-            opacity: 0.8;
+        #imageUpload {
+            display: none;
         }
-
-        button:hover img {
-            filter: brightness(0.9);
-        }   
         
-        #inputForm {
+        #loginForm{
+            align-items: center;
+        }
+
+        #createUserForm{
+            display: none;
+        }
+        
+        #passwordInputForm{
+            display: none;
+        }
+
+        #messagesForm {
             position: absolute;
             right: 0.75vw;
             width: 31vw;
@@ -149,39 +176,12 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        #inputForm input, #inputForm textarea, #profileForm input, #profileForm textarea {
+        #messagesForm input, #messagesForm textarea, #profileForm input, #profileForm textarea {
             width: 96%;
             margin-bottom: 10px;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 5px;
-        }
-
-        #loginForm{
-            align-items: center;
-        }
-
-        #createUserForm{
-            display: none;
-        }
-        
-        #passwordInputForm{
-            display: none;
-        }
-        <!--Profile Avatar Setup-->
-        .profile-image{
-            display: block;
-            width: 25vw;
-            height: 25vh;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 10px;
-            border: 2px solid #ddd;
-            cursor: pointer;
-        }
-
-        #imageUpload {
-            display: none;
         }
     </style>    
 </head>
@@ -214,17 +214,17 @@
         </div>
     </div>
     
-    <!-- Test Input Field -->
-    <div id="inputForm" class="center-text">
+    <!-- Messaging Container -->
+    <div id="messagesForm" class="center-text">
         <input type="text" id="username" placeholder="This will eventually have messages" />
     </div>
 
     <!-- Profile Layout -->
     <div id="profileForm" class="center-text">
-    
+        
         <!--Profile Setup/Login-->
         <div id="loginForm" class="center-text">
-            <button id="createUserButton"><img src = "images/register_button.png" alt="Register" width="75" height="26.25"></button>
+            <button id="registerUserButton"><img src = "images/register_button.png" alt="Register User" width="75" height="26.25"></button>
             <button id="loginButton"><img src = "images/login.png" alt="Login" width="75" height="26.25"></button>
         </div>
 
@@ -235,14 +235,14 @@
             <input type="text" id="name" placeholder="Enter your name" />
             <input type="text" id="password" placeholder="Enter your password" />
             <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
-            <button id="saveProfileButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
+            <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
             <button id="backButtonCreateUser"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
         <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
             <input type="text" id="username" placeholder="Enter your username" />
             <input type="text" id="password" placeholder="Enter your password" />
-            <button id="passwordLoginButton"><img src = "images/login.png" alt="Create User" width="75" height="26.25"></button>
+            <button id="passwordLoginButton"><img src = "images/login.png" alt="Login" width="75" height="26.25"></button>
             <button id="backButtonPassword"><img src = "images/back_button.png" alt="Back Button Password" width="75" height="26.25"></button>
         </div>
     </div>
@@ -250,18 +250,19 @@
     <script src="renderer.js"></script>
     <script>
         const settingsButton = document.getElementById("settingsButton");
-        const inputForm = document.getElementById("inputForm");
+        const messagesForm = document.getElementById("messagesForm");
         const messagesButton = document.getElementById("messagesButton");
         const profileForm = document.getElementById("profileForm");
         const imageUpload = document.getElementById('imageUpload');
         const profileImage = document.getElementById('profileImage');
-        const createUserButton = document.getElementById('createUserButton');
+        const registerUserButton = document.getElementById('registerUserButton');
         const loginButton = document.getElementById('loginButton');
         const createUserForm = document.getElementById('createUserForm');
         const passwordInputForm = document.getElementById('passwordInputForm');
         const backButtonPassword = document.getElementById('backButtonPassword');
         const backButtonCreateUser = document.getElementById('backButtonCreateUser');
         const loginForm = document.getElementById('loginForm');
+        const createUserButton = document.getElementById('createUserButton');
 
         // Settings Button setup
         settingsButton.addEventListener("click", () => {
@@ -276,10 +277,10 @@
         // Messages Button Setup
         messagesButton.addEventListener("click", () => {
             // If temp input is not showing, display. Else, remove display.
-            if (inputForm.style.display === "none" || inputForm.style.display === "") {
-                inputForm.style.display = "block";
+            if (messagesForm.style.display === "none" || messagesForm.style.display === "") {
+                messagesForm.style.display = "block";
             } else {
-                inputForm.style.display = "none";
+                messagesForm.style.display = "none";
             }
         });
         
@@ -300,29 +301,30 @@
             }
         });
         
-        // Create User Button Setup
-        createUserButton.addEventListener("click", () => {
+        // Register Button Setup
+        registerUserButton.addEventListener("click", () => {
             // If clicked, remove create user button & login button.
             // Then display the create user form in the profile container
-            createUserButton.style.display = "none";
+            registerUserButton.style.display = "none";
             loginButton.style.display = "none";
-            createUserForm.style.display = "inline-block";
+            createUserForm.style.display = "block";
         });
 
         // Login Button Setup
         loginButton.addEventListener("click", () => {
             // If clicked, remove create user button & login button.
             // Then display the password input form in the profile container
-            createUserButton.style.display = "none";
+            registerUserButton.style.display = "none";
             loginButton.style.display = "none";
             passwordInputForm.style.display = "block";
         });
+        
         // Back Button Password Setup
         backButtonPassword.addEventListener("click", () => {
             passwordInputForm.style.display = "none";
             loginForm.style.display = "block";
             loginButton.style.display = "inline";
-            createUserButton.style.display = "inline";
+            registerUserButton.style.display = "inline";
         });
 
         // Back Button Create User Setup
@@ -330,7 +332,7 @@
             createUserForm.style.display = "none";
             loginForm.style.display = "block";
             loginButton.style.display = "inline";
-            createUserButton.style.display = "inline";
+            registerUserButton.style.display = "inline";
         });
     </script>
 </body>
