@@ -4,7 +4,7 @@ let poke_count = 0;
 const emptyState = document.querySelector('.empty-state');
 
 // Listen for the 'registerUserButton click
-document.getElementById('registerUserButton').addEventListener('click', () => {
+document.getElementById('createUserButton').addEventListener('click', () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const bio = document.getElementById('bio').value;
