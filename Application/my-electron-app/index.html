@@ -8,7 +8,8 @@
     <style>
         .center-text {
             text-align: center;
-        }   
+        } 
+        
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -18,7 +19,7 @@
             align-items: center;
             height: 100vh;
         }
-
+        
         .main-container{
             position:relative;
         }
@@ -31,7 +32,7 @@
             background-color: white;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-
+        
         .header-container{
             display: flex;
             justify-content: space-between;
@@ -39,11 +40,6 @@
             margin-top: 0;
             padding: 10px;
             max-width: 100%;
-        }
-
-        .header-container i{
-            font-size:24px;
-            cursor: pointer;
         }
 
         .logo img{
@@ -59,7 +55,6 @@
             margin-top: 10px;
             height: 83vh;
             width: 33vw;
-            max-width: 400px;
         }
         .pokemon-container img{
             display:block;
@@ -87,7 +82,7 @@
             margin-bottom: 10px;
             padding:0 10px;
         }
-
+        
         button img {
             border: none;
             background: none;
@@ -111,11 +106,11 @@
         button:hover img {
             filter: brightness(0.9);
         }   
-
+        
         #inputForm {
             position: absolute;
             right: 0.75vw;
-            width: 32vw;
+            width: 31vw;
             height: 94.5vh;
             text-align: left;
             background-color: white;
@@ -125,10 +120,11 @@
             display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
+
         #profileInputForm {
             position: absolute;
             right: 0.75vw;
-            width: 32vw;
+            width: 31vw;
             height: 94.5vh;
             text-align: left;
             background-color: white;
@@ -142,7 +138,7 @@
         #profileForm {
             position: absolute;
             left: 0.95vw;
-            width: 32vw;
+            width: 31vw;
             height: 94.5vh;
             text-align: left;
             background-color: white;
@@ -152,7 +148,7 @@
             display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
+
         #inputForm input, #inputForm textarea, #profileForm input, #profileForm textarea {
             width: 96%;
             margin-bottom: 10px;
@@ -172,11 +168,11 @@
         #passwordInputForm{
             display: none;
         }
-
+        <!--Profile Avatar Setup-->
         .profile-image{
             display: block;
-            width: 100px;
-            height: 100px;
+            width: 25vw;
+            height: 25vh;
             border-radius: 50%;
             object-fit: cover;
             margin: 0 auto 10px;
@@ -228,31 +224,28 @@
 
     <!-- Profile Layout -->
     <div id="profileForm" class="center-text">
-    <!--Profile Setup/Login-->
+    
+        <!--Profile Setup/Login-->
         <div id="loginForm" class="center-text">
             <button id="createUserButton"><img src = "images/create_user.png" alt="Register" width="75" height="26.25"></button>
             <button id="loginButton"><img src = "images/login.png" alt="Login" width="75" height="26.25"></button>
         </div>
-        <!-- Input Fields for Profile -->
-        <div id="profileInputForm" class="center-text">
-            <input type="text" id="username" placeholder="Enter your name" />
-            <input type="text" id="pokemonType" placeholder="Enter your Pokémon Type" />
-            <textarea id="bio" placeholder="Enter Bio" rows="1" cols="20"></textarea>
-            <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
-            </div>
-        <!-- Profile Image Upload -->
+
+        <!-- Profile Image Upload & Input Fields for Profile Creation -->
         <div id="createUserForm">
             <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
             <input type="file" id="imageUpload" accept="image/*">
             <input type="text" id="name" placeholder="Enter your name" />
             <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
             <button id="saveProfileButton"><img src = "images/save_profile.png" alt="Create User" width="75" height="26.25"></button>
+            <button id="backButton"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
-        <!-- Input Fields for Profile -->
+        <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
             <input type="text" id="username" placeholder="Enter your username" />
             <input type="text" id="password" placeholder="Enter your password" />
             <button id="passwordLoginButton"><img src = "images/login.png" alt="Create User" width="75" height="26.25"></button>
+            <button id="backButtonPassword"><img src = "images/back_button.png" alt="Back Button Password" width="75" height="26.25"></button>
         </div>
     </div>
         
@@ -268,8 +261,13 @@
         const loginButton = document.getElementById('loginButton');
         const createUserForm = document.getElementById('createUserForm');
         const passwordInputForm = document.getElementById('passwordInputForm');
+        const backButtonPassword = document.getElementById('backButtonPassword');
+        const backButton = document.getElementById('backButton');
+        const loginForm = document.getElementById('loginForm');
 
+        // Settings Button setup
         settingsButton.addEventListener("click", () => {
+            // If profile is not showing, display. Else, remove display.
             if (profileForm.style.display === "none" || profileForm.style.display === "") {
                 profileForm.style.display = "block";
             } else {
@@ -277,17 +275,22 @@
             }
         });
 
+        // Messages Button Setup
         messagesButton.addEventListener("click", () => {
+            // If temp input is not showing, display. Else, remove display.
             if (inputForm.style.display === "none" || inputForm.style.display === "") {
                 inputForm.style.display = "block";
             } else {
                 inputForm.style.display = "none";
             }
         });
+        
+        // Check if profile image was clicked
         profileImage.addEventListener("click", () => {
             imageUpload.click();  
         });
 
+        // If clicked allow user to update with a image file
         imageUpload.addEventListener("change", (event) => {
             const file = event.target.files[0];
             if (file) {
@@ -299,16 +302,27 @@
             }
         });
         
+        // Create User Button Setup
         createUserButton.addEventListener("click", () => {
+            // If clicked, remove create user button & login button.
+            // Then display the create user form in the profile container
             createUserButton.style.display = "none";
             loginButton.style.display = "none";
             createUserForm.style.display = "block";
         });
 
+        // Login Button Setup
         loginButton.addEventListener("click", () => {
+            // If clicked, remove create user button & login button.
+            // Then display the password input form in the profile container
             createUserButton.style.display = "none";
             loginButton.style.display = "none";
             passwordInputForm.style.display = "block";
+        });
+        // Back Button Setup
+        backButtonPassword.addEventListener("click", () => {
+            passwordInputForm.style.display = "none";
+            loginForm.style.display = "block";
         });
     </script>
 </body>
