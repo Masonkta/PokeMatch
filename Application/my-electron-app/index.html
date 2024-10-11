@@ -232,18 +232,19 @@
         <div id="createUserForm">
             <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
             <input type="file" id="imageUpload" accept="image/*">
-            <input type="text" id="name" placeholder="Enter your name" />
-            <input type="text" id="password" placeholder="Enter your password" />
+            <input type="text" id="createUserName" placeholder="Enter your name" />
+            <input type="text" id="createUserPassword" placeholder="Enter your password" />
             <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
             <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
             <button id="backButtonCreateUser"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
         <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
-            <input type="text" id="username" placeholder="Enter your username" />
-            <input type="text" id="password" placeholder="Enter your password" />
+            <input type="text" id="loginUsername" placeholder="Enter your username" />
+            <input type="text" id="loginPassword" placeholder="Enter your password" />
             <button id="passwordLoginButton"><img src = "images/login.png" alt="Login" width="75" height="26.25"></button>
             <button id="backButtonPassword"><img src = "images/back_button.png" alt="Back Button Password" width="75" height="26.25"></button>
+            <div class="loginMessage" style="display:none; color: green;">User logged in successfully!</div>
         </div>
     </div>
         

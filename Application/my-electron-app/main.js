@@ -76,18 +76,42 @@ async function startup(win) {
 
 
 // Guarantees the Fastapi will be handling the creation of a new node in the database for this registered profile
-ipcMain.handle('create-profile', async (event, profile) => {
+ipcMain.handle('create-user-profile', async (event, profile) => {
     try {
         const response = await axios.post('http://localhost:8000/create_profile/', profile);
-        return response.data;
+        if (response.status === 200) {
+            console.log('Created profile:', response.data.message);
+            return response.data;
+        }
     } catch (error) {
         console.error("Error creating profile:", error);
         return { message: "Error creating profile." };
     }
 });
 
+// Ensures Fastapi will search for the requested user profile and return the nessary information
+ipcMain.handle('retrieve-user-profile', async (event, username, password) => {
+    try {
+        // Send the profile as a query parameter
+        const response = await axios.get('http://localhost:8000/retrieve_profile/', {
+            params: { username, password }
+        });
+
+        if (response.data.profile) {
+            console.log('Retrieved profile:', response.data.message);
+            return response.data;  // Return the fetched data
+        } else {
+            console.error('Profile not found');  // Handle case when no profile is returned
+        }
+    } catch (error) {
+        console.error("Error has occurred fetching data", error);
+        return { message: "Error fetching data." };  // Return an error message
+    }
+});
+
+
 // Ensures Fastapi will search for the requested pokemon id and return the nessary information
-ipcMain.handle('fetch-profile', async (event, id) => {
+ipcMain.handle('fetch-pokemon-profile', async (event, id) => {
     try {
         // Send the ID as a query parameter
         const response = await axios.get('http://localhost:8000/fetch_profile/', {

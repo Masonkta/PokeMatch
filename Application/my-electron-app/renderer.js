@@ -2,12 +2,13 @@ const { ipcRenderer } = require('electron');
 
 let poke_count = 0;
 const emptyState = document.querySelector('.empty-state');
+const loginMessage = document.querySelector('.loginMessage');
 
-// Listen for the 'registerUserButton click
+// Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const bio = document.getElementById('bio').value;
+    const username = document.getElementById('createUserName').value;
+    const password = document.getElementById('createUserPassword').value;
+    const bio = document.getElementById('bioProfile').value;
 
     if (username && password && bio) {
         sendProfile({ username: username, password: password, bio: bio });  // Pass all profile values
@@ -19,7 +20,7 @@ document.getElementById('createUserButton').addEventListener('click', () => {
 // Ensures the information is provided when it is needed later on to send the request to the FastAPI for registering the new user.
 async function sendProfile(profile) {
     try {
-        const response = await ipcRenderer.invoke('create-profile', {
+        const response = await ipcRenderer.invoke('create-user-profile', {
             username: profile.username, 
             password: profile.password,       
             bio: profile.bio
@@ -27,6 +28,41 @@ async function sendProfile(profile) {
         console.log(response.message);
     } catch (error) {
         console.error("Error:", error);
+    }
+}
+
+// Listen for the 'passwordLoginButton' click
+document.getElementById('passwordLoginButton').addEventListener('click', () => {
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+
+    if (username && password) {
+        retrieveProfile(username, password);  // Pass username and password values
+    } else {
+        console.error("All fields must be filled");
+    }
+});
+
+// Ensures the information is provided when it is needed later on to send the request to the FastAPI for receiving user.
+async function retrieveProfile(username, password) {
+    try {
+        const response = await ipcRenderer.invoke('retrieve-user-profile', username, password);
+
+        if (response.profile) {
+            console.log('Here');
+            fetchProfile(response.profile);
+        }   
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+// Sets the login message to be displayed when the user is logged in.
+async function fetchProfile(profile) {
+    if (profile) {
+        loginMessage.style.display = 'block';
+    } else {
+        loginMessage.style.display = 'none';
     }
 }
 
@@ -56,7 +92,7 @@ async function fetchPokemon(current) {
         console.log(currentPokemonId);
         console.log(current);
         const newId = generateRandomId(0, poke_count - 1, currentPokemonId); 
-        const response = await ipcRenderer.invoke('fetch-profile', newId);
+        const response = await ipcRenderer.invoke('fetch-pokemon-profile', newId);
         
         if (response.profile) {
             displayPokemon(response.profile);

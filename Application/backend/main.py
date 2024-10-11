@@ -22,7 +22,7 @@ class Pokemon(BaseModel):
 class User(BaseModel):
     username: str
     password: str
-    bio: str
+    bio: Optional[str]
 
 @app.get("/")
 async def read_root():
@@ -45,18 +45,30 @@ async def create_profile(profile: User):
     return {"message": f"Profile created for {profile.username}!"}
 
 @app.get("/retrieve_profile/")
-async def retrieve_profile(profile: User):
+async def retrieve_profile(username: str, password: str):
     query = """
     MATCH (u:User {name: $username, password: $password})
     RETURN u
     """
-    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio)
-    return {"message": f"Found Profile for {profile.username}!"}
+    result = graph.run(query, username=username, password=password).data()
+
+    if not result:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    node_data = result[0]['u']
+    profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'])
+    
+    if profile:
+        return {"profile": profile.model_dump(), "message": f"Found Profile for {profile.username}!"}
+    else:
+        raise HTTPException(status_code=422, detail="profile not fetched correctly.")
+
+
 # Function to preload data into Neo4j
 def preload_pokemon_data():
     # Clear all nodes and relationships in Neo4j
     delete_query = """
-    MATCH (p)
+    MATCH (p:Pokemon)
     DETACH DELETE p
     """
     graph.run(delete_query)
