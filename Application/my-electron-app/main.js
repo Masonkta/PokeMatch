@@ -93,7 +93,7 @@ ipcMain.handle('create-user-profile', async (event, profile) => {
 ipcMain.handle('retrieve-user-profile', async (event, username, password) => {
     try {
         // Send the profile as a query parameter
-        const response = await axios.get('http://localhost:8000/retrieve_profile/', {
+        const response = await axios.get('http://localhost:8000/retrieve_user_profile/', {
             params: { username, password }
         });
 
@@ -114,7 +114,7 @@ ipcMain.handle('retrieve-user-profile', async (event, username, password) => {
 ipcMain.handle('fetch-pokemon-profile', async (event, id) => {
     try {
         // Send the ID as a query parameter
-        const response = await axios.get('http://localhost:8000/fetch_profile/', {
+        const response = await axios.get('http://localhost:8000/fetch_pokemon_profile/', {
             params: { id }  // Pass the ID here
         });
         return response.data; // Return the fetched data
@@ -160,8 +160,21 @@ function RandomId(min, max) {
     return randomId;
 }
 
-app.on('window-all-closed', () => {
+async function logout() {
+    try {
+        const response = await axios.post('http://localhost:8000/logout_user/');
+        if (response.status === 200) {
+            console.log('Logging out:', response.data.message);
+        } else {
+            console.error('Failed to log out');
+        }
+    } catch (error) {
+        console.error('Error calling FastAPI log out:', error.message);
+    }
+}
+app.on('window-all-closed', async () => {
     if (process.platform !== 'darwin') {
+        await logout()
         app.quit();
     }
 });

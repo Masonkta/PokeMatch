@@ -45,8 +45,8 @@ async def create_profile(profile: User):
     graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession)
     return {"message": f"Profile created for {profile.username}!"}
 
-@app.get("/retrieve_profile/")
-async def retrieve_profile(username: str, password: str):
+@app.get("/retrieve_user_profile/")
+async def retrieve_user_profile(username: str, password: str):
     query = """
     MATCH (u:User {name: $username, password: $password})
     SET u.inSession = true
@@ -61,7 +61,7 @@ async def retrieve_profile(username: str, password: str):
     profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], inSession=node_data['inSession'])
     
     if profile:
-        return {"profile": profile.model_dump(), "message": f"Found Profile for {profile.username}!"}
+        return {"profile": profile.model_dump(), "message": f"{profile.username} logged in!"}
     else:
         raise HTTPException(status_code=422, detail="profile not fetched correctly.")
 
@@ -102,8 +102,8 @@ async def count_pokemon():
     count = result_count[0]['pokemon_count']  # Access the 'pokemon_count' value
     return {"pokemon_count": count}  # Return the count as a JSON response
 
-@app.get("/fetch_profile/")
-async def fetch_profile(id: int):
+@app.get("/fetch_pokemon_profile/")
+async def fetch_pokemon_profile(id: int):
     if id is not None:
         query = "MATCH (p:Pokemon) WHERE p.pokeID = $id RETURN p"
         result = graph.run(query, id=id).data()
@@ -120,3 +120,19 @@ async def fetch_profile(id: int):
         return {"profile": profile.model_dump(), "message": "Profile fetched successfully!"}
     else:
         raise HTTPException(status_code=423, detail="profile not fetched correctly.")
+
+
+@app.post("/logout_user/")
+async def logout_user():
+    query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    SET u.inSession = false
+    RETURN u
+    """
+    result = graph.run(query).data()
+
+    if not result:
+        return {"message": "No users logged out"}
+    
+    return {"message": "All logged-in users have been logged out!"}
