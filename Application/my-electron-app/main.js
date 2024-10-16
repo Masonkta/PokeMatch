@@ -124,6 +124,36 @@ ipcMain.handle('fetch-pokemon-profile', async (event, id) => {
     }
 });
 
+// Ensures FastAPI will update the Pokémon with the "liked" status
+ipcMain.handle('like-pokemon', async (event, id) => {
+    try {
+        // Send the ID to the FastAPI server to mark the Pokémon as liked
+        const response = await axios.post('http://localhost:8000/like_pokemon/', {
+            params: { id }  // Send the Pokémon ID in the request body
+        });
+        return response.data; // Return the response data
+    } catch (error) {
+        console.error("Error has occurred while liking the Pokémon", error);
+        return { message: "Error liking the Pokémon." }; // Return an error message
+    }
+});
+
+// Ensures FastAPI will update the Pokémon with the "disliked" status
+ipcMain.handle('dislike-pokemon', async (event, id) => {
+    try {
+        // Send the ID to the FastAPI server to mark the Pokémon as disliked
+        const response = await axios.post('http://localhost:8000/dislike_pokemon/', {
+            params: { id }  // Send the Pokémon ID in the request body
+        });
+        return response.data; // Return the response data
+    } catch (error) {
+        console.error("Error has occurred while disliking the Pokémon", error);
+        return { message: "Error disliking the Pokémon." }; // Return an error message
+    }
+});
+
+
+
 // Allows the first displayed pokemon on startup to be a randomly selected one from the database
 function RandomId(min, max) {
     let randomId = Math.floor(Math.random() * (max - min + 1)) + min;

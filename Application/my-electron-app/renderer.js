@@ -80,8 +80,15 @@ let currentPokemonId = 0;
 
 // Button Interactiblity Scripts
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('likeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
-    document.getElementById('dislikeButton').addEventListener('click', () => fetchPokemon(currentPokemonId));
+    document.getElementById('likeButton').addEventListener('click', () => {
+        likePokemon(currentPokemonId); // Like the current Pokemon
+        fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+    });
+
+    document.getElementById('dislikeButton').addEventListener('click', () => {
+        dislikePokemon(currentPokemonId); // Dislike the current Pokemon
+        fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+    });
 });
 
 // The inital sequence of request that lead to the datbaase in order to properly display a new pokemon to the user.
@@ -128,3 +135,31 @@ ipcRenderer.on('fetch-pokemon', (event, randomId) => {
 ipcRenderer.on('pokemon-count', (event, count) => {
     poke_count = count; // Update poke_count with the value from the main process
 });
+
+async function likePokemon(pokemonId) {
+    try {
+        console.log(`Liking Pokémon with ID: ${pokemonId}`);
+        const response = await ipcRenderer.invoke('like-pokemon', pokemonId); 
+        if (response.success) {
+            console.log(`Pokémon ID ${pokemonId} marked as liked`);
+        } else {
+            console.error("Failed to like Pokémon:", response.message);
+        }
+    } catch (error) {
+        console.error("Error marking Pokémon as liked:", error);
+    }
+}
+
+async function dislikePokemon(pokemonId) {
+    try {
+        console.log(`Disliking Pokémon with ID: ${pokemonId}`);
+        const response = await ipcRenderer.invoke('dislike-pokemon', pokemonId); 
+        if (response.success) {
+            console.log(`Pokémon ID ${pokemonId} marked as Disliked`);
+        } else {
+            console.error("Failed to Dislike Pokémon:", response.message);
+        }
+    } catch (error) {
+        console.error("Error marking Pokémon as Disliked:", error);
+    }
+}
