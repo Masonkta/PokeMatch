@@ -23,6 +23,7 @@ class User(BaseModel):
     username: str
     password: str
     bio: Optional[str]
+    inSession: bool = False
 
 @app.get("/")
 async def read_root():
@@ -38,16 +39,17 @@ async def get_pokemon():
 @app.post("/create_profile/")
 async def create_profile(profile: User):
     query = """
-    CREATE (u:User {name: $username, password: $password, bio: $bio}) 
+    CREATE (u:User {name: $username, password: $password, bio: $bio, inSession: $inSession}) 
     RETURN u
     """
-    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio)
+    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession)
     return {"message": f"Profile created for {profile.username}!"}
 
 @app.get("/retrieve_profile/")
 async def retrieve_profile(username: str, password: str):
     query = """
     MATCH (u:User {name: $username, password: $password})
+    SET u.inSession = true
     RETURN u
     """
     result = graph.run(query, username=username, password=password).data()
@@ -56,7 +58,7 @@ async def retrieve_profile(username: str, password: str):
         raise HTTPException(status_code=404, detail="Profile not found")
 
     node_data = result[0]['u']
-    profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'])
+    profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], inSession=node_data['inSession'])
     
     if profile:
         return {"profile": profile.model_dump(), "message": f"Found Profile for {profile.username}!"}
