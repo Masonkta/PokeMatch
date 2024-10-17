@@ -45,8 +45,8 @@ async def create_profile(profile: User):
     graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession)
     return {"message": f"Profile created for {profile.username}!"}
 
-@app.get("/retrieve_user_profile/")
-async def retrieve_user_profile(username: str, password: str):
+@app.get("/login_user/")
+async def login_user(username: str, password: str):
     query = """
     MATCH (u:User {name: $username, password: $password})
     SET u.inSession = true
@@ -120,6 +120,40 @@ async def fetch_pokemon_profile(id: int):
         return {"profile": profile.model_dump(), "message": "Profile fetched successfully!"}
     else:
         raise HTTPException(status_code=423, detail="profile not fetched correctly.")
+
+@app.get("/like_pokemon/")
+async def like_pokemon(id: int):
+    query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    MATCH (p:Pokemon)
+    WHERE p.pokeID = $id
+    MERGE (u)-[:LIKES]->(p)
+    RETURN u
+    """
+    result = graph.run(query, id=id).data()
+
+    if not result:
+        return {"likePokemonFail": "Failed to like Pokémon with ID: {}".format(id)}
+    
+    return {"likePokemonSucess": "User likes Pokémon with ID: {}".format(id)}
+
+@app.get("/dislike_pokemon/")
+async def dislike_pokemon(id: int):
+    query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    MATCH (p:Pokemon)
+    WHERE p.pokeID = $id
+    MERGE (u)-[:DISLIKES]->(p)
+    RETURN u
+    """
+    result = graph.run(query, id=id).data()
+
+    if not result:
+        return {"dislikePokemonFail": "Failed to dislike Pokémon with ID: {}".format(id)}
+    
+    return {"dislikePokemonSucess": "User dislikes Pokémon with ID: {}".format(id)}
 
 
 @app.post("/logout_user/")

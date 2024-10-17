@@ -46,7 +46,7 @@ document.getElementById('passwordLoginButton').addEventListener('click', () => {
 // Ensures the information is provided when it is needed later on to send the request to the FastAPI for receiving user.
 async function retrieveProfile(username, password) {
     try {
-        const response = await ipcRenderer.invoke('retrieve-user-profile', username, password);
+        const response = await ipcRenderer.invoke('login_user', username, password);
 
         if (response.profile) {
             console.log('Here');
@@ -140,10 +140,10 @@ async function likePokemon(pokemonId) {
     try {
         console.log(`Liking Pokémon with ID: ${pokemonId}`);
         const response = await ipcRenderer.invoke('like-pokemon', pokemonId); 
-        if (response.success) {
+        if (response.likePokemonSucess) {
             console.log(`Pokémon ID ${pokemonId} marked as liked`);
         } else {
-            console.error("Failed to like Pokémon:", response.message);
+            console.error("Failed to like Pokémon:", response.likePokemonFail);
         }
     } catch (error) {
         console.error("Error marking Pokémon as liked:", error);
@@ -154,10 +154,10 @@ async function dislikePokemon(pokemonId) {
     try {
         console.log(`Disliking Pokémon with ID: ${pokemonId}`);
         const response = await ipcRenderer.invoke('dislike-pokemon', pokemonId); 
-        if (response.success) {
+        if (response.dislikePokemonSucess) {
             console.log(`Pokémon ID ${pokemonId} marked as Disliked`);
         } else {
-            console.error("Failed to Dislike Pokémon:", response.message);
+            console.error("Failed to Dislike Pokémon:", response.dislikePokemonFail);
         }
     } catch (error) {
         console.error("Error marking Pokémon as Disliked:", error);

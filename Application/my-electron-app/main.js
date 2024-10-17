@@ -90,10 +90,10 @@ ipcMain.handle('create-user-profile', async (event, profile) => {
 });
 
 // Ensures Fastapi will search for the requested user profile and return the nessary information
-ipcMain.handle('retrieve-user-profile', async (event, username, password) => {
+ipcMain.handle('login_user', async (event, username, password) => {
     try {
         // Send the profile as a query parameter
-        const response = await axios.get('http://localhost:8000/retrieve_user_profile/', {
+        const response = await axios.get('http://localhost:8000/login_user/', {
             params: { username, password }
         });
 
@@ -128,9 +128,10 @@ ipcMain.handle('fetch-pokemon-profile', async (event, id) => {
 ipcMain.handle('like-pokemon', async (event, id) => {
     try {
         // Send the ID to the FastAPI server to mark the Pokémon as liked
-        const response = await axios.post('http://localhost:8000/like_pokemon/', {
-            params: { id }  // Send the Pokémon ID in the request body
+        const response = await axios.get('http://localhost:8000/like_pokemon/', {
+            params: { id }  // Pass the ID here
         });
+        console.log('Like Pokémon:', response.data.likePokemonSucess);
         return response.data; // Return the response data
     } catch (error) {
         console.error("Error has occurred while liking the Pokémon", error);
@@ -142,9 +143,9 @@ ipcMain.handle('like-pokemon', async (event, id) => {
 ipcMain.handle('dislike-pokemon', async (event, id) => {
     try {
         // Send the ID to the FastAPI server to mark the Pokémon as disliked
-        const response = await axios.post('http://localhost:8000/dislike_pokemon/', {
-            params: { id }  // Send the Pokémon ID in the request body
-        });
+        const response = await axios.get('http://localhost:8000/dislike_pokemon/', {
+            params: { id }  // Pass the ID here
+        });  // Send the Pokémon ID in the request body
         return response.data; // Return the response data
     } catch (error) {
         console.error("Error has occurred while disliking the Pokémon", error);
