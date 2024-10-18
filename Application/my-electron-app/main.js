@@ -146,6 +146,7 @@ ipcMain.handle('dislike-pokemon', async (event, id) => {
         const response = await axios.get('http://localhost:8000/dislike_pokemon/', {
             params: { id }  // Pass the ID here
         });  // Send the Pokémon ID in the request body
+        console.log('DisLike Pokémon:', response.data.dislikePokemonSucess);
         return response.data; // Return the response data
     } catch (error) {
         console.error("Error has occurred while disliking the Pokémon", error);
