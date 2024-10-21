@@ -170,3 +170,18 @@ async def logout_user():
         return {"message": "No users logged out"}
     
     return {"message": "All logged-in users have been logged out!"}
+
+@app.get("/is_user_logged_in/")
+async def is_user_logged_in(user_id: int):
+    query = """
+    MATCH (u:User)
+    WHERE u.userId = $user_id AND u.inSession = true
+    RETURN u
+    """
+    result = graph.run(query, user_id=user_id).data()
+
+    # Check if the result contains any data
+    if result:
+        return {"isLoggedIn": True, "userId": user_id}
+
+    return {"isLoggedIn": False}
