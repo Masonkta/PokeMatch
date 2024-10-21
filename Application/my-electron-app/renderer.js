@@ -52,7 +52,7 @@ async function retrieveProfile(username, password) {
 
         if (response.profile) {
             console.log('Here');
-            fetchProfile(response.profile);
+            loginSuccessMessage(response.profile);
         }   
     } catch (error) {
         console.error("Error:", error);
@@ -60,7 +60,7 @@ async function retrieveProfile(username, password) {
 }
 
 // Sets the login message to be displayed when the user is logged in.
-async function fetchProfile(profile) {
+async function loginSuccessMessage(profile) {
     if (profile) {
         loginMessage.style.display = 'block';
     } else {
@@ -168,15 +168,13 @@ async function dislikePokemon(pokemonId) {
 }
 
 // Check if user is logged in with userId
-async function checkIfUserLoggedIn(userId) {
+async function checkIfUserLoggedIn() {
     try {
-        const response = await ipcRenderer.invoke('check_user_logged_in', userId); 
+        const response = await ipcRenderer.invoke('check_user_logged_in'); 
         if (response.isLoggedIn) {
-            console.log(`User with ID ${response.userId} is logged in.`);
-            fetchProfile(response.profile); 
+            console.log(`User with ID ${response.userID} is logged in.`);
         } else {
             console.log('User is not logged in.');
-            loginMessage.style.display = 'none'; 
         }
     } catch (error) {
         console.error("Error checking login status:", error);

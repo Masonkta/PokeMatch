@@ -23,7 +23,10 @@ class User(BaseModel):
     username: str
     password: str
     bio: Optional[str]
+    userID: int = 0
     inSession: bool = False
+
+userID = 0
 
 @app.get("/")
 async def read_root():
@@ -38,11 +41,14 @@ async def get_pokemon():
 
 @app.post("/create_profile/")
 async def create_profile(profile: User):
+    global userID
+    profile.userID = userID
     query = """
-    CREATE (u:User {name: $username, password: $password, bio: $bio, inSession: $inSession}) 
+    CREATE (u:User {name: $username, password: $password, bio: $bio, inSession: $inSession, userID: $userID}) 
     RETURN u
     """
-    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession)
+    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession, userID=profile.userID)
+    userID += 1
     return {"message": f"Profile created for {profile.username}!"}
 
 @app.get("/login_user/")
@@ -172,16 +178,18 @@ async def logout_user():
     return {"message": "All logged-in users have been logged out!"}
 
 @app.get("/is_user_logged_in/")
-async def is_user_logged_in(user_id: int):
+async def is_user_logged_in():
     query = """
     MATCH (u:User)
-    WHERE u.userId = $user_id AND u.inSession = true
+    WHERE u.inSession = true
     RETURN u
     """
-    result = graph.run(query, user_id=user_id).data()
+    result = graph.run(query).data()
+    node_data = result[0]['u']
+    profile = User(username=node_data['username'], password=node_data['password'], bio=node_data['bio'], inSession=node_data['inSession'], userID=node_data['userID'])
 
     # Check if the result contains any data
     if result:
-        return {"isLoggedIn": True, "userId": user_id}
+        return {"profile": profile.model_dump(), "isLoggedIn": True, "userID": profile.userID}
 
     return {"isLoggedIn": False}
