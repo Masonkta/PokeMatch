@@ -4,6 +4,8 @@ let poke_count = 0;
 const emptyState = document.querySelector('.empty-state');
 const loginMessage = document.querySelector('.loginMessage');
 
+let insession = false;
+
 // Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
     const username = document.getElementById('createUserName').value;
@@ -81,6 +83,7 @@ let currentPokemonId = 0;
 // Button Interactiblity Scripts
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', () => {
+        
         likePokemon(currentPokemonId); // Like the current Pokemon
         fetchPokemon(currentPokemonId); // Fetch the next Pokemon
     });
@@ -161,5 +164,21 @@ async function dislikePokemon(pokemonId) {
         }
     } catch (error) {
         console.error("Error marking Pokémon as Disliked:", error);
+    }
+}
+
+// Check if user is logged in with userId
+async function checkIfUserLoggedIn(userId) {
+    try {
+        const response = await ipcRenderer.invoke('check_user_logged_in', userId); 
+        if (response.isLoggedIn) {
+            console.log(`User with ID ${response.userId} is logged in.`);
+            fetchProfile(response.profile); 
+        } else {
+            console.log('User is not logged in.');
+            loginMessage.style.display = 'none'; 
+        }
+    } catch (error) {
+        console.error("Error checking login status:", error);
     }
 }

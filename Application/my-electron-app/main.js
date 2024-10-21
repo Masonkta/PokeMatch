@@ -174,6 +174,26 @@ async function logout() {
         console.error('Error calling FastAPI log out:', error.message);
     }
 }
+
+async function checkUserLoggedIn(userId) {
+    try {
+        const response = await axios.get(`http://localhost:8000/is_user_logged_in/`);
+        if (response.status === 200) {
+            const { isLoggedIn, userId } = response.data;
+            if (isLoggedIn) {
+                console.log(`User ${userId} is logged in.`);
+            } else {
+                console.log(`User ${userId} is not logged in.`);
+            }
+        } else {
+            console.error('Failed to check login status');
+        }
+    } catch (error) {
+        console.error('Error calling FastAPI check login status:', error.message);
+    }
+}
+
+
 app.on('window-all-closed', async () => {
     if (process.platform !== 'darwin') {
         await logout()
