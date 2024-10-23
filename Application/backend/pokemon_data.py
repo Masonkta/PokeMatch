@@ -85,7 +85,7 @@ data = [
     {"pokemon":"Typhlosion", "image":"https://tinyurl.com/2bl85ynf", "type":"Fire","bio":"Likes to take leisurely swims in pools of magma."},
     {"pokemon":"Feraligatr", "image":"https://tinyurl.com/26r6kdpj", "type":"Water","bio":"Plays the standing bass at their local bar."},
     {"pokemon":"Meganium", "image":"https://tinyurl.com/2axr2pjy", "type":"Grass","bio":"Likes to help gardening with any who share their love for plants."}
-    # {"pokemon":"Noivern", "image":"https://tinyurl.com/23cowy39", "type":"Flying/Dragon","bio":""},
+    # {"pokemon":"Noivern", "image":"https://tinyurl.com/23cowy39", "type":"Flying/Dragon","bio":"Uses the "},
     # {"pokemon":"Houndoom", "image":"https://tinyurl.com/2d8bk69h", "type":"Dark/Fire","bio":""},
     # {"pokemon":"Zygarde", "image":"https://tinyurl.com/2amybtay", "type":"Dragon/Ground","bio":""},
     # {"pokemon":"Dialga", "image":"https://tinyurl.com/2auuuyc3", "type":"Steel/Dragon","bio":""},
@@ -191,3 +191,4 @@ data = [
 
 ]
 
+natures_list = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", "Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", "Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"]
