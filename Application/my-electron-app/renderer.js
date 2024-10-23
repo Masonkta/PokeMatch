@@ -123,6 +123,7 @@ function displayPokemon(profile) {
         document.querySelector('.pokemon-container img').src = profile.image;
         document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
         document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
+        document.querySelector('.pokemon-nature').textContent = profile.natures;
         emptyState.style.display = 'none';
     } else {
         emptyState.style.display = 'block';

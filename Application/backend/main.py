@@ -171,7 +171,6 @@ async def dislike_pokemon(id: int):
     
     return {"dislikePokemonSucess": "User dislikes Pokémon with ID: {}".format(id)}
 
-
 @app.post("/logout_user/")
 async def logout_user():
     query = """
