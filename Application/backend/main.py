@@ -15,10 +15,11 @@ graph = Graph(neo4j_uri, auth=("neo4j", "password"))  # Adjust based on your aut
 # Define the PokemonProfile model
 class Pokemon(BaseModel):
     pokemon: str
-    image: Optional[str]
+    image: str
     type: str
     bio: str
     pokeID: int
+#    traits: List[str]
 
 class User(BaseModel):
     username: str
