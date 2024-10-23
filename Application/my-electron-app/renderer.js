@@ -83,14 +83,17 @@ let currentPokemonId = 0;
 // Button Interactiblity Scripts
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', () => {
-        
-        likePokemon(currentPokemonId); // Like the current Pokemon
-        fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+        if (checkIfUserLoggedIn()) {
+            likePokemon(currentPokemonId); // Like the current Pokemon
+            fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+        }
     });
 
     document.getElementById('dislikeButton').addEventListener('click', () => {
-        dislikePokemon(currentPokemonId); // Dislike the current Pokemon
-        fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+        if (checkIfUserLoggedIn()) {
+            dislikePokemon(currentPokemonId); // Dislike the current Pokemon
+            fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+        }
     });
 });
 
@@ -174,8 +177,10 @@ async function checkIfUserLoggedIn() {
         const response = await ipcRenderer.invoke('check_user_logged_in'); 
         if (response.isLoggedIn) {
             console.log(`User with ID ${response.userID} is logged in.`);
+            return true;
         } else {
             console.log('User is not logged in.');
+            return false;
         }
     } catch (error) {
         console.error("Error checking login status:", error);
