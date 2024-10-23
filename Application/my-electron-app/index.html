@@ -120,6 +120,18 @@
 
         .grid-container{
             display: grid;
+            width: 30vw;
+            background-color: white;
+            border:1px solid #ccc;
+            border-radius: 1.5%;
+            cursor: pointer;
+            padding: 5px;
+
+        }
+        .grid-buttons{
+            margin: 5px;
+            padding: 2px;
+            cursor: pointer;
         }
 
         #imageUpload {
@@ -187,6 +199,10 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        #profileForm button{
+            padding-top:5px;
+        }
     </style>    
 </head>
 <body>
@@ -207,6 +223,7 @@
                 <div class="pokemon-info">
                     <div id="pokemonName" class="pokemon-name"></div>
                     <div id="pokemonType" class="pokemon-type"></div>
+                    <div id="pokemonNature" class = "pokemon-nature"></div>
                     <div id="pokemonAbility" class="pokemon-ability"></div>
                 </div>
                 <!-- Dislike/Like Buttons -->
@@ -238,55 +255,62 @@
             <input type="file" id="imageUpload" accept="image/*">
             <input type="text" id="createUserName" placeholder="Enter your name" />
             <input type="text" id="createUserPassword" placeholder="Enter your password" />
-            <textarea id="bioProfile" placeholder="Enter your bio" rows="4"></textarea>
-            <h5>Choose 3 Types:</h5>
-            <div id = "grid-container">
-                <button id = "bug"><img src = "images/poketypes/bug.png"  alt = "Bug"  width = "50" height = "17.5" ></button>
-                <button id = "dark"><img src = "images/poketypes/dark.png"  alt = "Dark"  width = "50" height = "17.5" ></button>
-                <button id = "dragon"><img src = "images/poketypes/dragon.png"  alt = "Dragon"  width = "50" height = "17.5" ></button>
-                <button id = "electric"><img src = "images/poketypes/electric.png"  alt = "Electric"  width = "50" height = "17.5" ></button>
-                <button id = "fairy"><img src = "images/poketypes/fairy.png"  alt = "Fairy"  width = "50" height = "17.5" ></button>
-                <button id = "fighting"><img src = "images/poketypes/fighting.png"  alt = "Fighting"  width = "50" height = "17.5" ></button>
-                <button id = "fire"><img src = "images/poketypes/fire.png"  alt = "Fire"  width = "50" height = "17.5" ></button>
-                <button id = "flying"><img src = "images/poketypes/flying.png"  alt = "Flying"  width = "50" height = "17.5" ></button>
-                <button id = "ghost"><img src = "images/poketypes/ghost.png"  alt = "Ghost"  width = "50" height = "17.5" ></button>
-                <button id = "grass"><img src = "images/poketypes/grass.png"  alt = "Grass"  width = "50" height = "17.5" ></button>
-                <button id = "ground"><img src = "images/poketypes/ground.png"  alt = "Ground"  width = "50" height = "17.5" ></button>
-                <button id = "ice"><img src = "images/poketypes/ice.png"  alt = "Ice"  width = "50" height = "17.5" ></button>
-                <button id = "normal"><img src = "images/poketypes/normal.png"  alt = "Normal"  width = "50" height = "17.5" ></button>
-                <button id = "poison"><img src = "images/poketypes/poison.png"  alt = "Poison"  width = "50" height = "17.5" ></button>
-                <button id = "psychic"><img src = "images/poketypes/psychic.png"  alt = "Psychic"  width = "50" height = "17.5" ></button>
-                <button id = "rock"><img src = "images/poketypes/rock.png"  alt = "Rock"  width = "50" height = "17.5" ></button>
-                <button id = "steel"><img src = "images/poketypes/steel.png"  alt = "Steel"  width = "50" height = "17.5" ></button>
-                <button id = "water"><img src = "images/poketypes/water.png"  alt = "Water"  width = "50" height = "17.5" ></button>
+            <textarea id="bioProfile" placeholder="Enter your bio" rows="3"></textarea>
+            <!--Pokemon Types-->
+            <div class = "grid-container" onclick = "toggleGrid()">
+                Choose 3 Types:
+                <div id="selectedType"></div>
+                <div id = "grid-content">
+                    <button id = "bug"><img src = "images/poketypes/bug.png"  alt = "Bug"  width = "50" height = "17.5" ></button>
+                    <button id = "dark"><img src = "images/poketypes/dark.png"  alt = "Dark"  width = "50" height = "17.5" ></button>
+                    <button id = "dragon"><img src = "images/poketypes/dragon.png"  alt = "Dragon"  width = "50" height = "17.5" ></button>
+                    <button id = "electric"><img src = "images/poketypes/electric.png"  alt = "Electric"  width = "50" height = "17.5" ></button>
+                    <button id = "fairy"><img src = "images/poketypes/fairy.png"  alt = "Fairy"  width = "50" height = "17.5" ></button>
+                    <button id = "fighting"><img src = "images/poketypes/fighting.png"  alt = "Fighting"  width = "50" height = "17.5" ></button>
+                    <button id = "fire"><img src = "images/poketypes/fire.png"  alt = "Fire"  width = "50" height = "17.5" ></button>
+                    <button id = "flying"><img src = "images/poketypes/flying.png"  alt = "Flying"  width = "50" height = "17.5" ></button>
+                    <button id = "ghost"><img src = "images/poketypes/ghost.png"  alt = "Ghost"  width = "50" height = "17.5" ></button>
+                    <button id = "grass"><img src = "images/poketypes/grass.png"  alt = "Grass"  width = "50" height = "17.5" ></button>
+                    <button id = "ground"><img src = "images/poketypes/ground.png"  alt = "Ground"  width = "50" height = "17.5" ></button>
+                    <button id = "ice"><img src = "images/poketypes/ice.png"  alt = "Ice"  width = "50" height = "17.5" ></button>
+                    <button id = "normal"><img src = "images/poketypes/normal.png"  alt = "Normal"  width = "50" height = "17.5" ></button>
+                    <button id = "poison"><img src = "images/poketypes/poison.png"  alt = "Poison"  width = "50" height = "17.5" ></button>
+                    <button id = "psychic"><img src = "images/poketypes/psychic.png"  alt = "Psychic"  width = "50" height = "17.5" ></button>
+                    <button id = "rock"><img src = "images/poketypes/rock.png"  alt = "Rock"  width = "50" height = "17.5" ></button>
+                    <button id = "steel"><img src = "images/poketypes/steel.png"  alt = "Steel"  width = "50" height = "17.5" ></button>
+                    <button id = "water"><img src = "images/poketypes/water.png"  alt = "Water"  width = "50" height = "17.5" ></button>
+                </div>
             </div>
-            <h5>Choose 3 Natures:</h5>
-            <div id = "grid-container">
-                <button id = "adamant"><img src = "images/pokenatures/adamant.png"  alt = "Adamant"  width = "50"  height = "17.5"></button>
-                <button id = "bashful"><img src = "images/pokenatures/bashful.png"  alt = "Bashful"  width = "50"  height = "17.5"></button>
-                <button id = "bold"><img src = "images/pokenatures/bold.png"  alt = "Bold"  width = "50"  height = "17.5"></button>
-                <button id = "brave"><img src = "images/pokenatures/brave.png"  alt = "Brave"  width = "50"  height = "17.5"></button>
-                <button id = "calm"><img src = "images/pokenatures/calm.png"  alt = "Calm"  width = "50"  height = "17.5"></button>
-                <button id = "careful"><img src = "images/pokenatures/careful.png"  alt = "Careful"  width = "50"  height = "17.5"></button>
-                <button id = "docile"><img src = "images/pokenatures/docile.png"  alt = "Docile"  width = "50"  height = "17.5"></button>
-                <button id = "gentle"><img src = "images/pokenatures/gentle.png"  alt = "Gentle"  width = "50"  height = "17.5"></button>
-                <button id = "hardy"><img src = "images/pokenatures/hardy.png"  alt = "Hardy"  width = "50"  height = "17.5"></button>
-                <button id = "hasty"><img src = "images/pokenatures/hasty.png"  alt = "Hasty"  width = "50"  height = "17.5"></button>
-                <button id = "impish"><img src = "images/pokenatures/impish.png"  alt = "Impish"  width = "50"  height = "17.5"></button>
-                <button id = "jolly"><img src = "images/pokenatures/jolly.png"  alt = "Jolly"  width = "50"  height = "17.5"></button>
-                <button id = "lax"><img src = "images/pokenatures/lax.png"  alt = "Lax"  width = "50"  height = "17.5"></button>
-                <button id = "lonely"><img src = "images/pokenatures/lonely.png"  alt = "Lonely"  width = "50"  height = "17.5"></button>
-                <button id = "mild"><img src = "images/pokenatures/mild.png"  alt = "Mild"  width = "50"  height = "17.5"></button>
-                <button id = "modest"><img src = "images/pokenatures/modest.png"  alt = "Modest"  width = "50"  height = "17.5"></button>
-                <button id = "naive"><img src = "images/pokenatures/naive.png"  alt = "Naive"  width = "50"  height = "17.5"></button>
-                <button id = "naughty"><img src = "images/pokenatures/naughty.png"  alt = "Naughty"  width = "50"  height = "17.5"></button>
-                <button id = "quiet"><img src = "images/pokenatures/quiet.png"  alt = "Quiet"  width = "50"  height = "17.5"></button>
-                <button id = "quirky"><img src = "images/pokenatures/quirky.png"  alt = "Quirky"  width = "50"  height = "17.5"></button>
-                <button id = "rash"><img src = "images/pokenatures/rash.png"  alt = "Rash"  width = "50"  height = "17.5"></button>
-                <button id = "relaxed"><img src = "images/pokenatures/relaxed.png"  alt = "Relaxed"  width = "50"  height = "17.5"></button>
-                <button id = "sassy"><img src = "images/pokenatures/sassy.png"  alt = "Sassy"  width = "50"  height = "17.5"></button>
-                <button id = "serious"><img src = "images/pokenatures/serious.png"  alt = "Serious"  width = "50"  height = "17.5"></button>
-                <button id = "timid"><img src = "images/pokenatures/timid.png"  alt = "Timid"  width = "50"  height = "17.5"></button>
+            <!--Pokemon Natures-->
+            <div class = "grid-container" onclick = "toggleGrid()">
+            Choose 3 Natures:
+                <div id = "grid-content">
+                    <button id = "adamant"><img src = "images/pokenatures/adamant.png"  alt = "Adamant"  width = "50"  height = "17.5"></button>
+                    <button id = "bashful"><img src = "images/pokenatures/bashful.png"  alt = "Bashful"  width = "50"  height = "17.5"></button>
+                    <button id = "bold"><img src = "images/pokenatures/bold.png"  alt = "Bold"  width = "50"  height = "17.5"></button>
+                    <button id = "brave"><img src = "images/pokenatures/brave.png"  alt = "Brave"  width = "50"  height = "17.5"></button>
+                    <button id = "calm"><img src = "images/pokenatures/calm.png"  alt = "Calm"  width = "50"  height = "17.5"></button>
+                    <button id = "careful"><img src = "images/pokenatures/careful.png"  alt = "Careful"  width = "50"  height = "17.5"></button>
+                    <button id = "docile"><img src = "images/pokenatures/docile.png"  alt = "Docile"  width = "50"  height = "17.5"></button>
+                    <button id = "gentle"><img src = "images/pokenatures/gentle.png"  alt = "Gentle"  width = "50"  height = "17.5"></button>
+                    <button id = "hardy"><img src = "images/pokenatures/hardy.png"  alt = "Hardy"  width = "50"  height = "17.5"></button>
+                    <button id = "hasty"><img src = "images/pokenatures/hasty.png"  alt = "Hasty"  width = "50"  height = "17.5"></button>
+                    <button id = "impish"><img src = "images/pokenatures/impish.png"  alt = "Impish"  width = "50"  height = "17.5"></button>
+                    <button id = "jolly"><img src = "images/pokenatures/jolly.png"  alt = "Jolly"  width = "50"  height = "17.5"></button>
+                    <button id = "lax"><img src = "images/pokenatures/lax.png"  alt = "Lax"  width = "50"  height = "17.5"></button>
+                    <button id = "lonely"><img src = "images/pokenatures/lonely.png"  alt = "Lonely"  width = "50"  height = "17.5"></button>
+                    <button id = "mild"><img src = "images/pokenatures/mild.png"  alt = "Mild"  width = "50"  height = "17.5"></button>
+                    <button id = "modest"><img src = "images/pokenatures/modest.png"  alt = "Modest"  width = "50"  height = "17.5"></button>
+                    <button id = "naive"><img src = "images/pokenatures/naive.png"  alt = "Naive"  width = "50"  height = "17.5"></button>
+                    <button id = "naughty"><img src = "images/pokenatures/naughty.png"  alt = "Naughty"  width = "50"  height = "17.5"></button>
+                    <button id = "quiet"><img src = "images/pokenatures/quiet.png"  alt = "Quiet"  width = "50"  height = "17.5"></button>
+                    <button id = "quirky"><img src = "images/pokenatures/quirky.png"  alt = "Quirky"  width = "50"  height = "17.5"></button>
+                    <button id = "rash"><img src = "images/pokenatures/rash.png"  alt = "Rash"  width = "50"  height = "17.5"></button>
+                    <button id = "relaxed"><img src = "images/pokenatures/relaxed.png"  alt = "Relaxed"  width = "50"  height = "17.5"></button>
+                    <button id = "sassy"><img src = "images/pokenatures/sassy.png"  alt = "Sassy"  width = "50"  height = "17.5"></button>
+                    <button id = "serious"><img src = "images/pokenatures/serious.png"  alt = "Serious"  width = "50"  height = "17.5"></button>
+                    <button id = "timid"><img src = "images/pokenatures/timid.png"  alt = "Timid"  width = "50"  height = "17.5"></button>
+                </div>
             </div>
             <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
             <button id="backButtonCreateUser"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
