@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import List, Optional  # Import Optional here
 import os
 import pokemon_data 
+import random
 
 app = FastAPI()
 
@@ -71,7 +72,6 @@ async def login_user(username: str, password: str):
     else:
         raise HTTPException(status_code=422, detail="profile not fetched correctly.")
 
-
 # Function to preload data into Neo4j
 def preload_pokemon_data():
     # Clear all nodes and relationships in Neo4j
@@ -83,11 +83,21 @@ def preload_pokemon_data():
 
     pokeID = 0   
     for pokemon in pokemon_data.data:
+        natures_count = 0
+        natures = []
+        natures_count = random.randint(1,3)
+        for _ in range(natures_count):
+            chosen = pokemon_data.natures_list[random.randint(0,24)]
+            if chosen in natures:
+                continue
+            else:
+                natures.append(chosen)
+            
         query = """
-        CREATE (p:Pokemon {name: $pokemon, image: $image, type: $type, bio: $bio, pokeID: $pokeID}) 
+        CREATE (p:Pokemon {name: $pokemon, image: $image, type: $type, bio: $bio, pokeID: $pokeID, natures: $natures}) 
         RETURN p
         """
-        graph.run(query, pokemon=pokemon["pokemon"], image=pokemon["image"], type=pokemon["type"], bio=pokemon["bio"], pokeID=pokeID)
+        graph.run(query, pokemon=pokemon["pokemon"], image=pokemon["image"], type=pokemon["type"], bio=pokemon["bio"], pokeID=pokeID, natures=natures)
         pokeID += 1
 
 # Hook into FastAPI startup event
