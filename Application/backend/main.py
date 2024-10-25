@@ -122,7 +122,12 @@ async def count_pokemon():
 @app.get("/fetch_pokemon_profile/")
 async def fetch_pokemon_profile(id: int):
     if id is not None:
-        query = "MATCH (p:Pokemon) WHERE p.pokeID = $id RETURN p"
+        query = """
+        MATCH (p:Pokemon) 
+        WHERE p.pokeID = $id 
+        AND NOT EXISTS((:User {inSession: true})-[:LIKES|DISLIKES]->(p))
+        RETURN p
+        """
         result = graph.run(query, id=id).data()
     else:
         raise HTTPException(status_code=400, detail="id must be provided")
@@ -197,6 +202,7 @@ async def is_user_logged_in():
     result = graph.run(query).data()
     if result and result[0]:
         node_data = result[0]['u']
+        
         profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], userID=node_data['userID'], inSession=node_data['inSession'])
     
     # Check if the result contains any data

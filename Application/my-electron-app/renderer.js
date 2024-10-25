@@ -51,9 +51,9 @@ async function retrieveProfile(username, password) {
         const response = await ipcRenderer.invoke('login_user', username, password);
 
         if (response.profile) {
-            console.log('Here');
+            console.log('HERE');
             loginSuccessMessage(response.profile);
-            console.log(checkIfUserLoggedIn());
+            fetchPokemon(currentPokemonId);
         }   
     } catch (error) {
         console.error("Error:", error);
@@ -69,15 +69,14 @@ async function loginSuccessMessage(profile) {
     }
 }
 
-// To ensure the next displayed pokemon is randomly selected and not the same as the previously shown one. 
-function generateRandomId(min, max, exclude) {
-    console.log('Min:',min,"max:",max,"exclude:",exclude)
+function generateRandomId(min, max, exclude, attemptedIds) {
     let randomId;
     do {
         randomId = Math.floor(Math.random() * (max - min + 1)) + min;
-    } while (randomId === exclude); 
+    } while (randomId === exclude || attemptedIds.has(randomId)); // Check against the attempted IDs set
     return randomId;
 }
+
 
 let currentPokemonId = 0;
 
@@ -103,29 +102,64 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
-// The inital sequence of request that lead to the datbaase in order to properly display a new pokemon to the user.
+// The initial sequence of requests that lead to the database to properly display a new Pokémon to the user.
 async function fetchPokemon(current) {
     try {
         console.log('Button clicked');
         currentPokemonId = current;
-        console.log(currentPokemonId);
-        console.log(current);
-        const newId = generateRandomId(0, poke_count - 1, currentPokemonId); 
-        const response = await ipcRenderer.invoke('fetch-pokemon-profile', newId);
+        console.log(`Current Pokémon ID: ${currentPokemonId}`);
         
+        let newId;
+        let response;
+        const uniquePokemonCount = poke_count; // Total number of unique Pokémon
+        let attempts = 0;
+
+        // Store already attempted IDs to prevent infinite loops
+        const attemptedIds = new Set();
+
+        // Loop to find a new Pokémon profile
+        do {
+            // Generate a new ID that hasn't been attempted yet
+            newId = generateRandomId(1, uniquePokemonCount, currentPokemonId, attemptedIds);
+            response = await ipcRenderer.invoke('fetch-pokemon-profile', newId);
+            console.log(`Trying Pokémon ID: ${newId}`);
+            attempts++;
+
+            // Add newId to attempted IDs
+            attemptedIds.add(newId);
+
+            // Check if we have tried all unique Pokémon
+            if (attempts >= uniquePokemonCount-1) {
+                console.error("No more Pokémon in this region.");
+                alert("No more Pokémon in this region."); // Notify the user
+                return; // Exit the function
+            }
+
+        } while (!response.profile && attempts < uniquePokemonCount); // Loop until a valid profile is found or max attempts reached
+
         if (response.profile) {
             displayPokemon(response.profile);
             currentPokemonId = newId; // Update the current ID
-            console.log(currentPokemonId, newId);
+            console.log(`Displayed Pokémon ID: ${currentPokemonId}, New ID: ${newId}`);
+
+            // Reset attempted IDs for future fetches
+            attemptedIds.clear(); // Clear the set after a valid profile is found
+        } else if (attempts >= uniquePokemonCount) {
+            console.error("No more Pokémon in this region.");
+            alert("No more Pokémon in this region."); // Notify the user
+            return; // Exit the function gracefully
         } else {
-            console.error("No Pokémon data received");
-            console.log(newId)
+            console.error("No valid Pokémon profile found after maximum attempts");
+            return; // Exit the function gracefully
         }
     } catch (error) {
         console.error("Error fetching Pokémon:", error);
     }
 }
+
+
+
+
 // Ensures the user is being provided with visual information of the current pokemon.
 function displayPokemon(profile) {
     if (profile) {
