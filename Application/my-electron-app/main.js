@@ -179,21 +179,27 @@ ipcMain.handle('check_user_logged_in', async (event) => {
     try {
         const response = await axios.get('http://localhost:8000/is_user_logged_in/'); 
         if (response.status === 200) {
-            const isLoggedIn = response.data.isLoggedIn
+            const isLoggedIn = response.data.isLoggedIn;
             const userID = response.data.userID;
+
             if (isLoggedIn) {
                 console.log(`User ${userID} is logged in.`);
-                return response.data; // Return the response data
+                return response.data; // Return the response data if the user is logged in
             } else {
-                console.log(`User ${userID} is not logged in.`);
+                console.log(`User is not logged in.`);
+                console.log(`User ${userID} is logged in.`);
+                return { isLoggedIn: false }; // Explicitly return this when the user is not logged in
             }
         } else {
             console.error('Failed to check login status');
+            return { isLoggedIn: false }; // Return false if the API request failed
         }
     } catch (error) {
         console.error('Error calling FastAPI check login status:', error.message);
+        return { isLoggedIn: false }; // Return false if an error occurred
     }
 });
+
 
 
 app.on('window-all-closed', async () => {

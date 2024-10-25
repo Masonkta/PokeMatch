@@ -53,6 +53,7 @@ async function retrieveProfile(username, password) {
         if (response.profile) {
             console.log('Here');
             loginSuccessMessage(response.profile);
+            console.log(checkIfUserLoggedIn());
         }   
     } catch (error) {
         console.error("Error:", error);
@@ -80,22 +81,28 @@ function generateRandomId(min, max, exclude) {
 
 let currentPokemonId = 0;
 
-// Button Interactiblity Scripts
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('likeButton').addEventListener('click', () => {
-        if (checkIfUserLoggedIn()) {
+    document.getElementById('likeButton').addEventListener('click', async () => {
+        if (await checkIfUserLoggedIn()) {
             likePokemon(currentPokemonId); // Like the current Pokemon
             fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+        } else {
+            console.error("Not Logged In");
+            console.log(await checkIfUserLoggedIn());
         }
     });
 
-    document.getElementById('dislikeButton').addEventListener('click', () => {
-        if (checkIfUserLoggedIn()) {
+    document.getElementById('dislikeButton').addEventListener('click', async () => {
+        if (await checkIfUserLoggedIn()) {
             dislikePokemon(currentPokemonId); // Dislike the current Pokemon
             fetchPokemon(currentPokemonId); // Fetch the next Pokemon
+        } else {
+            console.error("Not Logged In");
+            console.log(await checkIfUserLoggedIn());
         }
     });
 });
+
 
 // The inital sequence of request that lead to the datbaase in order to properly display a new pokemon to the user.
 async function fetchPokemon(current) {

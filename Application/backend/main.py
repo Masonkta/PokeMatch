@@ -195,11 +195,12 @@ async def is_user_logged_in():
     RETURN u
     """
     result = graph.run(query).data()
-    node_data = result[0]['u']
-    profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], userID=node_data['userID'], inSession=node_data['inSession'])
-
+    if result and result[0]:
+        node_data = result[0]['u']
+        profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], userID=node_data['userID'], inSession=node_data['inSession'])
+    
     # Check if the result contains any data
     if result:
         return {"profile": profile.model_dump(), "isLoggedIn": True, "userID": profile.userID}
-
-    return {"isLoggedIn": False}
+    else:
+        return {"isLoggedIn": False}
