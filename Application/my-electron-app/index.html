@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokèMatch</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
     <style>
         .center-text {
             text-align: center;
@@ -193,6 +194,15 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
+        #lottie {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 1; 
+        }
+
         #profileInputForm {
             position: absolute;
             right: 0.75vw;
@@ -267,8 +277,8 @@
     </div>
     
     <!-- Messaging Container -->
-    <div id="messagesForm" class="center-text">
-        <input type="text" id="username" placeholder="This will eventually have messages" />
+    <div id="messagesForm">
+        <div id = "lottie"></div>
     </div>
 
     <!-- Profile Layout -->
@@ -485,6 +495,14 @@
                     }
                 }
             });
+        });
+
+        var animation = lottie.loadAnimation({
+            container: document.getElementById('lottie'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'animations/match_animation.json'
         });
     </script>
 </body>
