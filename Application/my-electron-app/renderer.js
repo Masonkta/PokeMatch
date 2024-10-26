@@ -6,6 +6,46 @@ const loginMessage = document.querySelector('.loginMessage');
 
 let insession = false;
 
+const selectedTypes = new Set();
+const selectedNatures = new Set();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const typeButtons = document.querySelectorAll('.type-buttons');
+    typeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const img = button.querySelector("img"); // Find the image inside the button
+            const type = img.getAttribute("alt"); // Get the 'alt' attribute value
+            console.log(type)
+
+            if (selectedTypes.has(type)) {
+                selectedTypes.delete(type);
+            } else if (selectedTypes.size < 3) {
+                selectedTypes.add(type);
+            }
+
+            console.log("selectedTypes: ", Array.from(selectedTypes)); // For debugging purposes
+        });
+    });
+
+    const natureButtons = document.querySelectorAll('.nature-buttons');
+    natureButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const img = button.querySelector("img"); // Find the image inside the button
+            const nature = img.getAttribute("alt"); // Get the 'alt' attribute value
+            console.log(nature)
+
+            if (selectedNatures.has(nature)) {
+                selectedNatures.delete(nature);
+            } else if (selectedNatures.size < 3) {
+                selectedNatures.add(nature);
+            }
+
+            console.log("selectedNatures: ", Array.from(selectedNatures)); // For debugging purposes
+        });
+    });
+});
+
+
 // Listen for the 'createUserButton' click
 document.getElementById('createUserButton').addEventListener('click', () => {
     const username = document.getElementById('createUserName').value;
@@ -13,7 +53,7 @@ document.getElementById('createUserButton').addEventListener('click', () => {
     const bio = document.getElementById('bioProfile').value;
 
     if (username && password && bio) {
-        sendProfile({ username: username, password: password, bio: bio });  // Pass all profile values
+        sendProfile({ username: username, password: password, bio: bio, selectedTypes: Array.from(selectedTypes), selectedNatures: Array.from(selectedNatures) });  // Pass all profile values
     } else {
         console.error("All fields must be filled");
     }
@@ -25,7 +65,9 @@ async function sendProfile(profile) {
         const response = await ipcRenderer.invoke('create-user-profile', {
             username: profile.username, 
             password: profile.password,       
-            bio: profile.bio
+            bio: profile.bio,
+            selectedTypes: profile.selectedTypes,
+            selectedNatures: profile.selectedNatures
         });
         console.log(response.message);
     } catch (error) {
@@ -120,7 +162,7 @@ async function fetchPokemon(current) {
         // Loop to find a new Pokémon profile
         do {
             // Generate a new ID that hasn't been attempted yet
-            newId = generateRandomId(1, uniquePokemonCount, currentPokemonId, attemptedIds);
+            newId = generateRandomId(0, uniquePokemonCount-1, currentPokemonId, attemptedIds);
             response = await ipcRenderer.invoke('fetch-pokemon-profile', newId);
             console.log(`Trying Pokémon ID: ${newId}`);
             attempts++;
@@ -129,7 +171,7 @@ async function fetchPokemon(current) {
             attemptedIds.add(newId);
 
             // Check if we have tried all unique Pokémon
-            if (attempts >= uniquePokemonCount-1) {
+            if (attempts >= uniquePokemonCount) {
                 console.error("No more Pokémon in this region.");
                 alert("No more Pokémon in this region."); // Notify the user
                 return; // Exit the function
@@ -157,17 +199,35 @@ async function fetchPokemon(current) {
     }
 }
 
-
-
-
 // Ensures the user is being provided with visual information of the current pokemon.
 function displayPokemon(profile) {
     if (profile) {
         document.querySelector('.pokemon-name').textContent = profile.pokemon;
-        document.querySelector('.pokemon-container img').src = profile.image;
+        document.querySelector('.pokemon-image').src = profile.image;
         document.querySelector('.pokemon-type').textContent = `Type: ${profile.type}`;
         document.querySelector('.pokemon-ability').textContent = `Bio: ${profile.bio}`;
-        document.querySelector('.pokemon-nature').textContent = profile.natures;
+
+        // Clear existing nature images
+        for (let i = 1; i <= 3; i++) {
+            const natureDisplay = document.getElementById(`nature-display-${i}`);
+            natureDisplay.innerHTML = '';
+        }
+        
+        // Create and append nature images
+        profile.natures.forEach((nature, index) => {
+            if (index < 3) { // Ensure we only handle up to 3 natures
+                const natureDisplay = document.getElementById(`nature-display-${index + 1}`);
+                if (natureDisplay) {
+                    const natureImage = document.createElement('img');
+                    natureImage.src = `images/pokenatures/${nature.toLowerCase()}.png`;
+                    natureImage.alt = nature;
+                    natureDisplay.appendChild(natureImage);
+                    console.log(`Appended image for nature: ${nature} to display-${index + 1}`); // Debugging log
+                } else {
+                    console.error(`Nature display container not found for index: ${index + 1}`); // Debugging log
+                }
+            }
+        });
         emptyState.style.display = 'none';
     } else {
         emptyState.style.display = 'block';

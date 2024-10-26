@@ -19,7 +19,7 @@ class Pokemon(BaseModel):
     type: str
     bio: str
     pokeID: int
-#    traits: List[str]
+    natures: List[str]
 
 class User(BaseModel):
     username: str
@@ -27,6 +27,8 @@ class User(BaseModel):
     bio: Optional[str]
     userID: int = 0
     inSession: bool = False
+    selectedTypes: List[str]
+    selectedNatures: List[str]
 
 userID = 0
 
@@ -46,10 +48,10 @@ async def create_profile(profile: User):
     global userID
     profile.userID = userID
     query = """
-    CREATE (u:User {name: $username, password: $password, bio: $bio, inSession: $inSession, userID: $userID}) 
+    CREATE (u:User {name: $username, password: $password, bio: $bio, inSession: $inSession, userID: $userID, selectedTypes: $selectedTypes, selectedNatures: $selectedNatures}) 
     RETURN u
     """
-    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession, userID=profile.userID)
+    graph.run(query, username=profile.username, password=profile.password, bio=profile.bio, inSession=profile.inSession, userID=profile.userID, selectedTypes=profile.selectedTypes, selectedNatures=profile.selectedNatures)
     userID += 1
     return {"message": f"Profile created for {profile.username}!"}
 
@@ -66,7 +68,7 @@ async def login_user(username: str, password: str):
         raise HTTPException(status_code=404, detail="Profile not found")
 
     node_data = result[0]['u']
-    profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], inSession=node_data['inSession'])
+    profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], inSession=node_data['inSession'], selectedTypes=node_data['selectedTypes'], selectedNatures=node_data['selectedNatures'])
     
     if profile:
         return {"profile": profile.model_dump(), "message": f"{profile.username} logged in!"}
@@ -136,7 +138,7 @@ async def fetch_pokemon_profile(id: int):
         raise HTTPException(status_code=404, detail="Profile not found")
 
     node_data = result[0]['p']
-    profile = Pokemon(pokemon=node_data['name'], image=node_data['image'], type=node_data['type'], bio=node_data['bio'], pokeID=node_data['pokeID'])
+    profile = Pokemon(pokemon=node_data['name'], image=node_data['image'], type=node_data['type'], bio=node_data['bio'], pokeID=node_data['pokeID'], natures=node_data['natures'])
     
     if profile:
         return {"profile": profile.model_dump(), "message": "Profile fetched successfully!"}
@@ -203,7 +205,7 @@ async def is_user_logged_in():
     if result and result[0]:
         node_data = result[0]['u']
         
-        profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], userID=node_data['userID'], inSession=node_data['inSession'])
+        profile = User(username=node_data['name'], password=node_data['password'], bio=node_data['bio'], userID=node_data['userID'], inSession=node_data['inSession'], selectedTypes=node_data['selectedTypes'], selectedNatures=node_data['selectedNatures'])
     
     # Check if the result contains any data
     if result:

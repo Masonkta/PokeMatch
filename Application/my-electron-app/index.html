@@ -101,6 +101,19 @@
             pointer-events: none;
         }
 
+        .nature-display-1, .nature-display-2, .nature-display-3 {
+            display: inline-block;
+            margin: 0 10px; 
+        }
+
+        .nature-display-container {
+            position: absolute;
+            top: 10px; 
+            right: 10px; 
+            display: flex;
+            gap: 65px; 
+        }
+
         .pokemon-name{
             font-weight: bold;
             font-size: 20px;
@@ -259,12 +272,17 @@
             <!-- Pokemon Information -->
             <div class="pokemon-container">
                 <div class="empty-state">Loading Pokémon data...</div>
-                    <img class="pokemon-image" src="" alt="Pokémon Image" width="350" height="350">
-                    <img class = "pokemon-nature" src="images/pokenatures/adamant.png" alt="pokemonNatureTemp" class="overlay">
+                <img class="pokemon-image" src="" alt="Pokémon Image" width="350" height="350">
+            <!--    <img class = "pokemon-nature" src="images/pokenatures/adamant.png" alt="pokemonNatureTemp" class="overlay">  -->
+            <!--        <img class = "pokemon-nature" src="" alt="pokemonNature" class="overlay">       -->
+                <div class="nature-display-container">
+                    <div id="nature-display-1" class="nature-display-1"></div>
+                    <div id="nature-display-2" class="nature-display-2"></div>
+                    <div id="nature-display-3" class="nature-display-3"></div>
+                </div>
                 <div class="pokemon-info">
                     <div id="pokemonName" class="pokemon-name"></div>
                     <div id="pokemonType" class="pokemon-type"></div>
-                    <div id="pokemonNature" class = "pokemon-nature"></div>
                     <div id="pokemonAbility" class="pokemon-ability"></div>
                 </div>
                 <!-- Dislike/Like Buttons -->
