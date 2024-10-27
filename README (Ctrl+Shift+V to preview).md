@@ -154,7 +154,7 @@ Contains all application components, including the backend server and the Electr
     The directory for the Electron application, which is the user interface for PokeMatch.
     
     - `animations/` - Contains animation files for added interactivity and a polished user experience.
-    - `images/` - Stores images, including Pokémon types, natures, and profile icons.
+    - `images/` - Stores images, including Pokémon types, natures, and app and profile icons.
     - `node_modules/` - Contains packages and dependencies required by Node.js to run the Electron app.
     - `index.html` - The main HTML file for the Electron app, defining the app’s layout and structure.
     - `main.js` - The primary JavaScript file for the Electron app’s main process, managing app lifecycle events and backend communication.
