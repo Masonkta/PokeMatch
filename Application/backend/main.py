@@ -179,6 +179,57 @@ async def dislike_pokemon(id: int):
     
     return {"dislikePokemonSucess": "User dislikes Pokémon with ID: {}".format(id)}
 
+@app.get("/matching/")
+async def matching(id: int):
+    query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    MATCH (p:Pokemon)
+    WHERE p.pokeID = $id
+    WHERE (u)-[:LIKES]->(p)
+    RETURN u, p
+    """
+    result = graph.run(query,id=id).data()
+    
+    userTypes = result[0]['u']['type']
+    userNatures = result[0]['u']['natures']
+    pokeTypes = result[0]['p']['type']
+    pokeNatures = result[0]['p']['natures']
+    rating = 0
+    match = False
+    typePoints = 0
+    natPoints = 0
+    
+    
+    if len(userTypes) >= len(pokeTypes):
+        denomTypes = len(userTypes)
+    else:
+        denomTypes = len(pokeTypes)
+    
+    if len(userNatures) >= len(pokeNatures):
+        denomNatures = len(userNatures)
+    else:
+        denomNatures = len(pokeNatures)
+    
+    for i in range(len(userTypes)):
+        cur = userTypes[i]
+        if cur in pokeTypes:
+            typePoints+=1
+            continue
+        
+    for i in range(len(userNatures)):
+        cur = userNatures[i]
+        if cur in pokeNatures:
+            natPoints+=1
+            continue
+    
+    rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
+
+    if rating >= .7:
+        match = True
+     
+    return match
+
 @app.post("/logout_user/")
 async def logout_user():
     query = """
