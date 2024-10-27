@@ -16,7 +16,7 @@ PokeMatch is a fun, Tinder-inspired app where users can like or dislike Pokémon
 
 - **Swipe Left or Right**: Users can dislike or like Pokémon profiles.
 - **Selectable Types and Natures**: Users can select Pokémon types and natures to filter the profiles they want to see.
-- **Neo4j Integration**: Uses a Neo4j database to store Pokémon profile data and track likes and dislikes.
+- **Neo4j Integration**: Uses a Neo4j database to store Pokémon and User profile data and track likes and dislikes.
 - **FastAPI Backend**: A FastAPI backend manages data exchange between the app and the Neo4j database.
 
 ---
@@ -44,34 +44,76 @@ PokeMatch is a fun, Tinder-inspired app where users can like or dislike Pokémon
 1. **Clone the Repository**:
 
     ```bash
-    git clone https://github.com/your-username/pokematch.git
+    git clone https://github.com/Masonkta/PokeMatch
     cd PokeMatch
     ```
 
-2. **Set Up Docker**:
+2. **Install Docker (if needed)**:
 
-    - Install Docker
-
+    - Refer to the following website for installation: https://docs.docker.com/engine/install/
+    
 3. **Install Node Modules**:
 
     Navigate to the Electron app directory and install dependencies:
 
     ```bash
     cd Application/my-electron-app
-    npm install
+    npm install electron --save-dev
     ```
-
+    
+    - Refer to the following website for more information: https://www.electronjs.org/docs/latest/tutorial/tutorial-first-app
 
 4. **Run the Application**:
 
-    - **Start Docker Compose File**: 
+    - **Run Docker**: 
+
+        Open up a terminal window, navigate to Application app directory, and run the following command:
+
+        ```bash
+        docker compose up --build
+        ```
+        
+        This will install the FastAPI and Neo4J images as well as build the containers for them
+
+        When you see this in the terminal window, you are ready to run the application:
+        ```
+        neo4j    | 2024-10-27 19:46:42.764+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/                                                                                
+        neo4j    | 2024-10-27 19:46:42.788+0000 INFO  Bolt enabled on 0.0.0.0:7687.
+        neo4j    | 2024-10-27 19:46:43.265+0000 INFO  HTTP enabled on 0.0.0.0:7474.
+        neo4j    | 2024-10-27 19:46:43.266+0000 INFO  Remote interface available at http://localhost:7474/
+        neo4j    | 2024-10-27 19:46:43.268+0000 INFO  id: CC53446F5100EAC79FC49DA5F06AB30E5509EE4F02EE05766E96D91F192B0380                                                                                               
+        neo4j    | 2024-10-27 19:46:43.269+0000 INFO  name: system                                                                                                                                                       
+        neo4j    | 2024-10-27 19:46:43.269+0000 INFO  creationDate: 2024-10-02T01:05:37.934Z                                                                                                                             
+        neo4j    | 2024-10-27 19:46:43.269+0000 INFO  Started.                                                                                                                                                           
+        fastapi  | INFO:     Started server process [1]                                                                                                                                                                  
+        fastapi  | INFO:     Waiting for application startup.
+        fastapi  | INFO:     Application startup complete.                                                                                                                                                               
+        fastapi  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)   
+        ```
 
     - **Run Electron App**: Start the Electron application.
 
-      ```bash
-      npm start
-      ```
+        Open up another terminal window, navigate to the Electron app directory, and run the following command:
 
+        ```bash
+        npm start
+        ```
+5. **Stop the Application**:
+    - **Stop Docker**:
+
+        In the terminal window running docker, run the following command:
+                
+        ```bash
+        docker compose down --v
+        ```
+    - **Stop Electron App**:
+
+        In the terminal window running the application, you can close the app by clicking **X** on the top right of the application window.
+        Alternatively, you can do **Ctrl+C** in the terminal window. A termination message will show up. Type 'Y' or 'y' to stop:
+        ```bash
+        Terminate batch job (Y/N)? C:\Users\sjohn\Documents\GitHub\PokeMatch\Application\my-electron-app\node_modules\electron\dist\electron.exe exited with signal SIGINT
+        y
+        ```
 ---
 
 ## Project Structure
@@ -96,10 +138,45 @@ PokeMatch/
 └── README.md                    
 ```
 
+### `PokeMatch/`
+This is the root directory for the PokeMatch application.
+
+#### `Application/`
+Contains all application components, including the backend server and the Electron app interface.
+
+- **`backend/`**  
+    - `Dockerfile` - Defines the Docker setup for the backend environment, outlining dependencies and setup steps.
+    - `main.py` - The main FastAPI application file that handles API endpoints and manages Neo4j connections.
+    - `pokemon_data.py` - Contains all pokemon data along with natures
+    - `requirements.txt` - Lists the dependencies required by FastAPI and any other backend Python packages.
+
+- **`my-electron-app/`**  
+    The directory for the Electron application, which is the user interface for PokeMatch.
+    
+    - `animations/` - Contains animation files for added interactivity and a polished user experience.
+    - `images/` - Stores images, including Pokémon types, natures, and profile icons.
+    - `node_modules/` - Contains packages and dependencies required by Node.js to run the Electron app.
+    - `index.html` - The main HTML file for the Electron app, defining the app’s layout and structure.
+    - `main.js` - The primary JavaScript file for the Electron app’s main process, managing app lifecycle events and backend communication.
+    - `package-lock.json` - Records the exact versions of each dependency installed, ensuring consistent setups across different environments.
+    - `package.json` - Specifies project metadata, scripts, and dependencies needed for the Electron app.
+    - `preload.js` - A script that runs in Electron’s context, allowing secure interaction between the main and renderer processes.
+    - `renderer.js` - The script for managing UI interactions in the Electron app, including Pokémon data display and user actions.
+
 
 ## Usage Guide
 
 ### Using the App
 
+1. **Create Your Profile**:
+    - Click the **Settings** button in the top left corner, then select **Register**.
+    - Fill in your **username** and **password**. Optionally, you can add a **profile image** and **bio**.
+    - Choose your preferred Pokémon **types** and **natures**.
+    - Click **Create User** to complete your registration.
+    - Click **Back** to return to the main screen, click **Login**, enter your credentials, and log in. A green success message will confirm your login.
+
+2. **Explore and Swipe on Pokémon**:
+    - Use the **Like** and **Dislike** buttons to navigate through Pokémon profiles.
+    - Your liked and disliked Pokémon will be saved in the Neo4j database for personalized recommendations.
 
 
