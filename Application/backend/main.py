@@ -191,30 +191,34 @@ async def matching(id: int):
     """
     result = graph.run(query,id=id).data()
     
-    #userTypes = result[0]['u']['selectedTypes']
+    userTypes = result[0]['u']['selectedTypes']
     userNatures = result[0]['u']['selectedNatures']
-    #pokeTypes = result[0]['p']['type']
+    pokeTypes = result[0]['p']['type']
     pokeNatures = result[0]['p']['natures']
     rating = 0
-    #typePoints = 0
+    typePoints = 0
     natPoints = 0
     
+    if "/" in pokeTypes:
+        pT = pokeTypes.split("/")
+    else:
+        pT = [pokeTypes]
     
-    # if len(userTypes) >= len(pokeTypes):
-    #     denomTypes = len(userTypes)
-    # else:
-    #     denomTypes = len(pokeTypes)
+    if len(userTypes) >= len(pokeTypes):
+        denomTypes = len(userTypes)
+    else:
+        denomTypes = len(pokeTypes)
     
     if len(userNatures) >= len(pokeNatures):
         denomNatures = len(userNatures)
     else:
         denomNatures = len(pokeNatures)
     
-    # for i in range(len(userTypes)):
-    #     cur = userTypes[0][i]
-    #     if cur in pokeTypes:
-    #         typePoints+=1
-    #         continue
+    for i in range(len(userTypes)):
+        cur = userTypes[0][i]
+        if cur in pokeTypes:
+            typePoints+=1
+            continue
         
     for i in range(len(userNatures)):
         cur = userNatures[i]
@@ -222,9 +226,9 @@ async def matching(id: int):
             natPoints+=1
             continue
     
-    #rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
+    rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
     #rating = natPoints/denomNatures
-    rating = 1 # Debug value
+    #rating = 1 # Debug value
     
     if rating >= .7:
         return {"matchSuccess": "Pokemon match success"}
