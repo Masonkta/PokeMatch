@@ -178,5 +178,5 @@ Contains all application components, including the backend server and the Electr
 2. **Explore and Swipe on Pokémon**:
     - Use the **Like** and **Dislike** buttons to navigate through Pokémon profiles.
     - Your liked and disliked Pokémon will be saved in the Neo4j database for personalized recommendations.
-
+    - When you successfully match with a Pokémon, an animation will appear
 
