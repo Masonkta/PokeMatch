@@ -204,10 +204,10 @@ async def matching(id: int):
     else:
         pT = [pokeTypes]
     
-    if len(userTypes) >= len(pokeTypes):
+    if len(userTypes) >= len(pT):
         denomTypes = len(userTypes)
     else:
-        denomTypes = len(pokeTypes)
+        denomTypes = len(pT)
     
     if len(userNatures) >= len(pokeNatures):
         denomNatures = len(userNatures)
@@ -215,16 +215,16 @@ async def matching(id: int):
         denomNatures = len(pokeNatures)
     
     for i in range(len(userTypes)):
-        cur = userTypes[0][i]
-        if cur in pokeTypes:
+        cur = userTypes[i]
+        if cur in pT:
             typePoints+=1
-            continue
+            #continue
         
     for i in range(len(userNatures)):
         cur = userNatures[i]
         if cur in pokeNatures:
             natPoints+=1
-            continue
+            #continue
     
     rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
     #rating = natPoints/denomNatures
