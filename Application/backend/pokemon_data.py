@@ -102,7 +102,7 @@ data = [
     {"pokemon":"Arceus", "image":"https://tinyurl.com/23ef3rvn", "type":"Normal","bio":"Has a bad habit of getting caught in fences."},
     {"pokemon":"Giratina", "image":"https://tinyurl.com/27fwtsdo", "type":"Ghost/Dragon","bio":"Recites slam poetry in the middle of graveyards. On quiet nights, the faint clacking a boney fingers snapping together can be heard after a performance."},
     {"pokemon":"Victini", "image":"https://tinyurl.com/2ddu2lra", "type":"Psychic/Fire","bio":"Plays way too much with matches."},
-    {"pokemon":"Mr.Mime", "image":"https://tinyurl.com/2b86wso7", "type":"Psychic/Fairy","bio":"Has eternally trapped themselves in an invisible box. The more they fight against their confines, the smaller the box seems to get."}
+    {"pokemon":"Mr.Mime", "image":"https://tinyurl.com/2b86wso7", "type":"Psychic/Fairy","bio":"Has eternally trapped themselves in an invisible box. The more they fight against their confines, the smaller the box seems to get."},
     {"pokemon": "Togepi", "image":"https://tinyurl.com/24qa89n4", "type":"Fairy", "bio":"Has head spikes at the perfect level for breaking shins."},
     {"pokemon": "Pancham", "image":"https://tinyurl.com/25nfru88", "type":"Fighting", "bio":"Known to wear sunglasses indoors."},
     {"pokemon": "Aegislash", "image":"https://tinyurl.com/29rqjf6e", "type":"Steel/Ghost", "bio":"Appears to those in the dead of night who are aware but not fully awake. Best friends with your sleep paralysis demon."},
