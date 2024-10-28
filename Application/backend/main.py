@@ -78,11 +78,14 @@ async def login_user(username: str, password: str):
 # Function to preload data into Neo4j
 def preload_pokemon_data():
     # Clear all nodes and relationships in Neo4j
+    '''
     delete_query = """
     MATCH (p:Pokemon)
     DETACH DELETE p
     """
+    
     graph.run(delete_query)
+    '''
 
     pokeID = 0   
     for pokemon in pokemon_data.data:
@@ -227,6 +230,7 @@ async def matching(id: int):
             #continue
     
     rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
+
     #rating = natPoints/denomNatures
     #rating = 1 # Debug value
     
