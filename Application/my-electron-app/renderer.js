@@ -288,7 +288,7 @@ async function matchPokemon(pokemonId){
             setTimeout(() => {
                 window.animation.stop(); // Stop the animation
                 animationContainer.style.display = 'none'; // Hide the animation container
-            }, 312000); // Adjust the duration as needed
+            }, 5500); // Adjust the duration as needed
         } else {
             console.error("Failed to match with Pokemon:", response.matchFail);
         }
