@@ -201,6 +201,7 @@ async def matching(id: int):
     rating = 0
     typePoints = 0
     natPoints = 0
+    bonus = 0
     
     if "/" in pokeTypes:
         pT = pokeTypes.split("/")
@@ -229,14 +230,26 @@ async def matching(id: int):
             natPoints+=1
             #continue
     
-    rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
-
+    if typePoints/len(pT) == 1:
+        bonus += .1
+    elif typePoints/len(pT) >= .33 :
+        bonus += .05
+    
+    if natPoints/len(pokeNatures) == 1:
+        bonus += .2
+    elif natPoints/len(pokeNatures) >= .33:
+        bonus += .1
+        
+        
+    rating = (typePoints/denomTypes) * .4 + (natPoints/denomNatures) * .6 + bonus
+    
+    
     #rating = natPoints/denomNatures
     #rating = 1 # Debug value
     
-    if rating >= .7:
+    if rating >= .33:
         return {"matchSuccess": "Pokemon match success"}
-    else: 
+    else:
         return {"matchFail": "Pokemon match failed"}
 
 @app.post("/logout_user/")
