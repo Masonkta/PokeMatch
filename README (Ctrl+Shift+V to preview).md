@@ -9,6 +9,8 @@ PokeMatch is a fun, Tinder-inspired app where users can like or dislike Pokémon
 - [Setup Instructions](#setup-instructions)
 - [Project Structure](#project-structure)
 - [Usage Guide](#usage-guide)
+- [Planned Features](#planned-features)
+- [Credits](#credits)
 
 ---
 
@@ -170,7 +172,7 @@ Contains all application components, including the backend server and the Electr
 
 1. **Create Your Profile**:
     - Click the **Settings** button in the top left corner, then select **Register**.
-    - Fill in your **username** and **password**. Optionally, you can add a **profile image** and **bio**.
+    - Fill in your **username** and **password**. Optionally, you can add a **bio**.
     - Choose your preferred Pokémon **types** and **natures**.
     - Click **Create User** to complete your registration.
     - Click **Back** to return to the main screen, click **Login**, enter your credentials, and log in. A green success message will confirm your login.
@@ -178,5 +180,18 @@ Contains all application components, including the backend server and the Electr
 2. **Explore and Swipe on Pokémon**:
     - Use the **Like** and **Dislike** buttons to navigate through Pokémon profiles.
     - Your liked and disliked Pokémon will be saved in the Neo4j database for personalized recommendations.
+    - Previously seen pokemon will not reappear if they have been liked or disliked already. 
     - When you successfully match with a Pokémon, an animation will appear
 
+## Planned Features
+
+1. **Messaging System**:s
+    -Allow users to message any pokémon they have sucessfully matched with through a chat system.
+    
+
+## Credits
+
+    Developer: Stephan Johnson
+    Designer/Developer: Anamaria Montes
+    Developer: Mason Maddox
+    Developer: Caje Auchard
