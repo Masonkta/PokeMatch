@@ -429,12 +429,13 @@
         });
         
         // Check if profile image was clicked
-        profileImage.addEventListener("click", () => {
+        /*profileImage.addEventListener("click", () => {
             imageUpload.click();  
         });
-
+        */
+        
         // If clicked allow user to update with a image file
-        imageUpload.addEventListener("change", (event) => {
+        /*imageUpload.addEventListener("change", (event) => {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -444,7 +445,7 @@
                 reader.readAsDataURL(file);
             }
         });
-        
+        */
         // Register Button Setup
         registerUserButton.addEventListener("click", () => {
             // If clicked, remove create user button & login button.
