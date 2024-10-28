@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('likeButton').addEventListener('click', async () => {
         if (await checkIfUserLoggedIn()) {
             likePokemon(currentPokemonId); // Like the current Pokemon
+            matchPokemon(currentPokemonId); // Match liked Pokemon
             fetchPokemon(currentPokemonId); // Fetch the next Pokemon
         } else {
             console.error("Not Logged In");
@@ -258,6 +259,7 @@ async function likePokemon(pokemonId) {
     }
 }
 
+
 async function dislikePokemon(pokemonId) {
     try {
         console.log(`Disliking Pokémon with ID: ${pokemonId}`);
@@ -269,6 +271,20 @@ async function dislikePokemon(pokemonId) {
         }
     } catch (error) {
         console.error("Error marking Pokémon as Disliked:", error);
+    }
+}
+
+async function matchPokemon(pokemonId){
+    try {
+        console.log(`Attempting to match with liked Pokemon with ID: ${pokemonId}`);
+        const response = await ipcRenderer.invoke('matching',pokemonId);
+        if (response.matchSuccess) {
+            console.log(`User successfully matched with Pokemon ID ${pokemonId}`);
+        } else {
+            console.error("Failed to match with Pokemon:", response.matchFail);
+        }
+    } catch (error) {
+        console.error("Error marking Pokemon as Matched", error);
     }
 }
 

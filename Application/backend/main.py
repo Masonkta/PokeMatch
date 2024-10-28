@@ -223,11 +223,12 @@ async def matching(id: int):
             continue
     
     rating = (typePoints/denomTypes) * .6 + (natPoints/denomNatures) * .4
-
+    # rating = 1 # Debug value
+    
     if rating >= .7:
         return {"matchSuccess": "Pokemon match success"}
-    
-    return {"matchFail": "Pokemon match failed"}
+    else: 
+        return {"matchFail": "Pokemon match failed"}
 
 @app.post("/logout_user/")
 async def logout_user():

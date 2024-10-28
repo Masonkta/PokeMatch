@@ -154,7 +154,18 @@ ipcMain.handle('dislike-pokemon', async (event, id) => {
     }
 });
 
-
+ipcMain.handle('matching', async (event, id) => {
+    try {
+        const response = await axios.get('http://localhost:8000/matching/', {
+            params: { id }
+        });
+        console.log('Match Pokemon:', response.data.matchSuccess);
+        return response.data;
+    } catch (error) {
+        console.error("Error has occured while matching with liked Pokemon", error);
+        return { message: "Error matching with Pokemon" };
+    }
+});
 
 // Allows the first displayed pokemon on startup to be a randomly selected one from the database
 function RandomId(min, max) {
