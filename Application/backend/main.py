@@ -186,7 +186,7 @@ async def matching(id: int):
     WHERE u.inSession = true
     MATCH (p:Pokemon)
     WHERE p.pokeID = $id
-    WHERE (u)-[:LIKES]->(p)
+    MERGE (u)-[:LIKES]->(p)
     RETURN u, p
     """
     result = graph.run(query,id=id).data()
