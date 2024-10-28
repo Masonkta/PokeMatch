@@ -159,7 +159,11 @@ ipcMain.handle('matching', async (event, id) => {
         const response = await axios.get('http://localhost:8000/matching/', {
             params: { id }
         });
-        console.log('Match Pokemon:', response.data.matchSuccess);
+        if (response.data.matchSuccess) {
+            console.log('Match Pokemon:', response.data.matchSuccess);
+        } else {
+            console.log('Match Pokemon:', response.data.matchFail);
+        }
         return response.data;
     } catch (error) {
         console.error("Error has occured while matching with liked Pokemon", error);
