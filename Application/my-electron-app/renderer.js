@@ -280,6 +280,7 @@ async function matchPokemon(pokemonId){
         const response = await ipcRenderer.invoke('matching',pokemonId);
         if (response.matchSuccess) {
             console.log(`User successfully matched with Pokemon ID ${pokemonId}`);
+            animation.goToAndPlay(0,true);
         } else {
             console.error("Failed to match with Pokemon:", response.matchFail);
         }
