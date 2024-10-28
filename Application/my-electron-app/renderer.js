@@ -280,7 +280,15 @@ async function matchPokemon(pokemonId){
         const response = await ipcRenderer.invoke('matching',pokemonId);
         if (response.matchSuccess) {
             console.log(`User successfully matched with Pokemon ID ${pokemonId}`);
-            animation.goToAndPlay(0,true);
+            const animationContainer = document.getElementById('lottie');
+            animationContainer.style.display = 'block'; // Show the animation container
+            window.animation.goToAndPlay(0,true);
+
+            // Hide the animation after a few seconds
+            setTimeout(() => {
+                window.animation.stop(); // Stop the animation
+                animationContainer.style.display = 'none'; // Hide the animation container
+            }, 5000); // Adjust the duration as needed
         } else {
             console.error("Failed to match with Pokemon:", response.matchFail);
         }

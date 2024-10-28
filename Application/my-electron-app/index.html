@@ -132,6 +132,7 @@
             width: 95%;
             margin-bottom: 10px;
             padding:0 10px;
+            margin-left: 60px;
         }
         
         .profile-image{
@@ -285,6 +286,8 @@
                     <div id="pokemonType" class="pokemon-type"></div>
                     <div id="pokemonAbility" class="pokemon-ability"></div>
                 </div>
+                <!-- Animation Container -->
+                <div id="lottie" style="display: none;"></div>
                 <!-- Dislike/Like Buttons -->
                 <div>
                     <button id="dislikeButton"><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
@@ -296,7 +299,7 @@
     
     <!-- Messaging Container -->
     <div id="messagesForm">
-        <div id = "lottie"></div>
+    <!--    <div id = "lottie"></div>   -->
     </div>
 
     <!-- Profile Layout -->
@@ -494,7 +497,7 @@
                         button.classList.add('selected');
                         typeSelectedCount++;
                     } else {
-                        alert('You can only select 3!');
+                        alert('Max: 3');
                     }
                 }
             });
@@ -510,13 +513,13 @@
                         button.classList.add('selected');
                         natureSelectedCount++;
                     } else {
-                        alert('You can only select 3!');
+                        alert('Max: 3!');
                     }
                 }
             });
         });
 
-        var animation = lottie.loadAnimation({
+        window.animation = lottie.loadAnimation({
             container: document.getElementById('lottie'),
             renderer: 'svg',
             loop: false,
