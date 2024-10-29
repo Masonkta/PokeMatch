@@ -180,13 +180,13 @@ Contains all application components, including the backend server and the Electr
 2. **Explore and Swipe on Pokémon**:
     - Use the **Like** and **Dislike** buttons to navigate through Pokémon profiles.
     - Your liked and disliked Pokémon will be saved in the Neo4j database for personalized recommendations.
-    - Previously seen pokemon will not reappear if they have been liked or disliked already. 
+    - Previously seen Pokémon will not reappear if they have been liked or disliked already. 
     - When you successfully match with a Pokémon, an animation will appear
 
 ## Planned Features
 
-1. **Messaging System**:s
-    -Allow users to message any pokémon they have sucessfully matched with through a chat system.
+1. **Messaging System**:
+    - Allow users to message any pokémon they have sucessfully matched with through a chat system.
     
 
 ## Credits
