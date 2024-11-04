@@ -294,3 +294,17 @@ async def is_user_logged_in():
         return {"profile": profile.model_dump(), "isLoggedIn": True, "userID": profile.userID}
     else:
         return {"isLoggedIn": False}
+    
+@app.get("/matched_list/")
+async def matched_list():
+    query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    MERGE (u)-[:MATCHES]->(p)
+    RETURN p
+    """
+    result = graph.run(query).data()
+    if result and result[0]:
+        node_data = result[0]['p']
+
+    return {"data": node_data}

@@ -1,6 +1,7 @@
 const { ipcRenderer } = require('electron');
 
 let poke_count = 0;
+let matched_pokemon = [];
 const emptyState = document.querySelector('.empty-state');
 const loginMessage = document.querySelector('.loginMessage');
 
@@ -143,7 +144,16 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(await checkIfUserLoggedIn());
         }
     });
-});
+
+    document.getElementsByID('messagesButton').addEventListener('click', async () => {
+        console.log("Not logged in but trying to matchlist")
+        if (await checkIfUserLoggedIn()) {
+            console.log("logged in and trying to matchlist")
+            MatchedList();
+        }
+    });
+})
+
 
 // The initial sequence of requests that lead to the database to properly display a new Pokémon to the user.
 async function fetchPokemon(current) {
@@ -240,6 +250,7 @@ ipcRenderer.on('fetch-pokemon', (event, randomId) => {
     fetchPokemon(randomId);
 });
 
+
 // Listen for the 'pokemon-count' message from the main process to get poke_count
 ipcRenderer.on('pokemon-count', (event, count) => {
     poke_count = count; // Update poke_count with the value from the main process
@@ -311,5 +322,16 @@ async function checkIfUserLoggedIn() {
         }
     } catch (error) {
         console.error("Error checking login status:", error);
+    }
+}
+
+async function MatchedList() {
+    try { 
+        const response = await ipcRender.invoke('Matched-Pokemon-List');
+        matched_pokemon = response.data;
+        console.log(`The Matched List was found: ${matched_pokemon} `);
+        return matched_pokemon
+    } catch (error) {
+        console.error("Error retrieving Mathced List", error);
     }
 }
