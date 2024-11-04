@@ -184,7 +184,7 @@ async def dislike_pokemon(id: int):
 
 @app.get("/matching/")
 async def matching(id: int):
-    query = """
+    liking_query = """
     MATCH (u:User)
     WHERE u.inSession = true
     MATCH (p:Pokemon)
@@ -192,7 +192,7 @@ async def matching(id: int):
     MERGE (u)-[:LIKES]->(p)
     RETURN u, p
     """
-    result = graph.run(query,id=id).data()
+    result = graph.run(liking_query, id=id).data()
     
     userTypes = result[0]['u']['selectedTypes']
     userNatures = result[0]['u']['selectedNatures']
@@ -247,6 +247,15 @@ async def matching(id: int):
     #rating = 1 # Debug value
     
     if rating >= .1:
+        matching_query = """
+        MATCH (u:User)
+        WHERE u.inSession = true
+        MATCH (p:Pokemon)
+        WHERE p.pokeID = $id
+        MERGE (u)-[:MATCHES]->(p)
+        RETURN u, p
+        """
+        graph.run(matching_query, id=id).data()
         return {"matchSuccess": "Pokemon match success","rating":rating}
     else:
         return {"matchFail": "Pokemon match failed","rating":rating}
