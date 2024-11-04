@@ -198,6 +198,7 @@ async def matching(id: int):
     userNatures = result[0]['u']['selectedNatures']
     pokeTypes = result[0]['p']['type']
     pokeNatures = result[0]['p']['natures']
+    pT = []
     rating = 0
     typePoints = 0
     natPoints = 0
@@ -243,14 +244,13 @@ async def matching(id: int):
         
     rating = (typePoints/denomTypes) * .4 + (natPoints/denomNatures) * .6 + bonus
     
+    #rating = 1 # Debug value
     
-    #rating = natPoints/denomNatures
-    rating = 1 # Debug value
-    
-    if rating >= .33:
-        return {"matchSuccess": "Pokemon match success"}
+    if rating >= .1:
+        return {"matchSuccess": "Pokemon match success","rating":rating}
     else:
-        return {"matchFail": "Pokemon match failed"}
+        return {"matchFail": "Pokemon match failed","rating":rating}
+    
 
 @app.post("/logout_user/")
 async def logout_user():
