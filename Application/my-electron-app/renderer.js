@@ -145,10 +145,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementsByID('messagesButton').addEventListener('click', async () => {
-        console.log("Not logged in but trying to matchlist")
+    document.getElementById('messagesButton').addEventListener('click', async () => {
+        console.log("Not logged in but trying to matchlist");
         if (await checkIfUserLoggedIn()) {
-            console.log("logged in and trying to matchlist")
+            console.log("logged in and trying to matchlist");
             MatchedList();
         }
     });
@@ -327,11 +327,11 @@ async function checkIfUserLoggedIn() {
 
 async function MatchedList() {
     try { 
-        const response = await ipcRender.invoke('Matched-Pokemon-List');
-        matched_pokemon = response.data;
+        const response = await ipcRenderer.invoke('Matched-Pokemon-List');
+        matched_pokemon = response.matched_pokemon;
         console.log(`The Matched List was found: ${matched_pokemon} `);
         return matched_pokemon
     } catch (error) {
-        console.error("Error retrieving Mathced List", error);
+        console.error("Error retrieving Matched List", error);
     }
 }

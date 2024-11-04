@@ -171,6 +171,17 @@ ipcMain.handle('matching', async (event, id) => {
     }
 });
 
+ipcMain.handle('Matched-Pokemon-List', async (event) => {
+    try {
+        const response = await axios.get('http://localhost:8000/matched_list/');
+        console.log("User's matched pokemon:", response.data.matched_pokemon);
+        return response.data; // Return the fetched data
+    } catch (error) {
+        console.error("Error has occurred getitng Matched List", error);
+        return { message: "Error Getting Matched List." }; // Return an error message
+    }
+});
+
 // Allows the first displayed pokemon on startup to be a randomly selected one from the database
 function RandomId(min, max) {
     let randomId = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -215,17 +226,6 @@ ipcMain.handle('check_user_logged_in', async (event) => {
     }
 });
 
-// Ensures Fastapi will search for the requested pokemon id and return the nessary information
-ipcMain.handle('Matched-Pokemon-List', async (event) => {
-    try {
-        // Send the ID as a query parameter
-        const response = await axios.get('http://localhost:8000/matched_list/');
-        return response.data; // Return the fetched data
-    } catch (error) {
-        console.error("Error has occurred getitng Matched List", error);
-        return { message: "Error Getting Matched List." }; // Return an error message
-    }
-});
 
 
 app.on('window-all-closed', async () => {

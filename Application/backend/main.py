@@ -300,11 +300,14 @@ async def matched_list():
     query = """
     MATCH (u:User)
     WHERE u.inSession = true
+    MATCH (p:Pokemon)
     MERGE (u)-[:MATCHES]->(p)
-    RETURN p
+    RETURN p.name AS name
     """
     result = graph.run(query).data()
-    if result and result[0]:
-        node_data = result[0]['p']
 
-    return {"data": node_data}
+    if result:
+        matched_pokemon = [record['name'] for record in result]
+        return {"matched_pokemon": matched_pokemon}
+    else:
+        return {"matched_pokemon": []}
