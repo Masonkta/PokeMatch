@@ -278,6 +278,7 @@ async function matchPokemon(pokemonId){
     try {
         console.log(`Attempting to match with liked Pokemon with ID: ${pokemonId}`);
         const response = await ipcRenderer.invoke('matching',pokemonId);
+        console.log(response.rating);
         if (response.matchSuccess) {
             console.log(`User successfully matched with Pokemon ID ${pokemonId}`);
             const animationContainer = document.getElementById('lottie');
