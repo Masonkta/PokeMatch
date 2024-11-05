@@ -158,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // The initial sequence of requests that lead to the database to properly display a new Pokémon to the user.
 async function fetchPokemon(current) {
     try {
+        showLoadingAnimation();
         console.log('Button clicked');
         currentPokemonId = current;
         console.log(`Current Pokémon ID: ${currentPokemonId}`);
@@ -207,6 +208,8 @@ async function fetchPokemon(current) {
         }
     } catch (error) {
         console.error("Error fetching Pokémon:", error);
+    } finally {
+        hideLoadingAnimation();
     }
 }
 

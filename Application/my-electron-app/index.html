@@ -217,6 +217,20 @@
             z-index: 1; 
         }
 
+        #loadingAnimation {
+            position: absolute;
+            display: none;
+            opacity: 100%;
+            max-width: 100vw; 
+            max-height: auto; 
+            background-color: white;
+            z-index: 3; 
+            display:flex;
+            justify-items: center;
+            align-items: center;
+            overflow:hidden;
+        }
+
         #profileInputForm {
             position: absolute;
             right: 0.75vw;
@@ -272,8 +286,10 @@
 
             <!-- Pokemon Information -->
             <div class="pokemon-container">
-                <div class="empty-state">Loading Pokémon data...</div>
-                <img class="pokemon-image" src="" alt="Pokémon Image" width="350" height="350">
+            <!--   <div class="empty-state">Loading Pokémon data...</div> -->
+                <div id = "loadingAnimation"></div>
+                <img class="pokemon-image" src="" alt="" width="350" height="350">
+            
             <!--    <img class = "pokemon-nature" src="images/pokenatures/adamant.png" alt="pokemonNatureTemp" class="overlay">  -->
             <!--        <img class = "pokemon-nature" src="" alt="pokemonNature" class="overlay">       -->
                 <div class="nature-display-container">
@@ -406,6 +422,8 @@
         const loginText = document.getElementById('loginText');
         const typeButtons = document.querySelectorAll('.type-buttons');
         const natureButtons = document.querySelectorAll('.nature-buttons');
+        const loadingAnimationContainer = document.getElementById('loadingAnimation')
+        const pokemonImage = document.querySelector('.pokemon-image')
         let typeSelectedCount = 0;
         const typeMaxSelections = 3;
         let natureSelectedCount = 0;
@@ -430,25 +448,7 @@
                 messagesForm.style.display = "none";
             }
         });
-        
-        // Check if profile image was clicked
-        /*profileImage.addEventListener("click", () => {
-            imageUpload.click();  
-        });
-        */
-        
-        // If clicked allow user to update with a image file
-        /*imageUpload.addEventListener("change", (event) => {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    profileImage.src = e.target.result;  
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        */
+    
         // Register Button Setup
         registerUserButton.addEventListener("click", () => {
             // If clicked, remove create user button & login button.
@@ -526,6 +526,29 @@
             autoplay: false,
             path: 'animations/match_animation.json'
         });
+
+        const loadingAnimation = lottie.loadAnimation({
+            container:document.getElementById('loadingAnimation'),
+            renderer:'svg',
+            loop: true,
+            autoplay: true,
+            path:'animations/loading.json'
+        })
+
+        function showLoadingAnimation(){
+            loadingAnimationContainer.style.display  =  'block';
+            pokemonImage.style.display = 'none';
+            pokemonImage.alt='';
+            loadingAnimation.play();
+            loadingAnimation.setSpeed(2);
+        }
+        
+        function hideLoadingAnimation(){
+            loadingAnimationContainer.style.display = 'none';
+            loadingAnimation.stop();
+            pokemonImage.style.display = 'block';
+            pokemonImage.alt='Pokemon Image';
+        }
     </script>
 </body>
 </html>
