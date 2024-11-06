@@ -214,7 +214,7 @@
             left: 0; 
             width: 100%; 
             height: 100%; 
-            z-index: 1; 
+            z-index: 4; 
         }
 
         #loadingAnimation {
@@ -422,8 +422,11 @@
         const loginText = document.getElementById('loginText');
         const typeButtons = document.querySelectorAll('.type-buttons');
         const natureButtons = document.querySelectorAll('.nature-buttons');
-        const loadingAnimationContainer = document.getElementById('loadingAnimation')
-        const pokemonImage = document.querySelector('.pokemon-image')
+        const loadingAnimationContainer = document.getElementById('loadingAnimation');
+        const pokemonImage = document.querySelector('.pokemon-image');
+        const natureDisplay1 = document.getElementById('nature-display-1');
+        const natureDisplay2 = document.getElementById('nature-display-2');
+        const natureDisplay3 = document.getElementById('nature-display-3');
         let typeSelectedCount = 0;
         const typeMaxSelections = 3;
         let natureSelectedCount = 0;
@@ -538,6 +541,9 @@
         function showLoadingAnimation(){
             loadingAnimationContainer.style.display  =  'block';
             pokemonImage.style.display = 'none';
+            natureDisplay1.style.display = 'none';
+            natureDisplay2.style.display = 'none';
+            natureDisplay3.style.display = 'none';
             pokemonImage.alt='';
             loadingAnimation.play();
             loadingAnimation.setSpeed(2);
@@ -547,6 +553,9 @@
             loadingAnimationContainer.style.display = 'none';
             loadingAnimation.stop();
             pokemonImage.style.display = 'block';
+            natureDisplay1.style.display = 'inline-block';
+            natureDisplay2.style.display = 'inline-block';
+            natureDisplay3.style.display = 'inline-block';
             pokemonImage.alt='Pokemon Image';
         }
     </script>
