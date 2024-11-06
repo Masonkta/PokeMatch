@@ -275,23 +275,21 @@
 </head>
 <body>
     <!-- Main Layout-->
-    <div class ="main-container"> 
+    <div class="main-container"> 
         <div class="main-layout">
             <!-- Header -->
             <div class="header-container">
-                <button id="settingsButton"><img src = "images/settings.png" alt="Settings" width="50" height="50"></button>
-                <div class = "center-header"><img src="images/pokematch_logo.png" alt="Logo" width="225" height="45"></div>
+                <button id="settingsButton"><img src="images/settings.png" alt="Settings" width="50" height="50"></button>
+                <div class="center-header"><img src="images/pokematch_logo.png" alt="Logo" width="225" height="45"></div>
                 <button id="messagesButton"><img src="images/messages.png" alt="Like Button" width="50" height="50"></button>
             </div>
-
+            
             <!-- Pokemon Information -->
             <div class="pokemon-container">
                 <div class="empty-state"></div> 
-                <div id = "loadingAnimation"></div>
+                <div id="loadingAnimation"></div>
                 <img class="pokemon-image" src="" alt="" width="350" height="350">
             
-            <!--    <img class = "pokemon-nature" src="images/pokenatures/adamant.png" alt="pokemonNatureTemp" class="overlay">  -->
-            <!--        <img class = "pokemon-nature" src="" alt="pokemonNature" class="overlay">       -->
                 <div class="nature-display-container">
                     <div id="nature-display-1" class="nature-display-1"></div>
                     <div id="nature-display-2" class="nature-display-2"></div>
@@ -312,6 +310,27 @@
             </div>
         </div>
     </div>
+
+    <!-- Background Video -->
+    <video autoplay muted loop class="background-video">
+        <source src="animations/background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <style>
+        /* Add this CSS for the background video */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+        }
+    </style>
+</div>
+
     
     <!-- Messaging Container -->
     <div id="messagesForm">
