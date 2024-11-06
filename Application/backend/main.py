@@ -298,10 +298,8 @@ async def is_user_logged_in():
 @app.get("/matched_list/")
 async def matched_list():
     query = """
-    MATCH (u:User)
+    MATCH (u:User)-[:MATCHES]->(p:Pokemon)
     WHERE u.inSession = true
-    MATCH (p:Pokemon)
-    MERGE (u)-[:MATCHES]->(p)
     RETURN p.name AS name
     """
     result = graph.run(query).data()

@@ -146,10 +146,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('messagesButton').addEventListener('click', async () => {
-        console.log("Not logged in but trying to matchlist");
         if (await checkIfUserLoggedIn()) {
             console.log("logged in and trying to matchlist");
             MatchedList();
+        }
+        else {
+            console.error("Not logged in but trying to matchlist");
+            console.log(await checkIfUserLoggedIn());
         }
     });
 })
@@ -209,9 +212,14 @@ async function fetchPokemon(current) {
     } catch (error) {
         console.error("Error fetching Pokémon:", error);
     } finally {
+        await wait(500); // waits for 0.2 seconds (200 milliseconds)
         hideLoadingAnimation();
     }
 }
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
 // Ensures the user is being provided with visual information of the current pokemon.
 function displayPokemon(profile) {
