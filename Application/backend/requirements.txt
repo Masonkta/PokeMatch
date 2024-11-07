@@ -1,4 +1,5 @@
 fastapi
 uvicorn
 py2neo
-openai
+transformers
+torch

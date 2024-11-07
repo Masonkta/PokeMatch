@@ -1,18 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from py2neo import Graph
 from pydantic import BaseModel
-from openai import OpenAI
+from transformers import AutoModelForCausalLM, AutoTokenizer
 from typing import List, Optional  # Import Optional here
 import os
 import pokemon_data 
 import random
-
+#import torch
 
 app = FastAPI()
 
-client_openai = OpenAI(
-    api_key = os.getenv("OPENAI_API_KEY")
-)
+# Load DialoGPT model and tokenizer from Hugging Face
+model_name = "microsoft/DialoGPT-medium"  # Use medium, small, or large models
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
 
 
 # Connect to the Neo4j instance using environment variable
@@ -347,22 +348,11 @@ async def chatbot_message(pokemon_name, user_message):
 
     prompt = f"The user is talking to a {pokemon_name}. The pokemon has these personality traits: '{pokemon['natures']}. The user said: '{user_message}'. The pokemon must say their usual saying of saying their own name at the beginning of the response. How would the {pokemon_name} respond?"
 
-    # Call OpenAI's API for chatbot response
-    response = client_openai.chat.completions.create(
-        model="gpt-3.5-turbo-0613",  
-        messages=[
-            {
-                "role": "system", 
-                "content": "You are a helpful assistant."
-            },
-            {
-                "role": "user", 
-                "content": prompt
-            }
-        ],
-        max_tokens=50
-    )
-    reply = response['choices'][0]['message']['content'].strip()
-    print("Response", response)
+    # Tokenize the prompt
+    inputs = tokenizer(prompt, return_tensors="pt")
+
+    # Generate a response using the model
+    reply_ids = model.generate(inputs["input_ids"], max_length=100, pad_token_id=tokenizer.eos_token_id)
+    reply = tokenizer.decode(reply_ids[0], skip_special_tokens=True)
     print("Reply", reply)
     return {"reply": reply}
