@@ -76,8 +76,9 @@ async def login_user(username: str, password: str):
         raise HTTPException(status_code=422, detail="profile not fetched correctly.")
 
 # Function to preload data into Neo4j
-def preload_pokemon_data(new_pokemon_to_add_in_database):
-    pokeID = 0   
+async def preload_pokemon_data(new_pokemon_to_add_in_database):
+    count = await count_pokemon()
+    pokeID = count['pokemon_count'] + 1
     for pokemon in new_pokemon_to_add_in_database:
         natures_count = 0
         natures = []
@@ -120,12 +121,14 @@ async def startup_event():
             for key, value in pokemon.items():
                 if isinstance(value, str) and value.strip() == '':
                     continue
+            print("Adding this Pokemon", pokemon)
             new_pokemon_to_add_in_database.append(pokemon)
 
     if not new_pokemon_to_add_in_database:
         pass
     else:
-        preload_pokemon_data(new_pokemon_to_add_in_database)
+        await preload_pokemon_data(new_pokemon_to_add_in_database)
+    print("New Pokemon To Add in Database", new_pokemon_to_add_in_database)
     return {"message": "Pokémon data preloaded successfully!"}
 
 # Count the amount of pokemon in Neo4J
