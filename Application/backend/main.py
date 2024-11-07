@@ -76,19 +76,9 @@ async def login_user(username: str, password: str):
         raise HTTPException(status_code=422, detail="profile not fetched correctly.")
 
 # Function to preload data into Neo4j
-def preload_pokemon_data():
-    # Clear all nodes and relationships in Neo4j
-
-    delete_query = """
-    MATCH (p:Pokemon)
-    DETACH DELETE p
-    """
-    
-    graph.run(delete_query)
-
-
+def preload_pokemon_data(new_pokemon_to_add_in_database):
     pokeID = 0   
-    for pokemon in pokemon_data.data:
+    for pokemon in new_pokemon_to_add_in_database:
         natures_count = 0
         natures = []
         natures_count = random.randint(1,3)
@@ -109,8 +99,33 @@ def preload_pokemon_data():
 # Hook into FastAPI startup event
 @app.get("/startup/") 
 async def startup_event():
-    preload_pokemon_data()
-#    print("Preloaded Pokémon data into Neo4j")
+    current_pokemon_in_database_query = """
+    MATCH (p:Pokemon)
+    RETURN p.name AS name
+    """
+    result = graph.run(current_pokemon_in_database_query).data()
+
+    current_pokemon_in_database = [record['name'] for record in result]
+    current_pokemon_in_pokemondata = []
+    new_pokemon_to_add_in_database = []
+
+    for pokemon in pokemon_data.data:
+        current_pokemon_in_pokemondata.append(pokemon['pokemon'])
+    if set(current_pokemon_in_database) == set(current_pokemon_in_pokemondata):
+        pass
+    else:
+        for pokemon in pokemon_data.data:
+            if pokemon['pokemon'] in current_pokemon_in_database:
+                continue
+            for key, value in pokemon.items():
+                if isinstance(value, str) and value.strip() == '':
+                    continue
+            new_pokemon_to_add_in_database.append(pokemon)
+
+    if not new_pokemon_to_add_in_database:
+        pass
+    else:
+        preload_pokemon_data(new_pokemon_to_add_in_database)
     return {"message": "Pokémon data preloaded successfully!"}
 
 # Count the amount of pokemon in Neo4J
