@@ -137,8 +137,8 @@
         
         .profile-image{
             display: block;
-            width: 7.5vw;
             height: 15vh;
+            width: auto;
             border-radius: 50%;
             object-fit: cover;
             margin: 0 auto 10px;
@@ -178,6 +178,24 @@
             filter: brightness(0.5);
         }
 
+        .messages-profile{
+            display: block;
+            left:50%;
+            top:0;
+            height: 7.5vh;
+            width: auto;
+            border-radius: 50%;
+            object-fit:cover;
+            border: 2px solid #ddd;
+            cursor: pointer;
+        }  
+
+        .pokemon-message-name{
+            font-size: 0.8em;
+            color:#000;
+            margin:0;
+        }
+
         #imageUpload {
             display: none;
         }
@@ -206,6 +224,12 @@
             border-radius:10px;
             display: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        #innerMessagesForm{
+            display: flex;
+            flex-direction: row;
+            gap:0.5vw;
         }
 
         #lottie {
@@ -271,6 +295,26 @@
             padding-top:5px;
         }
 
+        #messageProfileForm{
+            width: 8vw;
+            height: 93.25vh;
+            background-color: #939aa1;
+            border-radius: 5px;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            padding:1%;
+        }
+
+        #activeMessageForm{
+            background-color: #d9e0e6;
+            border-radius: 5px;
+            display:inline-block;
+            width: 22vw;
+            height: 93.25vh;
+            padding: 1%;
+        }
+
     </style>    
 </head>
 <body>
@@ -332,9 +376,19 @@
 </div>
 
     
+
     <!-- Messaging Container -->
     <div id="messagesForm">
-    <!--    <div id = "lottie"></div>   -->
+        <div id = "innerMessagesForm"> 
+            <div id = messageProfileForm>
+                <img id="messageProfile"  class="messages-profile" src="images/pokeball.png" alt="Message Profile">
+                <h6 class = "pokemon-message-name">namenamename</h6>
+            </div>
+            <div id = activeMessageForm>
+                active messaging container
+            </div>
+        </div>
+
     </div>
 
     <!-- Profile Layout -->
