@@ -107,6 +107,8 @@ async function retrieveProfile(username, password) {
 async function loginSuccessMessage(profile) {
     if (profile) {
         loginMessage.style.display = 'block';
+        await wait(500);
+        loginComplete();
     } else {
         loginMessage.style.display = 'none';
     }

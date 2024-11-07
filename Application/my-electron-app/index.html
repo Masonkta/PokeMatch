@@ -92,18 +92,20 @@
             position: relative;
             flex-direction:column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
             margin-top: 10px;
             height: 83.5vh;
             width: 33vw;
         }
         .pokemon-container .pokemon-image{
             position: relative;
-            width: auto;
-            height: 100%;
+            width: 100%;
+            height: auto;
             max-width: 45vh;
-            max-height: 45vh;
+            max-height: 50vh;
             border-radius: 2px;
+            justify-content: center;
+            margin-bottom: 20px;
         }
 
         .pokemon-container .pokemon-nature{
@@ -149,6 +151,13 @@
             padding:0 10px;
             margin-left: 30px;
             padding-right: 30px;
+            justify-content: flex-end;
+        }
+        .like-dislike-buttons{
+            display:flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 30px;
         }
         
         .profile-image{
@@ -209,6 +218,12 @@
         .pokemon-message-name{
             font-size: 0.8em;
             color:#000;
+            margin:0;
+        }
+        
+        .pokemon-type-nature{
+            font-size: 0.9em;
+            color:#2f2c30;
             margin:0;
         }
 
@@ -299,6 +314,14 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
+        #loggedinProfileForm {
+            width: 100%;
+            text-align: left;
+            background-color: white;
+            border-radius:10px;
+            display: none;
+        }
+
         #messagesForm input, #messagesForm textarea, #profileForm input, #profileForm textarea {
             width: 96%;
             margin-bottom: 10px;
@@ -363,7 +386,7 @@
                 <!-- Animation Container -->
                 <div id="lottie" style="display: none;"></div>
                 <!-- Dislike/Like Buttons -->
-                <div>
+                <div class="like-dislike-buttons">
                     <button id="dislikeButton"><img src="images/dislike_button.png" alt="Dislike Button" width="85" height="85"></button>
                     <button id="likeButton"><img src="images/like_button.png" alt="Like Button" width="85" height="85"></button>
                 </div>
@@ -421,12 +444,12 @@
         <div id="createUserForm">
             <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
             <input type="file" id="imageUpload" accept="image/*">
-            <input type="text" id="createUserName" placeholder="Enter your name" />
-            <input type="text" id="createUserPassword" placeholder="Enter your password" />
+            <input type="text" id="createUserName" placeholder="Enter your name"/>
+            <input type="text" id="createUserPassword" placeholder="Enter your password"/>
             <textarea id="bioProfile" placeholder="Enter your bio" rows="2"></textarea>
             <!--Pokemon Types-->
             <div class = "grid-container" onclick = "toggleGrid()">
-                Choose 3 Types:
+                <h6 class="pokemon-type-nature">Choose 3 Types:</h6>
                 <div id = "grid-content">
                     <button class = "type-buttons" data-type = "bug"><img src = "images/poketypes/bug.png"  alt = "Bug"  width = "50" height = "17.5" ></button>
                     <button class = "type-buttons" data-type = "dark"><img src = "images/poketypes/dark.png"  alt = "Dark"  width = "50" height = "17.5" ></button>
@@ -450,7 +473,7 @@
             </div>
             <!--Pokemon Natures-->
             <div class = "grid-container" onclick = "toggleGrid()">
-            Choose 3 Natures:
+                <h6 class="pokemon-type-nature">Choose 3 Natures:</h6>
                 <div id = "grid-content">
                     <button class = "nature-buttons" data-type = "adamant"><img src = "images/pokenatures/adamant.png"  alt = "Adamant"  width = "50"  height = "17.5"></button>
                     <button class = "nature-buttons" data-type = "bashful"><img src = "images/pokenatures/bashful.png"  alt = "Bashful"  width = "50"  height = "17.5"></button>
@@ -482,6 +505,14 @@
             <button id="createUserButton"><img src = "images/create_user.png" alt="Create User" width="75" height="26.25"></button>
             <button id="backButtonCreateUser"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
+        
+        <div id="loggedinProfileForm">
+            <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
+            <h6 class="pokemon-type-nature">Name:</h6>
+            <h6 class="pokemon-type-nature">Favored Types:</h6>
+            <h6 class="pokemon-type-nature">Favored Natures:</h6>
+            <button id = "backButtonLoggedIn"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
+        </div>
         <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
             <input type="text" id="loginUsername" placeholder="Enter your username" />
@@ -503,9 +534,11 @@
         const registerUserButton = document.getElementById('registerUserButton');
         const loginButton = document.getElementById('loginButton');
         const createUserForm = document.getElementById('createUserForm');
+        const loggedinProfileForm = document.getElementById('loggedinProfileForm');
         const passwordInputForm = document.getElementById('passwordInputForm');
         const backButtonPassword = document.getElementById('backButtonPassword');
         const backButtonCreateUser = document.getElementById('backButtonCreateUser');
+        const backButtonLoggedIn = document.getElementById('backButtonLoggedIn');
         const loginForm = document.getElementById('loginForm');
         const createUserButton = document.getElementById('createUserButton');
         const loginText = document.getElementById('loginText');
@@ -563,6 +596,14 @@
             loginText.style.display = "none";
             passwordInputForm.style.display = "block";
         });
+
+        // Completed Login button Setup
+        function loginComplete(){
+            // If clicked, remove create user button & login button.
+            // Then display the logged in profile form in the profile container
+            passwordInputForm.style.display = "none";
+            loggedinProfileForm.style.display = "block";
+        }
         
         // Back Button Password Setup
         backButtonPassword.addEventListener("click", () => {
@@ -576,6 +617,15 @@
         // Back Button Create User Setup
         backButtonCreateUser.addEventListener("click", () => {
             createUserForm.style.display = "none";
+            loginForm.style.display = "block";
+            loginText.style.display = "block";
+            loginButton.style.display = "inline";
+            registerUserButton.style.display = "inline";
+        });
+
+        // Back Button Logged In Setup
+        backButtonLoggedIn.addEventListener("click", () => {
+            loggedinProfileForm.style.display = "none";
             loginForm.style.display = "block";
             loginText.style.display = "block";
             loginButton.style.display = "inline";
