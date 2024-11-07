@@ -1,15 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from py2neo import Graph
 from pydantic import BaseModel
+from openai import OpenAI
 from typing import List, Optional  # Import Optional here
 import os
 import pokemon_data 
 import random
-import openai
+
 
 app = FastAPI()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client_openai = OpenAI(
+    api_key = os.getenv("OPENAI_API_KEY")
+)
+
 
 # Connect to the Neo4j instance using environment variable
 neo4j_uri = os.getenv("NEO4J_URI")
@@ -341,13 +345,24 @@ async def chatbot_message(pokemon_name, user_message):
     result = graph.run(pokemon_information_query, pokemon_name=pokemon_name).data()
     pokemon = result[0]['p']
 
-    prompt = f"The user is talking to a {pokemon_name}. The pokemon has these personality traits: '{pokemon['natures']}. The user said: '{user_message}'. How would the {pokemon_name} respond?"
+    prompt = f"The user is talking to a {pokemon_name}. The pokemon has these personality traits: '{pokemon['natures']}. The user said: '{user_message}'. The pokemon must say their usual saying of saying their own name at the beginning of the response. How would the {pokemon_name} respond?"
 
     # Call OpenAI's API for chatbot response
-    response = openai.Completion.create(
-        model="gpt-4-turbo",
-        prompt=prompt,
+    response = client_openai.chat.completions.create(
+        model="gpt-3.5-turbo-0613",  
+        messages=[
+            {
+                "role": "system", 
+                "content": "You are a helpful assistant."
+            },
+            {
+                "role": "user", 
+                "content": prompt
+            }
+        ],
         max_tokens=50
     )
-    reply = response.choices[0].text.strip()
+    reply = response['choices'][0]['message']['content'].strip()
+    print("Response", response)
+    print("Reply", reply)
     return {"reply": reply}
