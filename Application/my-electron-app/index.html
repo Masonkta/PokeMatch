@@ -4,9 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>PokèMatch</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
+    
     <style>
+
+        .varela-round-regular {
+            font-family: "Varela Round", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        
         .center-text {
             text-align: center;
         } 
@@ -14,7 +28,7 @@
     
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: "Varela Round", sans-serif;
             background-color: rgb(158, 15, 15);
             display:flex;
             justify-content: center;
@@ -85,9 +99,10 @@
         }
         .pokemon-container .pokemon-image{
             position: relative;
-            width: 100%;
+            width: auto;
+            height: 100%;
             max-width: 45vh;
-            max-height: 33vw;
+            max-height: 45vh;
             border-radius: 2px;
         }
 
@@ -133,6 +148,7 @@
             margin-bottom: 10px;
             padding:0 10px;
             margin-left: 30px;
+            padding-right: 30px;
         }
         
         .profile-image{
@@ -497,6 +513,9 @@
         const natureButtons = document.querySelectorAll('.nature-buttons');
         const loadingAnimationContainer = document.getElementById('loadingAnimation');
         const pokemonImage = document.querySelector('.pokemon-image');
+        const pokemonName = document.getElementById('pokemonName')
+        const pokemonType = document.getElementById('pokemonType')
+        const pokemonAbility = document.getElementById('pokemonAbility')
         const natureDisplay1 = document.getElementById('nature-display-1');
         const natureDisplay2 = document.getElementById('nature-display-2');
         const natureDisplay3 = document.getElementById('nature-display-3');
@@ -614,6 +633,9 @@
         function showLoadingAnimation(){
             loadingAnimationContainer.style.display  =  'block';
             pokemonImage.style.display = 'none';
+            pokemonName.style.display = 'none';
+            pokemonType.style.display = 'none';
+            pokemonAbility.style.display = 'none';
             natureDisplay1.style.display = 'none';
             natureDisplay2.style.display = 'none';
             natureDisplay3.style.display = 'none';
@@ -626,6 +648,9 @@
             loadingAnimationContainer.style.display = 'none';
             loadingAnimation.stop();
             pokemonImage.style.display = 'block';
+            pokemonName.style.display = 'block'; 
+            pokemonType.style.display = 'block';
+            pokemonAbility.style.display = 'block';
             natureDisplay1.style.display = 'inline-block';
             natureDisplay2.style.display = 'inline-block';
             natureDisplay3.style.display = 'inline-block';
