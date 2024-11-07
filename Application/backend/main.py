@@ -5,8 +5,11 @@ from typing import List, Optional  # Import Optional here
 import os
 import pokemon_data 
 import random
+import openai
 
 app = FastAPI()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Connect to the Neo4j instance using environment variable
 neo4j_uri = os.getenv("NEO4J_URI")
@@ -327,3 +330,24 @@ async def matched_list():
         return {"matched_pokemon": matched_pokemon}
     else:
         return {"matched_pokemon": []}
+    
+@app.post("/pokemon_chatbot_message/")
+async def chatbot_message(pokemon_name, user_message):
+    pokemon_information_query = """
+    MATCH (p:Pokemon)
+    WHERE p.name = $pokemon_name
+    RETURN p
+    """
+    result = graph.run(pokemon_information_query, pokemon_name=pokemon_name).data()
+    pokemon = result[0]['p']
+
+    prompt = f"The user is talking to a {pokemon_name}. The pokemon has these personality traits: '{pokemon['natures']}. The user said: '{user_message}'. How would the {pokemon_name} respond?"
+
+    # Call OpenAI's API for chatbot response
+    response = openai.Completion.create(
+        model="gpt-4-turbo",
+        prompt=prompt,
+        max_tokens=50
+    )
+    reply = response.choices[0].text.strip()
+    return {"reply": reply}

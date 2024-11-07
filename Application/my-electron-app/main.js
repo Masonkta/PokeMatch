@@ -182,6 +182,27 @@ ipcMain.handle('Matched-Pokemon-List', async (event) => {
     }
 });
 
+
+ipcMain.handle('pokemon_chatbot_message', async (event, pokemon_name, user_message) => {
+    try {
+        // Send the profile as a query parameter
+        const response = await axios.get('http://localhost:8000/pokemon_chatbot_message/', {
+            params: { pokemon_name, user_message }
+        });
+
+        if (response.data) {
+            console.log('Pokemon chatbot message:', response.data.reply);
+            return response.data;  // Return the fetched data
+        } else {
+            console.error('Cannot generate Pokemon chatbot message');  // Handle case when no profile is returned
+        }
+    } catch (error) {
+        console.error("Error has occurred fetching data", error);
+        return { message: "Error fetching data." };  // Return an error message
+    }
+});
+
+
 // Allows the first displayed pokemon on startup to be a randomly selected one from the database
 function RandomId(min, max) {
     let randomId = Math.floor(Math.random() * (max - min + 1)) + min;

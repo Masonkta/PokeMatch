@@ -348,3 +348,14 @@ async function MatchedList() {
         console.error("Error retrieving Matched List", error);
     }
 }
+
+async function message(pokemon_name, user_message) {
+    try {
+        const response = await ipcRenderer.invoke('pokemon_chatbot_message', pokemon_name, user_message);
+        pokemon_chatbot_reply = response.reply;
+        console.log(`Pokemon ChatBot Message: ${pokemon_chatbot_reply} `);
+        return pokemon_chatbot_reply
+    } catch (error) {
+        console.error("Error retrieving Pokemon chatbot message", error);
+    }
+}

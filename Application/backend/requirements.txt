@@ -1,3 +1,4 @@
 fastapi
 uvicorn
 py2neo
+openai
