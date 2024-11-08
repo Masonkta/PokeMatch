@@ -109,8 +109,9 @@ async function retrieveProfile(username, password) {
 async function loginSuccessMessage(profile) {
     if (profile) {
         loginMessage.style.display = 'block';
-        await wait(500);
+        await wait(1500);
         loginComplete();
+        loginMessage.style.display = 'none';
     } else {
         loginMessage.style.display = 'none';
     }
@@ -120,6 +121,8 @@ async function loginSuccessMessage(profile) {
 async function createUserSuccessMessage(profile) {
     if (profile) {
         createUserMessage.style.display = 'block';
+        await wait(1500);
+        createUserMessage.style.display = 'none';
     } else {
         createUserMessage.style.display = 'none';
     }
