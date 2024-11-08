@@ -4,6 +4,7 @@ let poke_count = 0;
 let matched_pokemon = [];
 const emptyState = document.querySelector('.empty-state');
 const loginMessage = document.querySelector('.loginMessage');
+const createUserMessage = document.querySelector('.createUserMessage');
 
 let insession = false;
 
@@ -71,6 +72,7 @@ async function sendProfile(profile) {
             selectedNatures: profile.selectedNatures
         });
         console.log(response.message);
+        createUserSuccessMessage(profile)
     } catch (error) {
         console.error("Error:", error);
     }
@@ -113,6 +115,16 @@ async function loginSuccessMessage(profile) {
         loginMessage.style.display = 'none';
     }
 }
+
+// Sets the create user message to be displayed when the user is created.
+async function createUserSuccessMessage(profile) {
+    if (profile) {
+        createUserMessage.style.display = 'block';
+    } else {
+        createUserMessage.style.display = 'none';
+    }
+}
+
 
 function generateRandomId(min, max, exclude, attemptedIds) {
     let randomId;
