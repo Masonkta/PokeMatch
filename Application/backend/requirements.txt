@@ -1,5 +1,4 @@
 fastapi
 uvicorn
 py2neo
-transformers
-torch
+gradio_client

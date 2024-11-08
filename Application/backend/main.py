@@ -1,20 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from py2neo import Graph
 from pydantic import BaseModel
-from transformers import AutoModelForCausalLM, AutoTokenizer
 from typing import List, Optional  # Import Optional here
 import os
 import pokemon_data 
 import random
-#import torch
+import sys
+import io
+from gradio_client import Client
 
 app = FastAPI()
 
-# Load DialoGPT model and tokenizer from Hugging Face
-model_name = "microsoft/DialoGPT-medium"  # Use medium, small, or large models
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
+client = Client("yuntian-deng/ChatGPT")
 
 # Connect to the Neo4j instance using environment variable
 neo4j_uri = os.getenv("NEO4J_URI")
@@ -344,15 +343,29 @@ async def chatbot_message(pokemon_name, user_message):
     RETURN p
     """
     result = graph.run(pokemon_information_query, pokemon_name=pokemon_name).data()
+
     pokemon = result[0]['p']
+    personality_traits = pokemon['natures']
+    
+    prompt = (
+        f"{pokemon_name} is a Pokémon with the following personality traits: {personality_traits}. "
+        f"The user said: '{user_message}'. As {pokemon_name}, start your reply by saying your name and then respond in character. "
+        f"Make the reply sound like something {pokemon_name} would say."
+    )
 
-    prompt = f"The user is talking to a {pokemon_name}. The pokemon has these personality traits: '{pokemon['natures']}. The user said: '{user_message}'. The pokemon must say their usual saying of saying their own name at the beginning of the response. How would the {pokemon_name} respond?"
+    # Use the "/predict" endpoint and provide the necessary parameters
+    response = client.predict(
+        inputs=prompt, 
+        api_name="/predict",  # Use the correct API name
+        top_p=1.0,  # You can adjust the top_p and temperature if needed
+        temperature=1.0,
+        chat_counter=0,  # Set the chat_counter to 0 initially
+        chatbot=[]  # You can pass a chatbot history here if necessary
+    )
 
-    # Tokenize the prompt
-    inputs = tokenizer(prompt, return_tensors="pt")
-
-    # Generate a response using the model
-    reply_ids = model.generate(inputs["input_ids"], max_length=100, pad_token_id=tokenizer.eos_token_id)
-    reply = tokenizer.decode(reply_ids[0], skip_special_tokens=True)
-    print("Reply", reply)
+    # Decode the generated response
+    reply = response[0][0][1]
+    
+    # Print and return the response for checking
+    print("Reply:", reply)
     return {"reply": reply}
