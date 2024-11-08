@@ -109,12 +109,16 @@ async function retrieveProfile(username, password) {
 function populateUserInfo() {
     // Assume getuserInfo() returns an object with user details
     const userInfo = getuserInfo();
-
+    console.log("userInfo", userInfo);
     // Get elements by ID and populate with user info
     document.getElementById("loggedInName").innerText = userInfo.username;
+    console.log(userInfo.username);
     document.getElementById("loggedInBio").innerText = userInfo.bio;
+    console.log(userInfo.bio);
     document.getElementById("loggedInTypes").innerText = userInfo.types;
+    console.log(userInfo.types);
     document.getElementById("loggedInNatures").innerText = userInfo.natures;
+    console.log(userInfo.natures);
 }
 
 // Get user info
@@ -123,6 +127,10 @@ async function getuserInfo() {
         const response = await ipcRenderer.invoke('check_user_logged_in'); 
         if (response.profile) {
             console.log(`User with ID ${response.userID} info retrieved.`);
+            console.log(response.profile.username);
+            console.log(response.profile.natures);
+            console.log(response.profile.selectedTypes);
+            console.log(response.profile.selectedNatures);
             return {
                 username: response.profile.username,
                 bio: response.profile.bio,

@@ -606,6 +606,7 @@
         function loginComplete(){
             // If clicked, remove create user button & login button.
             // Then display the logged in profile form in the profile container
+            populateUserInfo()
             passwordInputForm.style.display = "none";
             loggedinProfileForm.style.display = "block";
         }
