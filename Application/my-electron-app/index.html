@@ -555,6 +555,8 @@
         const natureDisplay1 = document.getElementById('nature-display-1');
         const natureDisplay2 = document.getElementById('nature-display-2');
         const natureDisplay3 = document.getElementById('nature-display-3');
+        const likeButton = document.getElementById('likeButton');
+        const dislikeButton = document.getElementById('dislikeButton');
         let typeSelectedCount = 0;
         const typeMaxSelections = 3;
         let natureSelectedCount = 0;
@@ -692,6 +694,8 @@
             natureDisplay1.style.display = 'none';
             natureDisplay2.style.display = 'none';
             natureDisplay3.style.display = 'none';
+            likeButton.style.display = 'none';
+            dislikeButton.style.display = 'none';
             pokemonImage.alt='';
             loadingAnimation.play();
             loadingAnimation.setSpeed(2);
@@ -707,6 +711,8 @@
             natureDisplay1.style.display = 'inline-block';
             natureDisplay2.style.display = 'inline-block';
             natureDisplay3.style.display = 'inline-block';
+            likeButton.style.display = 'block';
+            dislikeButton.style.display = 'block';
             pokemonImage.alt='Pokemon Image';
         }
     </script>
