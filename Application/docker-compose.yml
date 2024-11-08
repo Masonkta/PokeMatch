@@ -23,7 +23,6 @@ services:
       - docker-net
     environment:
       - NEO4J_URI=bolt://neo4j:7687
-      - OPENAI_API_KEY=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
     restart: always
       
 networks:
