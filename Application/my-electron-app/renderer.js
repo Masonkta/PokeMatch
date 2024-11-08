@@ -105,6 +105,39 @@ async function retrieveProfile(username, password) {
     }
 }
 
+// Function to get user information and populate fields
+function populateUserInfo() {
+    // Assume getuserInfo() returns an object with user details
+    const userInfo = getuserInfo();
+
+    // Get elements by ID and populate with user info
+    document.getElementById("loggedInName").innerText = userInfo.username;
+    document.getElementById("loggedInBio").innerText = userInfo.bio;
+    document.getElementById("loggedInTypes").innerText = userInfo.types;
+    document.getElementById("loggedInNatures").innerText = userInfo.natures;
+}
+
+// Get user info
+async function getuserInfo() {
+    try {
+        const response = await ipcRenderer.invoke('check_user_logged_in'); 
+        if (response.profile) {
+            console.log(`User with ID ${response.userID} info retrieved.`);
+            return {
+                username: response.profile.username,
+                bio: response.profile.bio,
+                types: response.profile.selectedTypes,
+                natures: response.profile.selectedNatures
+            };
+        } else {
+            console.log('No user data found.');
+            return false;
+        }
+    } catch (error) {
+        console.error("Error checking user status:", error);
+    }
+}
+
 // Sets the login message to be displayed when the user is logged in.
 async function loginSuccessMessage(profile) {
     if (profile) {
