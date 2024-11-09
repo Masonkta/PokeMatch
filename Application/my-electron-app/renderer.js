@@ -106,19 +106,19 @@ async function retrieveProfile(username, password) {
 }
 
 // Function to get user information and populate fields
-function populateUserInfo() {
+async function populateUserInfo() {
     // Assume getuserInfo() returns an object with user details
-    const userInfo = getuserInfo();
+    const userInfo = await getuserInfo();
     console.log("userInfo", userInfo);
     // Get elements by ID and populate with user info
-    document.getElementById("loggedInName").innerText = userInfo.username;
-    console.log(userInfo.username);
-    document.getElementById("loggedInBio").innerText = userInfo.bio;
-    console.log(userInfo.bio);
-    document.getElementById("loggedInTypes").innerText = userInfo.types;
-    console.log(userInfo.types);
-    document.getElementById("loggedInNatures").innerText = userInfo.natures;
-    console.log(userInfo.natures);
+    document.getElementById("loggedInName").innerText = `Username: ${userInfo.username}`;
+    console.log("userinfo username ", userInfo.username);
+    document.getElementById("loggedInBio").innerText = `Bio: ${userInfo.bio}`;
+    console.log("userinfo bio ", userInfo.bio);
+    document.getElementById("loggedInTypes").innerText = `Types: ${userInfo.types}`;
+    console.log("userinfo types ", userInfo.types);
+    document.getElementById("loggedInNatures").innerText = `Natures: ${userInfo.natures}`;
+    console.log("userinfo natures ", userInfo.natures);
 }
 
 // Get user info
@@ -139,7 +139,7 @@ async function getuserInfo() {
             };
         } else {
             console.log('No user data found.');
-            return false;
+            return {};
         }
     } catch (error) {
         console.error("Error checking user status:", error);
