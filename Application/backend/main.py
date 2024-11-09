@@ -13,8 +13,6 @@ app = FastAPI()
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-client = Client("yuntian-deng/ChatGPT")
-
 # Connect to the Neo4j instance using environment variable
 neo4j_uri = os.getenv("NEO4J_URI")
 graph = Graph(neo4j_uri, auth=("neo4j", "password"))  # Adjust based on your auth settings
@@ -335,8 +333,8 @@ async def matched_list():
     else:
         return {"matched_pokemon": []}
     
-@app.post("/pokemon_chatbot_message/")
-async def chatbot_message(pokemon_name, user_message):
+@app.get("/pokemon_chatbot_message/")
+async def chatbot_message(pokemon_name: str, user_message: str):
     pokemon_information_query = """
     MATCH (p:Pokemon)
     WHERE p.name = $pokemon_name
@@ -346,7 +344,9 @@ async def chatbot_message(pokemon_name, user_message):
 
     pokemon = result[0]['p']
     personality_traits = pokemon['natures']
-    
+
+    client = Client("yuntian-deng/ChatGPT")
+
     prompt = (
         f"{pokemon_name} is a Pokémon with the following personality traits: {personality_traits}. "
         f"The user said: '{user_message}'. As {pokemon_name}, start your reply by saying your name and then respond in character. "
@@ -357,10 +357,8 @@ async def chatbot_message(pokemon_name, user_message):
     response = client.predict(
         inputs=prompt, 
         api_name="/predict",  # Use the correct API name
-        top_p=1.0,  # You can adjust the top_p and temperature if needed
-        temperature=1.0,
-        chat_counter=0,  # Set the chat_counter to 0 initially
-        chatbot=[]  # You can pass a chatbot history here if necessary
+        top_p=0.8,  # You can adjust the top_p and temperature if needed
+        temperature=1.2
     )
 
     # Decode the generated response
