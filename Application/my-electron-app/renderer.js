@@ -1,5 +1,68 @@
 const { ipcRenderer } = require('electron');
 
+// Initialize the main background music
+const mainBackgroundMusic = new window.Howl({
+    src: ['music/PokeMatch Main.mp3'],
+    loop: true,
+    volume: 0.5
+});
+
+// Initialize the Pokémon match music tracks
+const pokeMatchMusic1 = new window.Howl({
+    src: ['music/match_music/PokeMatch Match_1.mp3'],
+    loop: false,
+    volume: 0.5
+});
+
+const pokeMatchMusic2 = new window.Howl({
+    src: ['music/match_music/PokeMatch Match_2.mp3'],
+    loop: false,
+    volume: 0.5
+});
+
+// Track the current match music to alternate between Match_1 and Match_2
+let currentMatchTrack = 1;
+
+// Start playing the main background music when the app loads
+document.addEventListener('DOMContentLoaded', () => {
+    mainBackgroundMusic.play();
+});
+
+// Function to handle the matching music
+function playMatchMusic() {
+    // Stop the main background music when a match music starts
+    mainBackgroundMusic.stop();
+
+    // Alternate between Match_1 and Match_2
+    if (currentMatchTrack === 1) {
+        pokeMatchMusic2.stop();
+        pokeMatchMusic1.play();
+        currentMatchTrack = 2;  // Set the next track to Match_2
+    } else {
+        pokeMatchMusic1.stop();
+        pokeMatchMusic2.play();
+        currentMatchTrack = 1;  // Set the next track to Match_1
+    }
+
+    // Return to the main background music after match music finishes
+    pokeMatchMusic1.once('end', () => {
+        if (currentMatchTrack === 2) { // Match_1 just finished
+            mainBackgroundMusic.play();
+        }
+    });
+
+    pokeMatchMusic2.once('end', () => {
+        if (currentMatchTrack === 1) { // Match_2 just finished
+            mainBackgroundMusic.play();
+        }
+    });
+}
+
+// Simulate the user matching with a Pokémon (this should be called when a match occurs in your app)
+function onPokemonMatchMusic() {
+    playMatchMusic();
+}
+
 let poke_count = 0;
 let matched_pokemon = [];
 const emptyState = document.querySelector('.empty-state');
@@ -370,6 +433,7 @@ async function matchPokemon(pokemonId){
                 window.animation.stop(); // Stop the animation
                 animationContainer.style.display = 'none'; // Hide the animation container
             }, 5500); // Adjust the duration as needed
+            onPokemonMatchMusic()
         } else {
             console.error("Failed to match with Pokemon:", response.matchFail);
         }

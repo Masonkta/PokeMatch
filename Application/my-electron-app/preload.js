@@ -10,3 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
         replaceText(`${dependency}-version`, process.versions[dependency]);
     }
 });
+
+// Import Howler and expose it to the renderer process
+const { Howl } = require('howler');
+window.Howl = Howl;
