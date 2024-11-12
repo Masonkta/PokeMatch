@@ -541,10 +541,8 @@ async function MatchedList() {
             });
 
             if (profileExists == false) {
-                // Create the image element
-                const imageElement = document.createElement('img');
-                imageElement.classList.add('pokemon-button-image'); // Use the updated class
-                imageElement.src = 'images/pokeball.png'; // Replace with actual image source if needed
+                const imageElement = document.createElement('button');
+                imageElement.classList.add('pokemon-button-image'); // Add a CSS class for styling
                 imageElement.alt = pokemonName;
 
                 // Create the name element
