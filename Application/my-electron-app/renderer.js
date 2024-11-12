@@ -1,5 +1,15 @@
 const { ipcRenderer } = require('electron');
 
+// Initialize a click sound effect
+const clickSound1 = new window.Howl({
+    src: ['music/sounds/sound_1.mp3'], // Path to your click sound effect
+    volume: 0.1
+});
+
+// Function to play sound when any element is clicked
+function playClickSound1(event) {
+    clickSound1.play();
+}
 // Initialize the main background music
 const mainBackgroundMusic = new window.Howl({
     src: ['music/PokeMatch Main.mp3'],
@@ -453,6 +463,7 @@ async function matchPokemon(pokemonId){
                 window.animation.stop(); // Stop the animation
                 animationContainer.style.display = 'none'; // Hide the animation container
             }, 5500); // Adjust the duration as needed
+            playClickSound1();
             onPokemonMatchMusic()
         } else {
             console.error("Failed to match with Pokemon:", response.matchFail);
@@ -485,9 +496,7 @@ async function MatchedList() {
         console.log(`The Matched List was found: ${matched_pokemon}`);
         const messageProfileForm = document.getElementById('messageProfileForm');
 
-        // Limit the number of entries to 10
-        const maxButtons = 10;
-        const pokemonList = matched_pokemon.slice(0, maxButtons);
+        const pokemonList = matched_pokemon;
         const existingProfiles = messageProfileForm.querySelectorAll('h6.pokemon-message-name');
 
         // Loop over each Pokémon in the matched list
