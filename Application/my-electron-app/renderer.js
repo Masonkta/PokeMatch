@@ -457,17 +457,50 @@ async function checkIfUserLoggedIn() {
         console.error("Error checking login status:", error);
     }
 }
-
 async function MatchedList() {
     try { 
         const response = await ipcRenderer.invoke('Matched-Pokemon-List');
-        matched_pokemon = response.matched_pokemon;
-        console.log(`The Matched List was found: ${matched_pokemon} `);
-        return matched_pokemon
+        const matched_pokemon = response.matched_pokemon;
+        console.log(`The Matched List was found: ${matched_pokemon}`);
+        
+        const messagesForm = document.getElementById('messagesForm');
+        
+        // Clear existing content in case of reloading
+        messagesForm.innerHTML = '';
+
+        // Limit the number of entries to 10
+        const maxButtons = 10;
+        const pokemonList = matched_pokemon.slice(0, maxButtons);
+        
+        pokemonList.forEach(pokemonName => {
+            // Create the container for each Pokémon's image and name
+            const messageProfileForm = document.createElement('div');
+            messageProfileForm.id = 'messageProfileForm';
+
+            // Create the image element
+            const imageElement = document.createElement('img');
+            imageElement.classList.add('pokemon-button-image'); // Use the updated class
+            imageElement.src = 'images/pokeball.png'; // Replace with actual image source if needed
+            imageElement.alt = pokemonName;
+
+            // Create the name element
+            const nameElement = document.createElement('h6');
+            nameElement.classList.add('pokemon-message-name');
+            nameElement.textContent = pokemonName;
+
+            // Append the image and name to the messageProfileForm container
+            messageProfileForm.appendChild(imageElement);
+            messageProfileForm.appendChild(nameElement);
+
+            // Append the container to the messagesForm
+            messagesForm.appendChild(messageProfileForm);
+        });
     } catch (error) {
         console.error("Error retrieving Matched List", error);
     }
 }
+
+
 
 async function message(pokemon_name, user_message) {
     try {
