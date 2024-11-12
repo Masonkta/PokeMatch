@@ -6,10 +6,38 @@ const clickSound1 = new window.Howl({
     volume: 0.1
 });
 
+// Initialize a click sound effect
+const clickSound2 = new window.Howl({
+    src: ['music/sounds/sound_2.mp3'], // Path to your click sound effect
+    volume: 0.1
+});
+
+// Initialize a click sound effect
+const clickSound3 = new window.Howl({
+    src: ['music/sounds/sound_3.mp3'], // Path to your click sound effect
+    volume: 0.1
+});
+
 // Function to play sound when any element is clicked
-function playClickSound1(event) {
+function playClickSound1() {
     clickSound1.play();
 }
+
+// Function to play sound when any element is clicked
+function playClickSound2() {
+    clickSound2.play();
+}
+
+// Function to play sound when any element is clicked
+function playClickSound3() {
+    clickSound3.play();
+}
+
+// Add event listeners to all clickable elements (for example, buttons and links)
+document.querySelectorAll('button').forEach(element => {
+    element.addEventListener('click', playClickSound2);
+});
+
 // Initialize the main background music
 const mainBackgroundMusic = new window.Howl({
     src: ['music/PokeMatch Main.mp3'],
@@ -166,6 +194,7 @@ async function sendProfile(profile) {
         });
         console.log(response.message);
         createUserSuccessMessage(profile)
+        playClickSound3()
     } catch (error) {
         console.error("Error:", error);
     }
@@ -191,6 +220,7 @@ async function retrieveProfile(username, password) {
         if (response.profile) {
             console.log('HERE');
             loginSuccessMessage(response.profile);
+            playClickSound3()
             fetchPokemon(currentPokemonId);
         }   
     } catch (error) {
