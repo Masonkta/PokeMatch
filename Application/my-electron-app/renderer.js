@@ -20,7 +20,13 @@ const pokeMatchMusic2 = new window.Howl({
     volume: 0.5
 });
 
-// Track the current match music to alternate between Match_1 and Match_2
+const pokeMatchMusic3 = new window.Howl({
+    src: ['music/match_music/PokeMatch Match_3.mp3'], 
+    loop: false,
+    volume: 0.5
+});
+
+// Track the current match music to alternate between Match_1, Match_2, and Match_3
 let currentMatchTrack = 1;
 
 // Start playing the main background music when the app loads
@@ -33,14 +39,21 @@ function playMatchMusic() {
     // Stop the main background music when a match music starts
     mainBackgroundMusic.stop();
 
-    // Alternate between Match_1 and Match_2
+    // Alternate between Match_1, Match_2, and Match_3
     if (currentMatchTrack === 1) {
         pokeMatchMusic2.stop();
+        pokeMatchMusic3.stop();
         pokeMatchMusic1.play();
         currentMatchTrack = 2;  // Set the next track to Match_2
+    } else if (currentMatchTrack === 2) {
+        pokeMatchMusic1.stop();
+        pokeMatchMusic3.stop();
+        pokeMatchMusic2.play();
+        currentMatchTrack = 3;  // Set the next track to Match_3
     } else {
         pokeMatchMusic1.stop();
-        pokeMatchMusic2.play();
+        pokeMatchMusic2.stop();
+        pokeMatchMusic3.play();
         currentMatchTrack = 1;  // Set the next track to Match_1
     }
 
@@ -52,7 +65,13 @@ function playMatchMusic() {
     });
 
     pokeMatchMusic2.once('end', () => {
-        if (currentMatchTrack === 1) { // Match_2 just finished
+        if (currentMatchTrack === 3) { // Match_2 just finished
+            mainBackgroundMusic.play();
+        }
+    });
+
+    pokeMatchMusic3.once('end', () => {
+        if (currentMatchTrack === 1) { // Match_3 just finished
             mainBackgroundMusic.play();
         }
     });
@@ -62,6 +81,7 @@ function playMatchMusic() {
 function onPokemonMatchMusic() {
     playMatchMusic();
 }
+
 
 let poke_count = 0;
 let matched_pokemon = [];
