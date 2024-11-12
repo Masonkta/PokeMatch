@@ -369,9 +369,11 @@
             overflow-y: scroll;
         }
 
+        
+
         #activeMessageFormInput{
             margin-top: 105.5%;
-            width: 20.66vw;
+            width: 19.5vw;
         }
         
         /* Message container styling */
@@ -477,6 +479,7 @@
             <div id = "activeMessageForm">
                 <div id = "activeMessageFormInput">
                     <textarea id = "activeMessageFormInput" placeholder = "Type Here" rows="1" ></textarea>
+                    <button id = "enterButton">Enter</button>
                 </div>
             </div>
         </div>
@@ -565,7 +568,6 @@
             <h6 id = loggedInBio class="pokemon-type-nature">Bio:</h6>
             <h6 id = loggedInTypes class="pokemon-type-nature">Favored Types:</h6>
             <h6 id = loggedInNatures class="pokemon-type-nature">Favored Natures:</h6>
-            <button id = "backButtonLoggedIn"><img src = "images/back_button.png" alt="Back Button" width="75" height="26.25"></button>
         </div>
         <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
@@ -680,14 +682,6 @@
             registerUserButton.style.display = "inline";
         });
 
-        // Back Button Logged In Setup
-        backButtonLoggedIn.addEventListener("click", () => {
-            loggedinProfileForm.style.display = "none";
-            loginForm.style.display = "block";
-            loginText.style.display = "block";
-            loginButton.style.display = "inline";
-            registerUserButton.style.display = "inline";
-        });
 
         typeButtons.forEach(button =>{
             button.addEventListener('click',() => {
