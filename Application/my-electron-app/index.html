@@ -367,6 +367,11 @@
             padding: 1%;
         }
 
+        #activeMessageFormInput{
+            margin-top: 105.5%;
+            width: 20.66vw;
+        }
+
     </style>    
 </head>
 <body>
@@ -432,12 +437,14 @@
     <!-- Messaging Container -->
     <div id="messagesForm">
         <div id = "innerMessagesForm"> 
-            <div id = messageProfileForm>
+            <div id = "messageProfileForm">
                 <img id="messageProfile"  class="messages-profile" src="images/pokeball.png" alt="Message Profile">
                 <h6 class = "pokemon-message-name">namenamename</h6>
             </div>
-            <div id = activeMessageForm>
-                active messaging container
+            <div id = "activeMessageForm">
+                <div id = "activeMessageFormInput">
+                    <textarea id = "activeMessageFormInput" placeholder = "Type Here" rows="1" ></textarea>
+                </div>
             </div>
         </div>
 
