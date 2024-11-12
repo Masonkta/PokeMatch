@@ -570,3 +570,32 @@ async function message(pokemon_name, user_message) {
         console.error("Error retrieving Pokemon chatbot message", error);
     }
 }
+
+document.getElementById('enterButton').addEventListener('click', () => {
+    const inputField = document.getElementById('MessageFormInput');
+    const messageText = inputField.value.trim();
+
+    if (messageText) {
+        // Add user message
+        const userMessage = document.createElement('div');
+        userMessage.className = 'user-message';
+        userMessage.innerHTML = messageText;  // Set the user's message text
+        document.getElementById('activeMessageForm').appendChild(userMessage);
+
+        // Clear input
+        inputField.value = '';
+
+        // Add Pokémon reply message (example response)
+        setTimeout(() => {
+            const pokemonMessage = document.createElement('div');
+            pokemonMessage.className = 'pokemon-message';
+            pokemonMessage.innerHTML = "Hello, I'm your Pokémon companion!"; // Example response text
+            document.getElementById('activeMessageForm').appendChild(pokemonMessage);
+
+            // Scroll to the latest message
+            const activeMessageForm = document.getElementById('activeMessageForm');
+            activeMessageForm.scrollTop = activeMessageForm.scrollHeight;
+        }, 1000); // Simulate a delay for the Pokémon response
+    }
+});
+
