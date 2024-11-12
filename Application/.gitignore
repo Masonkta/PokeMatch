@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 /neo4j/neo4j-database
+*.json

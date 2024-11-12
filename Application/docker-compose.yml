@@ -24,6 +24,8 @@ services:
     environment:
       - NEO4J_URI=bolt://neo4j:7687
     restart: always
+    volumes:
+      - ./backend/chat_histories.json:/app/chat_histories.json 
       
 networks:
   docker-net:

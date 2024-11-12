@@ -7,6 +7,7 @@ import pokemon_data
 import random
 import sys
 import io
+import json
 from gradio_client import Client
 
 app = FastAPI()
@@ -335,6 +336,13 @@ async def matched_list():
     
 @app.get("/pokemon_chatbot_message/")
 async def chatbot_message(pokemon_name: str, user_message: str):
+    # Attempt to load chat histories from a JSON file if it exists
+    try:
+        with open('chat_histories.json', 'r', encoding='utf-8') as f:
+            chat_histories = json.load(f)
+    except FileNotFoundError:
+        chat_histories = {}
+
     pokemon_information_query = """
     MATCH (p:Pokemon)
     WHERE p.name = $pokemon_name
@@ -349,21 +357,35 @@ async def chatbot_message(pokemon_name: str, user_message: str):
 
     prompt = (
         f"{pokemon_name} is a Pokémon with the following personality traits: {personality_traits}. "
-        f"The user said: '{user_message}'. As {pokemon_name}, start your reply by saying your name and then respond in character. "
-        f"Make the reply sound like something {pokemon_name} would say."
+        f"The user said: '{user_message}'. As {pokemon_name}, start your reply by saying your own name (for example: 'Pika, Pika') and then respond in character. "
+        f"Make the reply sound like something {pokemon_name} would say." 
+        f"These are your previous conversations: {chat_histories.get(pokemon_name)}."
+        f"If you don't have any previous conversations, then introduce yourself otherwise don't introduce yourself."
     )
 
-    # Use the "/predict" endpoint and provide the necessary parameters
+    # Initialize chat history if it doesn't exist
+    if pokemon_name not in chat_histories:
+        chat_histories[pokemon_name] = []
+
+    # Add the user message to chat history
+    chat_histories[pokemon_name].append({"role": "user", "content": user_message})
+
+    # Send the prompt to the model
     response = client.predict(
-        inputs=prompt, 
+        inputs=prompt,
         api_name="/predict",  # Use the correct API name
         top_p=0.8,  # You can adjust the top_p and temperature if needed
         temperature=1.2
     )
 
-    # Decode the generated response
     reply = response[0][0][1]
-    
-    # Print and return the response for checking
     print("Reply:", reply)
+
+    # Add AI response to chat history
+    chat_histories[pokemon_name].append({"role": "assistant", "content": reply})
+    print("Chat history for", pokemon_name, ":", chat_histories[pokemon_name])
+
+    with open('chat_histories.json', 'w', encoding='utf-8') as f:
+        json.dump(chat_histories, f, ensure_ascii=False, indent=4)
+
     return {"reply": reply}
