@@ -457,50 +457,51 @@ async function checkIfUserLoggedIn() {
         console.error("Error checking login status:", error);
     }
 }
+
 async function MatchedList() {
     try { 
         const response = await ipcRenderer.invoke('Matched-Pokemon-List');
         const matched_pokemon = response.matched_pokemon;
         console.log(`The Matched List was found: ${matched_pokemon}`);
-        
-        const messagesForm = document.getElementById('messagesForm');
-        
-        // Clear existing content in case of reloading
-        messagesForm.innerHTML = '';
+        const messageProfileForm = document.getElementById('messageProfileForm');
 
         // Limit the number of entries to 10
         const maxButtons = 10;
         const pokemonList = matched_pokemon.slice(0, maxButtons);
-        
+        const existingProfiles = messageProfileForm.querySelectorAll('h6.pokemon-message-name');
+
+        // Loop over each Pokémon in the matched list
         pokemonList.forEach(pokemonName => {
-            // Create the container for each Pokémon's image and name
-            const messageProfileForm = document.createElement('div');
-            messageProfileForm.id = 'messageProfileForm';
+            // Check if the Pokémon name is already in the list
+            let profileExists = false;
 
-            // Create the image element
-            const imageElement = document.createElement('img');
-            imageElement.classList.add('pokemon-button-image'); // Use the updated class
-            imageElement.src = 'images/pokeball.png'; // Replace with actual image source if needed
-            imageElement.alt = pokemonName;
+            existingProfiles.forEach(profile => {
+                if (profile.textContent === pokemonName) {
+                    profileExists = true;
+                }
+            });
 
-            // Create the name element
-            const nameElement = document.createElement('h6');
-            nameElement.classList.add('pokemon-message-name');
-            nameElement.textContent = pokemonName;
+            if (profileExists == false) {
+                // Create the image element
+                const imageElement = document.createElement('img');
+                imageElement.classList.add('pokemon-button-image'); // Use the updated class
+                imageElement.src = 'images/pokeball.png'; // Replace with actual image source if needed
+                imageElement.alt = pokemonName;
 
-            // Append the image and name to the messageProfileForm container
-            messageProfileForm.appendChild(imageElement);
-            messageProfileForm.appendChild(nameElement);
+                // Create the name element
+                const nameElement = document.createElement('h6');
+                nameElement.classList.add('pokemon-message-name');
+                nameElement.textContent = pokemonName;
 
-            // Append the container to the messagesForm
-            messagesForm.appendChild(messageProfileForm);
+                // Append the image and name to the messageProfileForm container
+                messageProfileForm.appendChild(imageElement);
+                messageProfileForm.appendChild(nameElement);
+            }
         });
     } catch (error) {
         console.error("Error retrieving Matched List", error);
     }
 }
-
-
 
 async function message(pokemon_name, user_message) {
     try {

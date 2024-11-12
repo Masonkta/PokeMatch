@@ -336,6 +336,24 @@ async def matched_list():
     
 @app.get("/pokemon_chatbot_message/")
 async def chatbot_message(pokemon_name: str, user_message: str):
+    user_query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    RETURN u
+    """
+    user_result = graph.run(user_query).data()
+    user_name = user_result[0]['u']['name']
+
+    pokemon_information_query = """
+    MATCH (p:Pokemon)
+    WHERE p.name = $pokemon_name
+    RETURN p
+    """
+    pokemon_result = graph.run(pokemon_information_query, pokemon_name=pokemon_name).data()
+
+    pokemon = pokemon_result[0]['p']
+    personality_traits = pokemon['natures']
+
     # Attempt to load chat histories from a JSON file if it exists
     try:
         with open('chat_histories.json', 'r', encoding='utf-8') as f:
@@ -343,32 +361,25 @@ async def chatbot_message(pokemon_name: str, user_message: str):
     except FileNotFoundError:
         chat_histories = {}
 
-    pokemon_information_query = """
-    MATCH (p:Pokemon)
-    WHERE p.name = $pokemon_name
-    RETURN p
-    """
-    result = graph.run(pokemon_information_query, pokemon_name=pokemon_name).data()
-
-    pokemon = result[0]['p']
-    personality_traits = pokemon['natures']
+    # Initialize user and Pokémon chat history if not present
+    if user_name not in chat_histories:
+        chat_histories[user_name] = {}
+    if pokemon_name not in chat_histories[user_name]:
+        chat_histories[user_name][pokemon_name] = []
 
     client = Client("yuntian-deng/ChatGPT")
 
+    previous_conversations = chat_histories[user_name][pokemon_name]
     prompt = (
         f"{pokemon_name} is a Pokémon with the following personality traits: {personality_traits}. "
         f"The user said: '{user_message}'. As {pokemon_name}, start your reply by saying your own name (for example: 'Pika, Pika') and then respond in character. "
         f"Make the reply sound like something {pokemon_name} would say." 
-        f"These are your previous conversations: {chat_histories.get(pokemon_name)}."
+        f"These are your previous conversations: {previous_conversations}."
         f"If you don't have any previous conversations, then introduce yourself otherwise don't introduce yourself."
     )
 
-    # Initialize chat history if it doesn't exist
-    if pokemon_name not in chat_histories:
-        chat_histories[pokemon_name] = []
-
     # Add the user message to chat history
-    chat_histories[pokemon_name].append({"role": "user", "content": user_message})
+    chat_histories[user_name][pokemon_name].append({"role": "user", "content": user_message})
 
     # Send the prompt to the model
     response = client.predict(
@@ -379,11 +390,12 @@ async def chatbot_message(pokemon_name: str, user_message: str):
     )
 
     reply = response[0][0][1]
+    reply = reply.encode("utf-8").decode("utf-8")
     print("Reply:", reply)
 
     # Add AI response to chat history
-    chat_histories[pokemon_name].append({"role": "assistant", "content": reply})
-    print("Chat history for", pokemon_name, ":", chat_histories[pokemon_name])
+    chat_histories[user_name][pokemon_name].append({"role": "assistant", "content": reply})
+    print("Chat history for", pokemon_name, ":", chat_histories[user_name][pokemon_name])
 
     with open('chat_histories.json', 'w', encoding='utf-8') as f:
         json.dump(chat_histories, f, ensure_ascii=False, indent=4)
