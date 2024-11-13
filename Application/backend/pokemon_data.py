@@ -187,7 +187,21 @@ data = [
     {"pokemon": "Chewtle", "image":"https://tinyurl.com/2bl4vfcm", "type":"Water", "bio":"Known ankle biter and notorious knee nibbler."},
     {"pokemon": "Silicobra", "image":"https://tinyurl.com/29fzdcqn", "type":"Ground", "bio":"Their fangs never grew in, so they spit venom instead."},
     {"pokemon": "Arrokuda", "image":"https://tinyurl.com/2bae96gz", "type":"Water", "bio":"Their big grin only holds three teeth, but that doesn't stop them from smiling."},
-    {"pokemon": "Barraskewda", "image":"https://tinyurl.com/2cvpdhzx", "type":"Water", "bio":"Hunts using their head like a spear."}
+    {"pokemon": "Barraskewda", "image":"https://tinyurl.com/2cvpdhzx", "type":"Water", "bio":"Hunts using their head like a spear."},
+    {"pokemon": "Probopass", "image": "https://tinyurl.com/2xubwu5x", "type": "Rock/Steel", "bio": "With a massive nose and mustache, Probopass can direct metal filings toward enemies. Looks like a rock who takes mustache grooming very seriously."},
+    {"pokemon": "Lickilicky", "image": "https://tinyurl.com/27vu9szh", "type": "Normal", "bio": "An evolution of Lickitung, it has an extra-long tongue perfect for slurping up food – and maybe even its opponents!"},
+    {"pokemon": "Stunfisk", "image": "https://tinyurl.com/2anomsp8", "type": "Ground/Electric", "bio": "Looking like a pancake gone wrong, this flat fish hides in mud and delivers shocking surprises."},
+    {"pokemon": "Bidoof", "image": "https://tinyurl.com/28gz33df", "type": "Normal", "bio": "A beaver with big teeth and a big heart. Often underestimated, Bidoof is surprisingly lovable despite its goofy grin."},
+    {"pokemon": "Spoink", "image": "https://tinyurl.com/22e8q8jv", "type": "Psychic", "bio": "A bouncing piggy Pokémon that has to keep springing on its tail – or else! With every bounce, it looks more determined than ever."},
+    {"pokemon": "Swoobat", "image": "https://tinyurl.com/27ks5lcf", "type": "Psychic/Flying", "bio": "A bat with a heart-shaped nose that radiates happiness and sometimes even ultrasonic attacks."},
+    {"pokemon": "Alolan Exeggutor", "image": "https://tinyurl.com/2agn6cho", "type": "Grass/Dragon", "bio": "An extremely tall, tropical Exeggutor with a very long neck that could easily poke the clouds. Makes other Pokémon look up in awe – or confusion."},
+    {"pokemon": "Bruxish", "image": "https://tinyurl.com/27byzedc", "type": "Water/Psychic", "bio": "A colorful fish with way too many teeth and a fashion sense that’s hard to miss. Bruxish is flashy, bold, and maybe a little vain."},
+    {"pokemon": "Woobat", "image": "https://tinyurl.com/25vgehts", "type": "Psychic/Flying", "bio": "A fluffy bat with a big heart (literally, on its nose). It loves to swoop around in caves spreading love and a little chaos."},
+    {"pokemon": "Farfetch’d", "image": "https://tinyurl.com/22maw8hh", "type": "Normal/Flying", "bio": "A quirky bird who carries a leek as its weapon of choice, as if ready to start a cooking show instead of a battle."},
+    {"pokemon": "Klefki", "image": "https://tinyurl.com/22n8yaez", "type": "Steel/Fairy", "bio": "A set of keys that jingles with excitement whenever it finds more keys to collect. It’s a locksmith’s best – or worst – friend."},
+    {"pokemon": "Wobbuffet", "image": "https://tinyurl.com/27mkvwsw", "type": "Psychic", "bio": "A Pokémon that just stands there taking hits. With a smile that says, ‘Hit me again, I dare you.’"},
+    {"pokemon": "Delibird", "image": "https://tinyurl.com/245nw78t", "type": "Ice/Flying", "bio": "A red-and-white bird that looks ready for Christmas, carrying a sack with mysterious ‘presents’ that may just explode."},
+    {"pokemon": "Ludicolo", "image": "https://tinyurl.com/28b42td9", "type": "Water/Grass", "bio": "With a pineapple-like hat and a love for dance, Ludicolo grooves to its own beat, bringing the party to every battle."}
 
 ]
 
