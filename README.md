@@ -9,17 +9,18 @@ PokeMatch is a fun, Tinder-inspired app where users can like or dislike Pokémon
 - [Setup Instructions](#setup-instructions)
 - [Project Structure](#project-structure)
 - [Usage Guide](#usage-guide)
-- [Planned Features](#planned-features)
+- [Developers and Contributions](#developers-and-contributions)
 - [Credits](#credits)
 
 ---
 
 ## Features
 
+- **Create User Profile**: Users can create a profile and select Pokémon types and natures to filter the profiles they want to see.
+- **Log in User Profile**: Users can log in and view each Pokémon profile.
 - **Swipe Left or Right**: Users can dislike or like Pokémon profiles.
-- **Selectable Types and Natures**: Users can select Pokémon types and natures to filter the profiles they want to see.
-- **Neo4j Integration**: Uses a Neo4j database to store Pokémon and User profile data and track likes and dislikes.
-- **FastAPI Backend**: A FastAPI backend manages data exchange between the app and the Neo4j database.
+- **Match Pokémon**: Users can match with Pokémon according to matching algorithm.
+- **Message with Matched Pokémon**: Users can message with matched Pokémon and engage in conversation.
 
 ---
 
@@ -123,6 +124,7 @@ PokeMatch is a fun, Tinder-inspired app where users can like or dislike Pokémon
 PokeMatch/
 ├── Application/
 |   ├── backend/
+│   │   ├── chat_histories.json
 │   │   ├── Dockerfile
 │   │   ├── main.py
 │   │   ├── pokemon_data.py
@@ -130,13 +132,17 @@ PokeMatch/
 │   ├── my-electron-app/
 |   │   └── animations/
 |   │   └── images/
+|   │   └── music/
 |   │   └── node_modules/
 │   │   ├── index.html
 │   │   ├── main.js
 │   │   ├── package-lock.json
 │   │   ├── package.json
 │   │   ├── preload.js
-│   │   └── renderer.js              
+│   │   └── renderer.js   
+│   ├── neo4j/   
+|   ├── .gitignore
+|   ├── docker-compose.yml        
 └── README.md                    
 ```
 
@@ -147,6 +153,8 @@ This is the root directory for the PokeMatch application.
 Contains all application components, including the backend server and the Electron app interface.
 
 - **`backend/`**  
+    The backend environment for the Electron application
+    - `chat_histories.json` - The JSON file for storing chat history data for messaging.
     - `Dockerfile` - Defines the Docker setup for the backend environment, outlining dependencies and setup steps.
     - `main.py` - The main FastAPI application file that handles API endpoints and manages Neo4j connections.
     - `pokemon_data.py` - Contains all pokemon data along with natures
@@ -157,6 +165,7 @@ Contains all application components, including the backend server and the Electr
     
     - `animations/` - Contains animation files for added interactivity and a polished user experience.
     - `images/` - Stores images, including Pokémon types, natures, and app and profile icons.
+    - `music/` - Stores music/sound effect files for main background along with matching.
     - `node_modules/` - Contains packages and dependencies required by Node.js to run the Electron app.
     - `index.html` - The main HTML file for the Electron app, defining the app’s layout and structure.
     - `main.js` - The primary JavaScript file for the Electron app’s main process, managing app lifecycle events and backend communication.
@@ -165,6 +174,7 @@ Contains all application components, including the backend server and the Electr
     - `preload.js` - A script that runs in Electron’s context, allowing secure interaction between the main and renderer processes.
     - `renderer.js` - The script for managing UI interactions in the Electron app, including Pokémon data display and user actions.
 
+--- 
 
 ## Usage Guide
 
@@ -173,23 +183,66 @@ Contains all application components, including the backend server and the Electr
 1. **Create Your Profile**:
     - Click the **Settings** button in the top left corner, then select **Register**.
     - Fill in your **username** and **password**. Optionally, you can add a **bio**.
-    - Choose your preferred Pokémon **types** and **natures**.
-    - Click **Create User** to complete your registration.
-    - Click **Back** to return to the main screen, click **Login**, enter your credentials, and log in. A green success message will confirm your login.
+    - Choose your preferred Pokémon **types** and **natures**. You can select up to three for both.
+    - Click **Create User** to complete your registration. A green success message will confirm your registration.
 
-2. **Explore and Swipe on Pokémon**:
+2. **Login Your Profile**:
+    - Click **Back** to return to the main screen, click **Login**, enter your credentials, and log in. A green success message will confirm your login.
+    - A new page show up with your profile information: username, bio, types, and natures.
+    - Your matched pokemon will show in the left side of the messaging box.
+    - You also have the option to logout and log into another profile.
+
+3. **Explore and Swipe on Pokémon**:
     - Use the **Like** and **Dislike** buttons to navigate through Pokémon profiles.
     - Your liked and disliked Pokémon will be saved in the Neo4j database for personalized recommendations.
     - Previously seen Pokémon will not reappear if they have been liked or disliked already. 
-    - When you successfully match with a Pokémon, an animation will appear
+    - When you successfully match with a Pokémon, an animation will appear.
+    - The newly matched Pokémon will added to your other matched Pokémon in the left side of the messaging box.
 
-3. **Messaging System**:
-    - Allow users to message any pokémon they have sucessfully matched with through a chat system.
+4. **Messaging System**:
+    - When you click on a Pokémon, it will load your chat history with it.
+    - Use the text box to enter in a message as well as the send button to send the message.
+    - In a few seconds, the Pokémon will send back a message of its own.
+    - **Green**: User, **Yellow**: Pokémon
 
-    
+5. **Music**:
+    - When the apps initially loads, a lofi track will play on loop.
+    - When you match with a Pokémon, the music will switch according to the order of operation.
+    - **Order of Operation**: 1: Lofi   2. Bossa Nova   3. R&B   4. Jersey Club
+
+---
+
+# Developers and Contributions
+
+## Anamaria Montes
+### Main Contributions:
+  - 
+  - 
+  - 
+
+## Mason Maddox
+### Main Contributions:
+  - 
+  - 
+  - 
+
+## Chad Auchard
+### Main Contributions:
+  - 
+  - 
+  - 
+
+## Stephan Johnson
+### Main Contributions:
+  - 
+  - 
+  - 
+
+---
+
 ## Credits
 
     Developer: Stephan Johnson
     Designer/Developer: Anamaria Montes
     Developer: Mason Maddox
-    Developer: Caje Auchard
+    Developer: Chad Auchard
