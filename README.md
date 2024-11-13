@@ -234,9 +234,10 @@ Contains all application components, including the backend server and the Electr
 
 ## Chad Auchard
 ### Main Contributions:
-  - 
-  - 
-  - 
+  - Created algorithm for matching with liked Pokemon.
+  - Gathered and populated Pokemon data to be input into database.
+  - Helped conceptualize structure of database.
+  - Helped connect backend matching to frontend.
 
 ## Stephan Johnson
 ### Main Contributions:
