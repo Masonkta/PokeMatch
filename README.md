@@ -224,9 +224,12 @@ Contains all application components, including the backend server and the Electr
 
 ## Mason Maddox
 ### Main Contributions:
-  - 
-  - 
-  - 
+  - Set up front and back end for liking and disliking Pokemon.
+  - Assisted in the creation of the message page and its functionality.
+  - Allowed for the currently displayed pokemon to swap when like or disliked by the user.
+  - Created all the logic for fetching pokemon based on a given id that is randomly generated.
+  - Added constraints to the fetch logic to ensure all pokemon shown to the user are ones that they have not previously liked or disliked.
+  - Assisted in the implementation of animations and ensuring they ran at correct timings.
 
 ## Chad Auchard
 ### Main Contributions:
