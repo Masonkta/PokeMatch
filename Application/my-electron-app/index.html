@@ -399,16 +399,24 @@
             line-height: 1.4;
         }
 
+        #messageDisplayArea {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #d9e0e6;
+            padding: 1%;
+            border-radius: 5px;
+        }
+
         /* Pokémon message aligned far left */
         .pokemon-message {
             align-self: flex-start;
-            background-color: #ffeb3b; /* Yellow for Pokemon*/
+            background-color: #ffeb3b; /* Yellow for Pokémon */
             color: #333;
             border-radius: 15px 15px 15px 3px;
             padding: 8px 12px;
-            text-align: left;
-            display: inline-block;
             margin-bottom: 10px;
+            max-width: 70%; /* Adjusts the width based on content */
         }
 
         /* User message aligned far right */
@@ -418,10 +426,8 @@
             color: white;
             border-radius: 15px 15px 3px 15px;
             padding: 8px 12px;
-            text-align: left;
-            display: inline-block;
-            margin-left: 60%;
             margin-bottom: 10px;
+            max-width: 70%; /* Adjusts the width based on content */
         }
 
     </style>    
