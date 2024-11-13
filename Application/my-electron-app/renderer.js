@@ -580,7 +580,7 @@ document.getElementById('enterButton').addEventListener('click', () => {
         const userMessage = document.createElement('div');
         userMessage.className = 'user-message';
         userMessage.innerHTML = messageText;  // Set the user's message text
-        document.getElementById('activeMessageForm').appendChild(userMessage);
+        document.getElementById('messageDisplayArea').appendChild(userMessage);
 
         // Clear input
         inputField.value = '';
@@ -590,12 +590,11 @@ document.getElementById('enterButton').addEventListener('click', () => {
             const pokemonMessage = document.createElement('div');
             pokemonMessage.className = 'pokemon-message';
             pokemonMessage.innerHTML = "Hello, I'm your Pokémon companion!"; // Example response text
-            document.getElementById('activeMessageForm').appendChild(pokemonMessage);
+            document.getElementById('messageDisplayArea').appendChild(pokemonMessage);
 
             // Scroll to the latest message
-            const activeMessageForm = document.getElementById('activeMessageForm');
-            activeMessageForm.scrollTop = activeMessageForm.scrollHeight;
+            const messageDisplayArea = document.getElementById('messageDisplayArea');
+            messageDisplayArea.scrollTop = messageDisplayArea.scrollHeight;
         }, 1000); // Simulate a delay for the Pokémon response
     }
 });
-

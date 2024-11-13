@@ -484,19 +484,29 @@
 
     
 
-    <!-- Messaging Container -->
-    <div id="messagesForm">
-        <div id = "innerMessagesForm"> 
-            <div id = "messageProfileForm">
-            </div>
-            <div id = "activeMessageForm">
-                <div id = "activeMessageFormInput">
-                    <textarea id = "MessageFormInput" placeholder = "Type Here" rows="3" ></textarea>
-                    <button id = "enterButton"><img src = "images/enter.png" alt = "Enter Button" width = "30" height = "30"></button>
-                </div>
+<!-- Messaging Container -->
+<div id="messagesForm">
+    <div id="innerMessagesForm"> 
+        <div id="messageProfileForm">
+            <!-- Profile or other info here -->
+        </div>
+        
+        <!-- Message form with messages and input -->
+        <div id="activeMessageForm">
+            <!-- Messages will be appended here -->
+            <div id="messageDisplayArea"></div>
+            
+            <!-- Input area for typing new messages -->
+            <div id="activeMessageFormInput">
+                <textarea id="MessageFormInput" placeholder="Type Here" rows="3"></textarea>
+                <button id="enterButton">
+                    <img src="images/enter.png" alt="Enter Button" width="30" height="30">
+                </button>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Profile Layout -->
     <div id="profileForm" class="center-text">
