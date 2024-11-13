@@ -125,6 +125,7 @@ let poke_count = 0;
 let matched_pokemon = [];
 const emptyState = document.querySelector('.empty-state');
 const loginMessage = document.querySelector('.loginMessage');
+const logoutMessage = document.querySelector('.logoutMessage');
 const createUserMessage = document.querySelector('.createUserMessage');
 
 let insession = false;
@@ -212,6 +213,20 @@ document.getElementById('passwordLoginButton').addEventListener('click', () => {
     }
 });
 
+
+document.getElementById('logoutButton').addEventListener('click', async () => {
+    try {
+        const response = await ipcRenderer.invoke('logout');
+        console.log("Logging out success:", response.messageSuccess);
+        if (response.messageSuccess) {
+            logoutUserSuccessMessage(response);
+            playClickSound3()
+        }  
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
+
 // Ensures the information is provided when it is needed later on to send the request to the FastAPI for receiving user.
 async function retrieveProfile(username, password) {
     try {
@@ -292,6 +307,16 @@ async function createUserSuccessMessage(profile) {
     }
 }
 
+// Sets the create user message to be displayed when the user is created.
+async function logoutUserSuccessMessage(response) {
+    if (response) {
+        logoutMessage.style.display = 'block';
+        await wait(1500);
+        logoutMessage.style.display = 'none';
+    } else {
+        logoutMessage.style.display = 'none';
+    }
+}
 
 function generateRandomId(min, max, exclude, attemptedIds) {
     let randomId;

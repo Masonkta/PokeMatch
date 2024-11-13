@@ -296,9 +296,9 @@ async def logout_user():
     result = graph.run(query).data()
 
     if not result:
-        return {"message": "No users logged out"}
+        return {"messageFail": "No users logged out"}
     
-    return {"message": "All logged-in users have been logged out!"}
+    return {"messageSuccess": "User logged out!"}
 
 @app.get("/is_user_logged_in/")
 async def is_user_logged_in():

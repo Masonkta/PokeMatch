@@ -213,14 +213,30 @@ async function logout() {
     try {
         const response = await axios.post('http://localhost:8000/logout_user/');
         if (response.status === 200) {
-            console.log('Logging out:', response.data.message);
+            console.log('Logging out:', response.data.messageSuccess);
         } else {
-            console.error('Failed to log out');
+            console.error('Failed to log out:', response.data.messageFail);
         }
     } catch (error) {
         console.error('Error calling FastAPI log out:', error.message);
     }
 }
+
+ipcMain.handle('logout', async (event) => {
+    try {
+        const response = await axios.post('http://localhost:8000/logout_user/'); 
+        if (response.status === 200) {
+            console.log('Logging out:', response.data.messageSuccess);
+            return response.data;
+        } else {
+            console.error('Failed to log out:', response.data.messageFail);
+            return response.data;
+        }
+    } catch (error) {
+        console.error('Error calling FastAPI check logout status:', error.message);
+        return { isLoggedOut: false }; 
+    }
+});
 
 ipcMain.handle('check_user_logged_in', async (event) => {
     try {

@@ -600,6 +600,7 @@
             <h6 id = loggedInTypes class="pokemon-type-nature">Favored Types:</h6>
             <h6 id = loggedInNatures class="pokemon-type-nature">Favored Natures:</h6>
             <button id = "logoutButton"><img src = "images/logout.png" alt = "Logout"  width = "75" height = "26.25"></button>
+            <div class="logoutMessage" style="display:none; color: green;">User logged out successfully!</div>
         </div>
         <!-- Input Fields for Login -->
         <div id="passwordInputForm" class="center-text">
@@ -642,6 +643,9 @@
         const natureDisplay3 = document.getElementById('nature-display-3');
         const likeButton = document.getElementById('likeButton');
         const dislikeButton = document.getElementById('dislikeButton');
+        const logout = document.getElementById('logoutButton');
+        const loginUsernameText = document.getElementById('loginUsername');
+        const loginPasswordText = document.getElementById('loginPassword');
         let typeSelectedCount = 0;
         const typeMaxSelections = 3;
         let natureSelectedCount = 0;
@@ -693,12 +697,16 @@
             // Then display the logged in profile form in the profile container
             populateUserInfo()
             passwordInputForm.style.display = "none";
+            loginUsernameText.value = '';
+            loginPasswordText.value = '';
             loggedinProfileForm.style.display = "block";
         }
         
         // Back Button Password Setup
         backButtonPassword.addEventListener("click", () => {
             passwordInputForm.style.display = "none";
+            loginUsernameText.value = '';
+            loginPasswordText.value = '';
             loginForm.style.display = "block";
             loginText.style.display = "block";
             loginButton.style.display = "inline";
@@ -714,6 +722,15 @@
             registerUserButton.style.display = "inline";
         });
 
+        // Logout Button Setup
+        logout.addEventListener("click", () => {
+            createUserForm.style.display = "none";
+            loginForm.style.display = "block";
+            loginText.style.display = "block";
+            loginButton.style.display = "inline";
+            registerUserButton.style.display = "inline";
+            loggedinProfileForm.style.display = "none";
+        });
 
         typeButtons.forEach(button =>{
             button.addEventListener('click',() => {
