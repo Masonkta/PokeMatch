@@ -183,12 +183,10 @@ Contains all application components, including the backend server and the Electr
     - Previously seen Pokémon will not reappear if they have been liked or disliked already. 
     - When you successfully match with a Pokémon, an animation will appear
 
-## Planned Features
-
-1. **Messaging System**:
+3. **Messaging System**:
     - Allow users to message any pokémon they have sucessfully matched with through a chat system.
-    
 
+    
 ## Credits
 
     Developer: Stephan Johnson
