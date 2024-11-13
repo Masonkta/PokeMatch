@@ -216,9 +216,11 @@ Contains all application components, including the backend server and the Electr
 
 ## Anamaria Montes
 ### Main Contributions:
-  - 
-  - 
-  - 
+  - Set up front end for matching with Pokemon
+  - Set up front end for user profile
+  - Set up front end for messaging window
+  - Designed logo and custom buttons for entire front end
+  - Created all animations
 
 ## Mason Maddox
 ### Main Contributions:

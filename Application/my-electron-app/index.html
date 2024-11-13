@@ -239,6 +239,13 @@
             margin:0;
         }
 
+        .logged-in-text{
+            font-size: 0.9em;
+            color:#2f2c30;
+            margin:0;
+            padding: 2px;
+        }
+
         #imageUpload {
             display: none;
         }
@@ -367,6 +374,7 @@
             height: 93.25vh;
             padding: 1%;
             overflow-y: scroll;
+            overflow-x: hidden;
         }
 
         
@@ -595,10 +603,10 @@
         
         <div id="loggedinProfileForm">
             <img id="profileImage" class="profile-image" src="images/default_profile.png" alt="Profile Image">
-            <h6 id = loggedInName class="pokemon-type-nature">Name:</h6>
-            <h6 id = loggedInBio class="pokemon-type-nature">Bio:</h6>
-            <h6 id = loggedInTypes class="pokemon-type-nature">Favored Types:</h6>
-            <h6 id = loggedInNatures class="pokemon-type-nature">Favored Natures:</h6>
+            <h6 id = loggedInName class="logged-in-text">Name:</h6>
+            <h6 id = loggedInBio class="logged-in-text">Bio:</h6>
+            <h6 id = loggedInTypes class="logged-in-text">Favored Types:</h6>
+            <h6 id = loggedInNatures class="logged-in-text">Favored Natures:</h6>
             <button id = "logoutButton"><img src = "images/logout.png" alt = "Logout"  width = "75" height = "26.25"></button>
             <div class="logoutMessage" style="display:none; color: green;">User logged out successfully!</div>
         </div>
