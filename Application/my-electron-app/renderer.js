@@ -213,12 +213,18 @@ document.getElementById('passwordLoginButton').addEventListener('click', () => {
     }
 });
 
+// Function to clear Pokémon profiles from the DOM
+function clearPokemonProfiles() {
+    const messageProfileForm = document.getElementById('messageProfileForm');
+    messageProfileForm.innerHTML = ''; // Clear all Pokémon images and names
+}
 
 document.getElementById('logoutButton').addEventListener('click', async () => {
     try {
         const response = await ipcRenderer.invoke('logout');
         console.log("Logging out success:", response.messageSuccess);
         if (response.messageSuccess) {
+            clearPokemonProfiles();
             logoutUserSuccessMessage(response);
             playClickSound3()
         }  
