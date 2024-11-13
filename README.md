@@ -219,8 +219,9 @@ Contains all application components, including the backend server and the Electr
   - Set up front end for matching with Pokemon
   - Set up front end for user profile
   - Set up front end for messaging window
+  - Set up button functionality within index.html file
   - Designed logo and custom buttons for entire front end
-  - Created all animations
+  - Created all animations and implemented them
 
 ## Mason Maddox
 ### Main Contributions:
