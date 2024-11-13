@@ -376,6 +376,7 @@ async def chatbot_message(pokemon_name: str, user_message: str):
         f"Make the reply sound like something {pokemon_name} would say." 
         f"These are your previous conversations: {previous_conversations}."
         f"If you don't have any previous conversations, then introduce yourself otherwise don't introduce yourself."
+        f"Try to be romantic, try not to be robotic, and try not to send long messages."
     )
 
     # Add the user message to chat history
