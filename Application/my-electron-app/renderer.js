@@ -524,26 +524,38 @@ async function MatchedList() {
         const response = await ipcRenderer.invoke('Matched-Pokemon-List');
         const matched_pokemon = response.matched_pokemon;
         console.log(`The Matched List was found: ${matched_pokemon}`);
+        
         const messageProfileForm = document.getElementById('messageProfileForm');
-
         const pokemonList = matched_pokemon;
-        const existingProfiles = messageProfileForm.querySelectorAll('h6.pokemon-message-name');
+
+        // Using a Set to track unique Pokémon names to avoid duplicates
+        const existingProfiles = new Set(
+            [...messageProfileForm.querySelectorAll('h6.pokemon-message-name')].map(profile => profile.textContent)
+        );
 
         // Loop over each Pokémon in the matched list
         pokemonList.forEach(pokemonName => {
-            // Check if the Pokémon name is already in the list
-            let profileExists = false;
-
-            existingProfiles.forEach(profile => {
-                if (profile.textContent === pokemonName) {
-                    profileExists = true;
-                }
-            });
-
-            if (profileExists == false) {
+            if (!existingProfiles.has(pokemonName)) {
                 const imageElement = document.createElement('button');
                 imageElement.classList.add('pokemon-button-image'); // Add a CSS class for styling
                 imageElement.alt = pokemonName;
+
+                // Set up event listener for the button to change the current Pokémon
+                imageElement.addEventListener('click', () => {
+                    // Update the Pokémon name in the message input field
+                    const inputField = document.getElementById('MessageFormInput');
+                    inputField.placeholder = `Message ${pokemonName}`; // Change the placeholder text to reflect the selected Pokémon's name
+
+                    // Optionally, store the current Pokémon name globally if you need to use it elsewhere
+                    window.selectedPokemonName = pokemonName;
+
+                    // Clear the previous messages
+                    const messageDisplayArea = document.getElementById('messageDisplayArea');
+                    messageDisplayArea.innerHTML = '';  // Remove all messages from the display area
+
+                    // Optionally, update the UI to reflect the new Pokémon (if needed)
+                    console.log(`Switched to Pokémon: ${pokemonName}`);
+                });
 
                 // Create the name element
                 const nameElement = document.createElement('h6');
@@ -560,6 +572,8 @@ async function MatchedList() {
     }
 }
 
+
+
 async function message(pokemon_name, user_message) {
     try {
         const response = await ipcRenderer.invoke('pokemon_chatbot_message', pokemon_name, user_message);
@@ -571,30 +585,48 @@ async function message(pokemon_name, user_message) {
     }
 }
 
-document.getElementById('enterButton').addEventListener('click', () => {
-    const inputField = document.getElementById('MessageFormInput');
-    const messageText = inputField.value.trim();
+document.getElementById('enterButton').addEventListener('click', async () => {
+    // Check if the user is logged in
+    if (await checkIfUserLoggedIn()) {
+        const inputField = document.getElementById('MessageFormInput');
+        const messageText = inputField.value.trim();
 
-    if (messageText) {
-        // Add user message
-        const userMessage = document.createElement('div');
-        userMessage.className = 'user-message';
-        userMessage.innerHTML = messageText;  // Set the user's message text
-        document.getElementById('messageDisplayArea').appendChild(userMessage);
+        if (!window.selectedPokemonName) {
+            // If no Pokémon is selected, log an error message
+            console.log("Please select a Pokémon first before sending a message.");
+            return;  // Prevent further code execution
+        }
 
-        // Clear input
-        inputField.value = '';
+        if (messageText) {
+            const pokemonName = window.selectedPokemonName; // Use the selected Pokémon name
 
-        // Add Pokémon reply message (example response)
-        setTimeout(() => {
-            const pokemonMessage = document.createElement('div');
-            pokemonMessage.className = 'pokemon-message';
-            pokemonMessage.innerHTML = "Hello, I'm your Pokémon companion!"; // Example response text
-            document.getElementById('messageDisplayArea').appendChild(pokemonMessage);
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'user-message';
+            userMessage.innerHTML = messageText;  // Set the user's message text
+            document.getElementById('messageDisplayArea').appendChild(userMessage);
+
+            // Clear input field after submission
+            inputField.value = '';
+
+            // Get Pokémon chatbot response
+            const pokemonChatbotReply = await message(pokemonName, messageText);
+
+            // Add Pokémon reply message
+            if (pokemonChatbotReply) {
+                const pokemonMessage = document.createElement('div');
+                pokemonMessage.className = 'pokemon-message';
+                pokemonMessage.innerHTML = pokemonChatbotReply;  // Display the chatbot's reply
+                document.getElementById('messageDisplayArea').appendChild(pokemonMessage);
+            } else {
+                console.error("No response received from the chatbot.");
+            }
 
             // Scroll to the latest message
             const messageDisplayArea = document.getElementById('messageDisplayArea');
             messageDisplayArea.scrollTop = messageDisplayArea.scrollHeight;
-        }, 1000); // Simulate a delay for the Pokémon response
+        }
+    } else {
+        console.log("User is not logged in.");
     }
 });
