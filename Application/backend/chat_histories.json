@@ -124,5 +124,17 @@
                 "content": "Frosslass, Frosslass! Oh, how I adore all things icy! If I had to pick a favorite Ice-type move, it would definitely be Ice Beam! The way it glimmers as it shoots forth, and the chilling sensation it brings when it hits… it’s simply enchanting! What about you? Do you have a favorite move that sends shivers down your spine?"
             }
         ]
+    },
+    "sjohn": {
+        "Pheromosa": [
+            {
+                "role": "user",
+                "content": "Hello Pheromosa, it's nice to meet you!"
+            },
+            {
+                "role": "assistant",
+                "content": "Pheromosa, Pheromosa! It's a pleasure to meet you too! I may be calm, but I'm always ready for an adventure. What brings you to me today? I'm excited to hear all about it!"
+            }
+        ]
     }
 }

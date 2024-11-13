@@ -177,7 +177,7 @@ ipcMain.handle('Matched-Pokemon-List', async (event) => {
         console.log("User's matched pokemon:", response.data.matched_pokemon);
         return response.data; // Return the fetched data
     } catch (error) {
-        console.error("Error has occurred getitng Matched List", error);
+        console.error("Error has occurred getting Matched List", error);
         return { message: "Error Getting Matched List." }; // Return an error message
     }
 });
@@ -202,6 +202,18 @@ ipcMain.handle('pokemon_chatbot_message', async (event, pokemon_name, user_messa
     }
 });
 
+ipcMain.handle('chat_history', async (event, pokemon_name) => {
+    try {
+        const response = await axios.get('http://localhost:8000/chat_history/', {
+            params: { pokemon_name }
+        });
+        console.log("User's conversations with matched pokemon:", response.data.convs);
+        return response.data; // Return the fetched data
+    } catch (error) {
+        console.error("Error has occurred getting conversations with matched pokemon", error);
+        return { message: "Error getting conversations with matched pokemon" }; // Return an error message
+    }
+});
 
 // Allows the first displayed pokemon on startup to be a randomly selected one from the database
 function RandomId(min, max) {

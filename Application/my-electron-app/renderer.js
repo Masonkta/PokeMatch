@@ -216,7 +216,11 @@ document.getElementById('passwordLoginButton').addEventListener('click', () => {
 // Function to clear Pokémon profiles from the DOM
 function clearPokemonProfiles() {
     const messageProfileForm = document.getElementById('messageProfileForm');
+    const messageDisplayArea = document.getElementById('messageDisplayArea');
+    const messageFormInput = document.getElementById('MessageFormInput');
     messageProfileForm.innerHTML = ''; // Clear all Pokémon images and names
+    messageDisplayArea.innerHTML = '';
+    messageFormInput.placeholder = "Type Here";
 }
 
 document.getElementById('logoutButton').addEventListener('click', async () => {
@@ -583,6 +587,7 @@ async function MatchedList() {
                     // Clear the previous messages
                     const messageDisplayArea = document.getElementById('messageDisplayArea');
                     messageDisplayArea.innerHTML = '';  // Remove all messages from the display area
+                    loadConversations(pokemonName)
 
                     // Optionally, update the UI to reflect the new Pokémon (if needed)
                     console.log(`Switched to Pokémon: ${pokemonName}`);
@@ -614,6 +619,47 @@ async function message(pokemon_name, user_message) {
     } catch (error) {
         console.error("Error retrieving Pokemon chatbot message", error);
     }
+}
+
+async function chathistory(pokemon_name) {
+    try {
+        const response = await ipcRenderer.invoke('chat_history', pokemon_name);
+        const chat_history = response.convs;
+        console.log("Chat History:", chat_history);
+        return chat_history
+    } catch (error) {
+        console.error("Error retrieving Pokemon chat history", error);
+    }
+}
+
+async function loadConversations(pokemonName) {
+    const chat_history_convs = await chathistory(pokemonName)
+    console.log("Chat History for Pokemon:", pokemonName, chat_history_convs)
+    if (chat_history_convs.length === 0) {
+        return;
+    }
+    
+    chat_history_convs.forEach(message => {
+        if ('user' in message) {
+            console.log("message", message)
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'user-message';
+            userMessage.innerHTML = message.user;  // Set the user's message text
+            document.getElementById('messageDisplayArea').appendChild(userMessage);
+        } else if ('pokemon' in message) {
+            console.log("message", message)
+            // Add Pokémon message
+            const pokemonMessage = document.createElement('div');
+            pokemonMessage.className = 'pokemon-message';
+            pokemonMessage.innerHTML = message.pokemon;  // Set the Pokémon's message text
+            document.getElementById('messageDisplayArea').appendChild(pokemonMessage);
+        }
+    });
+
+    // Scroll to the latest message
+    const messageDisplayArea = document.getElementById('messageDisplayArea');
+    messageDisplayArea.scrollTop = messageDisplayArea.scrollHeight;
 }
 
 document.getElementById('enterButton').addEventListener('click', async () => {

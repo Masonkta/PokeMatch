@@ -401,3 +401,32 @@ async def chatbot_message(pokemon_name: str, user_message: str):
         json.dump(chat_histories, f, ensure_ascii=False, indent=4)
 
     return {"reply": reply}
+
+@app.get("/chat_history/")
+async def get_chat_history(pokemon_name: str):
+    user_query = """
+    MATCH (u:User)
+    WHERE u.inSession = true
+    RETURN u
+    """
+    user_result = graph.run(user_query).data()
+    user_name = user_result[0]['u']['name']
+    # Attempt to load chat histories from a JSON file if it exists
+    try:
+        with open('chat_histories.json', 'r', encoding='utf-8') as f:
+            chat_histories = json.load(f)
+    except FileNotFoundError:
+        chat_histories = {}
+
+    conversations = chat_histories[user_name][pokemon_name]
+    convs = []
+    for message in conversations:
+        role = message['role']
+        content = message['content']
+        if role == 'assistant':
+            convs.append({'pokemon': content})
+        else:
+            convs.append({role: content})
+    if not convs:
+        return {"convs": []}
+    return {"convs": convs}
