@@ -244,7 +244,7 @@ Contains all application components, including the backend server and the Electr
   - Set up Docker for containerizing the backend service.
   - Configured deployment using Docker Compose and a Dockerfile to set up and orchestrate the application's services (FastAPI, Neo4J).
   - Integrated FastAPI as the application programming interface for the communication between the frontend and database.
-  - Integrated Neo4j as the database for storing Pokémon and user-related data.
+  - Integrated Neo4j as the database for storing Pokémon and user-related data making nodes and relationships.
   - Developed the backend using Python for communicating with the frontend and database.
   - Created all music as well as added sound effects.
   - Implemented AI chatbot generating responses behind the Pokémon talking to the users in the frontend as well as maintaining the chat history
