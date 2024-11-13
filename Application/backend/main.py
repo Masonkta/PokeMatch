@@ -418,7 +418,18 @@ async def get_chat_history(pokemon_name: str):
     except FileNotFoundError:
         chat_histories = {}
 
+    # Check if user_name exists in chat_histories
+    if user_name not in chat_histories:
+        return {"convs": []}
+
+    # Check if pokemon_name exists in chat_histories for the user
+    if pokemon_name not in chat_histories[user_name]:
+        return {"convs": []}
+    
     conversations = chat_histories[user_name][pokemon_name]
+    if not conversations:
+        return {"convs": []}
+    
     convs = []
     for message in conversations:
         role = message['role']
